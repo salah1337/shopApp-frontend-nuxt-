@@ -1,155 +1,235 @@
 <template>
 <div>
-    <div class="container">
-    <nuxt-link to="/" class="backbtn">
-      back to store
-    </nuxt-link>
-        <div>
-            <div id="dashboard">
-                <div  class="content">
-                    <div class="details panel panel_content">
-                        <div class="panel-header">
-                            <div class="panel-title">Details</div>
-                        </div>
-                        <div class="panel-content">
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">username</label>
-                                    <div class="info">
-                                        {{user.username}}
-                                    </div>
-                                </div>
-                                <div class="editbtn">/</div>
-                            </div>
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">email</label>
-                                    <div class="info">
-                                        {{user.email}}
-                                    </div>
-                                </div>
-                                <div class="editbtn">/</div>
-                            </div>
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">first name</label>
-                                    <div class="info">
-                                        {{user.firstName}}
-                                    </div>
-                                </div>
-                                <div class="editbtn">/</div>
-                            </div>
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">last name</label>
-                                    <div class="info">
-                                        {{user.lastName}}
-                                    </div>
-                                </div>
-                                <div class="editbtn">/</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="payment panel panel_content">
-                        <div class="panel-header">
-                            <div class="panel-title">Payment Method</div>
-                        </div>
-                        <div class="panel-content">
-                            <img src="http://localhost:6969/storage/creditcard.png" alt="">
-                        </div>
-                    </div>
-                    <div class="address panel panel_content">
-                        <div class="panel-header">
-                            <div class="panel-title">Address</div>
-                        </div>
-                        <div class="panel-content">
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">city</label>
-                                    <div class="info">
-                                        {{user.city ? user.city : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">state</label>
-                                    <div class="info">
-                                        {{user.state ? user.state : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-                           
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">country</label>
-                                    <div class="info">
-                                        {{user.country ? user.country : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-                            
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">phone</label>
-                                    <div class="info">
-                                        {{user.phone ? user.phone : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-                     
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">fax</label>
-                                    <div class="info">
-                                        {{user.fax ? user.fax : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-                        
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">address</label>
-                                    <div class="info">
-                                        {{user.adress ? user.adress : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-                         
-                            <div class="panel-row">
-                                <div>
-                                    <label for="">second address</label>
-                                    <div class="info">
-                                        {{user.adress2 ? user.adress2 : 'unspecified'}}
-                                    </div>
-                                </div>
-                                
-                                <div class="editbtn">/</div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="header-btns">
+      <nuxt-link to="/" class="backbtn">
+        back to store
+      </nuxt-link>
+      <div v-if="showInfo" @click="showInfo = !showInfo" class="backbtn">
+        Edit Profile
+        <font-awesome-icon icon="edit" />
+      </div>
+      <div class="updatebtns" v-else>
+        <div @click="showInfo = !showInfo" class="cancelbtn">
+          Cancel
+          <font-awesome-icon icon="times" />
         </div>
+        <div @click="Update()" class="backbtn updatebtn">
+          Update
+        </div>
+      </div>
     </div>
+    <div>
+      <div id="dashboard">
+        <div class="dashboard-content">
+          <div class="details panel panel_content">
+            <div class="panel-header">
+              <div class="panel-title">Details</div>
+            </div>
+            <div class="panel-content">
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">username</label>
+                  <div class="info">
+                    {{user.username}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">username</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+              </div>
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">email</label>
+                  <div class="info">
+                    {{user.email}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">email</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+              </div>
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">first name</label>
+                  <div class="info">
+                    {{user.firstName}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">first name</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+              </div>
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">last name</label>
+                  <div class="info">
+                    {{user.lastName}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">last name</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="payment panel panel_content">
+            <div class="panel-header">
+              <div class="panel-title">Payment Method</div>
+            </div>
+            <div class="panel-content">
+              <img src="http://localhost:6969/storage/creditcard.png" alt="">
+            </div>
+          </div>
+          <div class="address panel panel_content">
+            <div class="panel-header">
+              <div class="panel-title">Address</div>
+            </div>
+            <div class="panel-content">
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">city</label>
+                  <div class="info">
+                    {{user.city ? user.city : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">city</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">state</label>
+                  <div class="info">
+                    {{user.state ? user.state : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">state</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">country</label>
+                  <div class="info">
+                    {{user.country ? user.country : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">country</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">phone</label>
+                  <div class="info">
+                    {{user.phone ? user.phone : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">phone</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">fax</label>
+                  <div class="info">
+                    {{user.fax ? user.fax : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">fax</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">address</label>
+                  <div class="info">
+                    {{user.adress ? user.adress : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">address</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-row">
+                <div v-if="showInfo">
+                  <label for="">second address</label>
+                  <div class="info">
+                    {{user.adress2 ? user.adress2 : 'unspecified'}}
+                  </div>
+                </div>
+                <div v-else>
+                  <label for="">second address</label>
+                  <div>
+                    <input type="text" class="input input-form input-form2">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
 <style lang="scss" scoped>
+.header-btns{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    .updatebtns{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10px;
+    }
+}
 .container{
     display: grid;
     grid-gap: 30px;
@@ -160,7 +240,7 @@
 .orderlist{
     max-height: 85vh;
 }
-.content{
+.dashboard-content{
     display: grid;
     grid-template-areas: 
     "details address"
@@ -195,6 +275,10 @@
             }
             .info{
                 font-size: calc(0.6rem + 0.6vw);
+            }
+            input{
+                // max-width: 70%;
+                width: 100%;
             }
         }
     }
@@ -283,6 +367,10 @@
             }
         }
     }
+    .header-btns{
+        display: grid;
+        grid-row-gap: 10px;
+    }
 }
 </style>
 
@@ -294,8 +382,15 @@ export default {
   },
     data(){
       return{
-        user: this.$auth.user.info
+        user: this.$auth.user.info,
+        showInfo: true,
+        showForm: false
       }
+    },
+    methods: {
+        Update() {
+
+        }
     }
 }
 </script>

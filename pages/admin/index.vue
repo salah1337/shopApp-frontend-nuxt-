@@ -10,7 +10,7 @@
                         <img src="/img.jpg" alt="">
                     </div>
                     <div class="username">
-                        username
+                        {{$auth.user.info.username}}
                     </div>
                 </div>
                 <div class="btns">
@@ -30,10 +30,10 @@
         <div class="sidebar">
             <div class="user gridcenter">
                 <div class="image">
-                    <img src="/img.jpg" alt="">
+                    <img :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
                 </div>
                 <div class="username">
-                    username
+                    {{$auth.user.info.username}}
                 </div>
             </div>
             <div class="btns">
@@ -96,6 +96,7 @@ export default {
         showStaff: false,
         showProductCategories: false,
         showProductOptions: false,
+        apiUrl: process.env.apiUrl,
      }
    },
    methods: {
