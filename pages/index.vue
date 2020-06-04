@@ -1,0 +1,29 @@
+<template>
+<div>
+    <div v-if="this.$auth.loggedIn">
+      {{ this.$auth.user.email }}
+    </div>
+    <div v-else>
+       <nuxt-link :to="`/login`" >
+        Login
+      </nuxt-link>
+      <nuxt-link :to="`/register`" >
+        Register
+      </nuxt-link>
+    </div>
+    <nuxt-link :to="`/products`" >
+      Products
+    </nuxt-link>
+</div>
+</template>
+
+<script>
+export default {
+  data(){
+    return{
+    }
+  },
+  async asyncData({ $axios }){
+  }
+}
+</script>
