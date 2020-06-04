@@ -2,6 +2,7 @@
 <div>
     <div v-if="this.$auth.loggedIn">
       {{ this.$auth.user.email }}
+       <v-btn @click="logoutUser()">Logout</v-btn>
     </div>
     <div v-else>
        <nuxt-link :to="`/login`" >
@@ -24,6 +25,11 @@ export default {
     }
   },
   async asyncData({ $axios }){
+  },
+  methods: {
+    async logoutUser() {
+      await this.$auth.logout()
+    }
   }
 }
 </script>
