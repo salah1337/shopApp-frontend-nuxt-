@@ -1,6 +1,14 @@
 <template>
 <div>
-      {{prod.name}}
+      <h1>
+        {{prod.name}}
+      </h1>
+      <h2>
+       - {{prod.price}}$
+      </h2>
+      <nuxt-link :to="`/user/order`">
+        Buy
+      </nuxt-link>
 </div>
 </template>
 

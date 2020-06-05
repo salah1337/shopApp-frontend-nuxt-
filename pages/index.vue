@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-if="this.$auth.loggedIn">
-      {{ this.$auth.user.email }}
+      {{ this.$auth.user.info.email }}
        <v-btn @click="logoutUser()">Logout</v-btn>
     </div>
     <div v-else>

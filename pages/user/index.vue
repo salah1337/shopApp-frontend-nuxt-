@@ -1,6 +1,6 @@
 <template>
   <div>
-      suh {{ this.$auth.user.username }}
+      suh {{ user.username }}
       <nuxt-link :to="`/user/profile`" >
         My profile
       </nuxt-link>
@@ -9,7 +9,11 @@
 
 <script>
 export default {
-
+  data(){
+      return{
+        user: this.$auth.user.info
+      }
+    }
 }
 </script>
 

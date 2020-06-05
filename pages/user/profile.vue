@@ -1,15 +1,19 @@
 <template>
   <div>
-      <strong>username:</strong> {{ this.$auth.user.username }} <br/>
-      <strong>firstName:</strong> {{ this.$auth.user.firstName }} <br/>
-      <strong>lastName:</strong> {{ this.$auth.user.lastName }} <br/>
-      <strong>email:</strong> {{ this.$auth.user.email }} <br/>
+      <strong>username:</strong> {{ user.username }} <br/>
+      <strong>firstName:</strong> {{ user.firstName }} <br/>
+      <strong>lastName:</strong> {{ user.lastName }} <br/>
+      <strong>email:</strong> {{ user.email }} <br/>
   </div>
 </template>
 
 <script>
 export default {
-
+    data(){
+      return{
+        user: this.$auth.user.info
+      }
+    }
 }
 </script>
 
