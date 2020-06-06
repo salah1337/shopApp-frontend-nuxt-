@@ -22,11 +22,13 @@
 
 <script>
 import validations from "../utils/validation";
+import loader from "../utils/loader";
+
 export default {
     data(){
         return{
             userInfo: {
-                username:'ksrrek@lol.com',
+                username:'69@1337.com',
                 password:'lollol'
             },
             ...validations
@@ -39,6 +41,8 @@ export default {
                     username: this.userInfo.username,
                     password: this.userInfo.password
                 }
+            }).then(async ()=>{
+                    await loader(this.$auth.user)
             })
         }
     }

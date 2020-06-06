@@ -22,7 +22,7 @@
 export default {
     data(){
         return{
-            data:""
+            data:"",
         }
     },
     async asyncData({ $axios, params }){

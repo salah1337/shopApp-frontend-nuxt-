@@ -19,13 +19,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data(){
     return{
     }
   },
-  async asyncData({ $axios }){
-  },
+  // async fetch({store}) {
+  //   await store.dispatch('loadProducts');
+  // },
+  // computed: {
+  //   ...mapState(['products']),
+  // },
   methods: {
     async logoutUser() {
       await this.$auth.logout()

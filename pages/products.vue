@@ -1,11 +1,15 @@
 <template>
-<div>
-    <nuxt />
-</div>
+  <div>
+      <nuxt-child/>
+  </div>
 </template>
 
 <script>
 export default {
-    middleware: ['preloader']
+
 }
 </script>
+
+<style>
+
+</style>

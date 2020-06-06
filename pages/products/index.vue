@@ -1,7 +1,8 @@
 <template>
 <div>
     <h1>Prods:</h1>
-  <div v-for="prod in prods" :key="prod.id">
+    <h4>count: {{allProducts.count}}</h4>
+    <div v-for="prod in allProducts.products" :key="prod.id">
     <nuxt-link :to="`/products/${prod.id}`" >
       {{prod.name}}
     </nuxt-link>
@@ -10,18 +11,18 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   data(){
     return{
       prods:""
     }
   },
-  async asyncData({ $axios }){
-    let res = await $axios.get(`api/customer/products`)
-    let prods = res.data.products
-    return {
-      prods
-    }
-  }
+  computed: {
+    ...mapGetters('products', [
+      'allProducts',
+    ]),
+  },
 }
 </script>

@@ -21,7 +21,7 @@ export default {
   },
   async asyncData({ $axios, params }){
     let res = await $axios.get(`api/customer/product/${params.id}`)
-    let prod = res.data
+    let prod = res.data.data.product
     return {
       prod
     }
