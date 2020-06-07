@@ -12,6 +12,9 @@ export const mutations = {
     SET_STAFF(state, staff) {
         state.staff = staff
     },
+    reset(state) {
+        state.staff = []
+    },
 }
 
 export const actions = {

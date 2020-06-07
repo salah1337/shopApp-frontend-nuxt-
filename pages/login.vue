@@ -23,7 +23,7 @@
 <script>
 import validations from "../utils/validation";
 import loader from "../utils/loader";
-
+import { mapActions } from 'vuex'
 export default {
     data(){
         return{
@@ -35,14 +35,14 @@ export default {
         }
     },
     methods: {
-        submitForm(){
+        submitForm({store}){
             this.$auth.loginWith('local', {
                 data: {
                     username: this.userInfo.username,
                     password: this.userInfo.password
                 }
             }).then(async ()=>{
-                    await loader(this.$auth.user)
+                    await loader(this.$auth.user, this.$store)
             })
         }
     }

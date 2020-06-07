@@ -12,6 +12,9 @@ export const mutations = {
     SET_USERS(state, users) {
         state.users = users
     },
+    reset(state) {
+        state.users = []
+    },
 }
 
 export const actions = {

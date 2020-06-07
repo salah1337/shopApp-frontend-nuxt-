@@ -1,9 +1,9 @@
 import RSVP from 'rsvp'
 
 export default async function (user, store) {
-
+    store.dispatch('resetAll')
     await RSVP.all([
-        store.dispatch('products/load'),
+        store.dispatch('products/loadLive'),
     ])
     if( user && user.isStaff){
     await RSVP.all([

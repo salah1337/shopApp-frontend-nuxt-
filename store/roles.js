@@ -12,6 +12,9 @@ export const mutations = {
     SET_ROLES(state, roles) {
         state.roles = roles
     },
+    reset(state) {
+        state.roles = []
+    },
 }
 
 export const actions = {

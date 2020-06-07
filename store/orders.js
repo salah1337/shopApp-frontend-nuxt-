@@ -12,6 +12,9 @@ export const mutations = {
     SET_ORDERS(state, orders) {
         state.orders = orders
     },
+    reset(state) {
+        state.orders = []
+    },
 }
 
 export const actions = {
