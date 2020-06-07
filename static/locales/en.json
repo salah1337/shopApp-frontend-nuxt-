@@ -1,0 +1,9 @@
+{
+    "auth":{
+        "singup": "sign up",
+        "signin": "sign in",
+        "singout": "sign out"
+    },
+    "welcome": "welcome",
+    "products": "products"
+}

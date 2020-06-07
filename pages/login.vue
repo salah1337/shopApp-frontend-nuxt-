@@ -35,7 +35,7 @@ export default {
         }
     },
     methods: {
-        submitForm({store}){
+        submitForm(){
             this.$auth.loginWith('local', {
                 data: {
                     username: this.userInfo.username,

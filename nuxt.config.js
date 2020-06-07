@@ -35,7 +35,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify', 
   ],
   /*
   ** Nuxt.js modules
@@ -43,7 +43,34 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    'nuxt-i18n',
   ],
+
+  i18n: {
+    locales: [    
+      {
+        code: 'en',
+        iso: 'en-US'
+      },
+      {
+        code: 'fr',
+        iso: 'fr-FR'
+      }
+    ],
+    defaultLocale: 'en',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected'
+    },
+    // baseUrl: 'https://my-nuxt-app.com',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        en: require('./static/locales/en.json'),
+        fr: require('./static/locales/fr.json')
+      }
+    },
+  },
   axios:{
     baseURL: 'http://localhost:6969/'
   },
