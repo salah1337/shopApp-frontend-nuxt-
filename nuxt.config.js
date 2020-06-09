@@ -30,6 +30,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {src:'~/plugins/vue-notifications', ssr:false}
   ],
   /*
   ** Nuxt.js dev-modules
@@ -103,7 +104,8 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    }
+    },
+    transpile: ['vue-notifications', 'izitoast']
   },
 
   auth: {
