@@ -30,7 +30,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    {src:'~/plugins/vue-notifications', ssr:false}
+    {src:'~/plugins/vue-notifications', ssr:false},
   ],
   /*
   ** Nuxt.js dev-modules
@@ -105,7 +105,7 @@ export default {
     */
     extend (config, ctx) {
     },
-    transpile: ['vue-notifications', 'izitoast']
+    transpile: ['vue-notifications']
   },
 
   auth: {

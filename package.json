@@ -17,6 +17,7 @@
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.12.2",
     "rsvp": "^4.8.5",
+    "vue-izitoast": "^1.2.1",
     "vue-notification": "^1.3.20",
     "vue-notifications": "^1.0.2"
   },

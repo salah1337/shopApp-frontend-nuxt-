@@ -5,10 +5,16 @@
 </template>
 
 <script>
+
 export default {
     head () {
         return this.$nuxtI18nSeo()
     },
-    middleware: ['preloader']
+    methods: {
+        message(){
+            console.log('kek')
+        }
+    },
+    middleware: ['preloader'],
 }
 </script>
