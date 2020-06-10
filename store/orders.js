@@ -22,5 +22,19 @@ export const actions = {
         let res = await this.$axios.get('api/order')
         let orders = res.data.data;
         commit('SET_ORDERS', orders)
+    },
+    async place({ commit }, orderInfo) {
+        let config = {
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json",
+            }
+          }
+        let res = await this.$axios.post('api/customer/order', orderInfo, config)
+        .then(res => {
+            console.log(res.data)
+        }, err => {
+            console.log(err.response.data);  
+        })
     }
 }

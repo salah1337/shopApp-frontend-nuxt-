@@ -2,10 +2,9 @@
 <div>
   <h5>
     <ul>
-      <h3>{{cart.count}} items in cart <span @click="cartclear()">X</span> </h3>
+      <h3>{{cart.count}} items in cart // total: {{cart.total}} <span @click="cartclear()">X</span> </h3>
       <li v-for="item in cart.items" :key="item.id">
-        {{item.count}} | {{item.name}} <br/>
-        Total: {{item.price}}
+        {{item.count}} | {{item.name}} | {{item.price}} <br/>
       </li>
     </ul>
   </h5>
@@ -34,32 +33,11 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  data(){
-    return{
-      prods:""
-    }
-  },
   computed: {
     ...mapState({
       products: state => state.products.liveProducts,
       cart: state => state.cart.cart,
     }),
   },
-  methods: {
-    cartedit(action, id){
-      let payload = {action, id}
-      this.$store.dispatch('cart/edit', payload)
-          .then(res => {
-            this.notify(res)
-          })
-    },
-    cartclear(){
-      this.$store.dispatch('cart/clear')
-          .then(res => {
-            this.notify(res)
-          })
-    },
-  },
-
 }
 </script>
