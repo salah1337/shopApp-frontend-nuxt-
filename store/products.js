@@ -27,7 +27,7 @@ export const mutations = {
 
 export const actions = {
     async load({ commit }) {
-        let res = await this.$axios.get('api/products')
+        let res = await this.$axios.get('api/product')
         let products = res.data.data;
         commit('SET_PRODUCTS', products)
     },
@@ -35,6 +35,46 @@ export const actions = {
         let res = await this.$axios.get('api/customer/products')
         let products = res.data.data;
         commit('SET_LIVE_PRODUCTS', products)
-    }
+    },
+    async getOne({ commit }, id) {
+        let url = 'api/customer/products/'
+        if ( this.$auth.user.isStaff ){
+            url = 'api/product/show/'
+        }
+        let res = await this.$axios.get(url + id)
+        .catch(err => {
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
+            }
+        })
+        return res.data;
+    },
+    async add({ commit }, product) {
+        console.log(product);
+
+        let res = await this.$axios.post(`api/product/add`, product)
+        .catch(err => {
+            console.log(err.response.data);
+            
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
+            }
+        })
+        return [res.data.success, res.data.data.message];
+    },
+    async update({ commit }, product) {        
+        let res = await this.$axios.post(`api/product/update/${product.id}`, product)
+        .catch(err => {
+            console.log(err.response.data);
+            
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
+            }
+        })
+        return [res.data.success, res.data.data.message];
+    },
 }
 

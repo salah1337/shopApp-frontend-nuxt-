@@ -1,6 +1,9 @@
 <template>
 <div>
 <div v-if="product">
+      <nuxt-link :to="`/staff/products/edit/${product.id}`" >
+        Edit
+      </nuxt-link>
       <h1>
         {{product.name}}
       </h1>

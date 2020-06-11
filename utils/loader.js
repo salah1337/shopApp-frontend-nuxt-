@@ -12,6 +12,7 @@ export default async function (user, store) {
     }
     if( user && user.isStaff){
         await RSVP.all([
+        store.dispatch('products/load'),
         store.dispatch('orders/load'),
         store.dispatch('users/load'),
         ])
