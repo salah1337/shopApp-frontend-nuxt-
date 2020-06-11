@@ -17,11 +17,11 @@ const options = {
 }
 Vue.mixin({
     methods:{
-        notify(res){
+        notify(args){
             this.showMsg({
-                type: res[0] ? 'success' : 'warn',
-                title: res[0] ? 'success' : 'failure',
-                message: res[1]
+                type: args[0] ? 'success' : 'warn',
+                title: args[0] ? 'success' : 'failure',
+                message: args[1]
             })
         }
     },

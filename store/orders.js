@@ -1,9 +1,13 @@
 export const state = () => ({
     orders: [],
+    userOrders: []
 })
 
 export const getters = {
     allOrders: state => {
+        return state.orders
+    },
+    userOrders: state => {
         return state.orders
     },
 }
@@ -11,6 +15,9 @@ export const getters = {
 export const mutations = {
     SET_ORDERS(state, orders) {
         state.orders = orders
+    },
+    SET_USER_ORDERS(state, orders) {
+        state.userOrders = orders
     },
     reset(state) {
         state.orders = []
@@ -23,18 +30,36 @@ export const actions = {
         let orders = res.data.data;
         commit('SET_ORDERS', orders)
     },
+    async get({ commit }) {
+        let res = await this.$axios.get('api/customer/order/all')
+        let orders = res.data.data;
+        commit('SET_USER_ORDERS', orders)
+    },
     async place({ commit }, orderInfo) {
-        let config = {
-            headers: {
-                "accept": "application/json",
-                "content-type": "application/json",
+        // let config = {
+        //     headers: {
+        //         "accept": "application/json",
+        //         "content-type": "application/json",
+        //     }
+        //   }
+        let res = await this.$axios.post('api/customer/order', orderInfo)
+        .catch(err => {
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
             }
-          }
-        let res = await this.$axios.post('api/customer/order', orderInfo, config)
-        .then(res => {
-            console.log(res.data)
-        }, err => {
-            console.log(err.response.data);  
         })
+        return [res.data.success, res.data.data.message];
+    },
+    async cancel({ commit }, id) {
+        let res = await this.$axios.get(`api/customer/order/cancel/${id}`)
+        .catch(err => {
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
+            }
+        })
+        return [res.data.success, res.data.data.message];
+ 
     }
 }
