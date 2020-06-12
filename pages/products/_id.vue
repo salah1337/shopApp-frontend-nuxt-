@@ -1,6 +1,9 @@
 <template>
 <div>
 <div v-if="product">
+  <nuxt-link :to="`/user/order?i=${product.id}`">
+    BUY
+  </nuxt-link>
       <h1>
         {{product.name}}
       </h1>

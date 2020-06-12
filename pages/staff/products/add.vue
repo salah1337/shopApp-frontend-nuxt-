@@ -121,37 +121,28 @@ export default {
     data(){
         return{
             product: {
-                'name': '',
-                'price': '',
-                'SKU': '',
-                'stock': '',
-                'shortDesc': '',
-                'longDesc': '',
-                'cartDesc': '',
-                'live': '',
-                'location': '',
-                'weight': '',
-                'product_category_id': '',
-                'unlimited': '',
+                'name': 'name',
+                'SKU': 'SSS',
+                'price': '123',
+                'weight': '123',
+                'cartDesc': 'cartDesc',
+                'shortDesc': 'shortDesc',
+                'longDesc': 'longDesc',
+                'thumb': 'thumb',
+                'image': 'image',
+                'location': 'location',
+                'stock': '123',
+                'live': '0',
+                'unlimited': '1',
+                'product_category_id': '1',
             },
             errors: {}
         }
     },
   methods: {
-      async createProduct() {
-      this.$store.dispatch('products/add', this.product)
-        .then(res => {
-              this.notify(res)
-        }, err => {
-            if (err.status == 422){
-                this.errors = {}
-              this.notify([false, err.data.message])
-              this.errors = err.data.errors
-            }
-            else{
-              this.notify([false, "Something went wrong :O, contact us"])
-            }
-        })
+    async createProduct() {
+        await this.dbAction('post', `api/product/add`, this.product, 'orders/get')
+        .then(reply => console.log('success')).catch(err => console.log('fail'))
     },
   },
 }

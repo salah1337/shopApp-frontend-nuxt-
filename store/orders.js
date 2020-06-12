@@ -35,26 +35,6 @@ export const actions = {
         let orders = res.data.data;
         commit('SET_USER_ORDERS', orders)
     },
-    async place({ commit }, orderInfo) {
-        let res = await this.$axios.post('api/customer/order', orderInfo)
-        .catch(err => {
-            throw {
-                'status': err.response.status,
-                'data': err.response.data,
-            }
-        })
-        return [res.data.success, res.data.data.message];
-    },
-    async cancel({ commit }, id) {
-        let res = await this.$axios.get(`api/customer/order/cancel/${id}`)
-        .catch(err => {
-            throw {
-                'status': err.response.status,
-                'data': err.response.data,
-            }
-        })
-        return [res.data.success, res.data.data.message];
-    },
     async ship({ commit }, id) {
         let res = await this.$axios.post(`api/order/ship/${id}`)
         .catch(err => {

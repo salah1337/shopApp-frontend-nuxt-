@@ -36,21 +36,9 @@ export default {
   },
   methods: {
     async cancel(id) {
-        this.$store.dispatch('orders/cancel', id)
-        .then(async res => {
-              await this.$store.dispatch('orders/get')
-              this.notify(res)
-        }, err => {
-            if (err.status == 422){
-              this.notify([false, err.data.message])
-              this.errors = err.data.errors
-            }
-            else{
-              this.notify([false, "Something went wrong :O, contact us"])
-            }
-        })
-  
-    }
+      await this.dbAction('get', `api/customer/order/cancel/${id}`, null, 'orders/get')
+      .then(reply => console.log('success')).catch(err => console.log('fail'))
+    },
   }
 }
 </script>

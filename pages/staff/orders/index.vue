@@ -33,10 +33,10 @@ export default {
   },
   methods: {
     cancel(id) {
-        this.dbAction(`api/order/cancel/${id}`, null, 'orders/load')
+        this.dbAction('get', `api/order/cancel/${id}`, null, 'orders/load')
     },
     markShipped(id) {
-        this.dbAction(`api/order/ship/${id}`, null, 'orders/load')
+        this.dbAction('get', `api/order/ship/${id}`, null, 'orders/load')
     }
   }
 }

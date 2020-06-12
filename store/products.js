@@ -50,29 +50,5 @@ export const actions = {
         })
         return res.data;
     },
-    async add({ commit }, product) {
-        let res = await this.$axios.post(`api/product/add`, product)
-        .catch(err => {
-            console.log(err.response.data);
-            
-            throw {
-                'status': err.response.status,
-                'data': err.response.data,
-            }
-        })
-        return [res.data.success, res.data.data.message];
-    },
-    async update({ commit }, product) {        
-        let res = await this.$axios.post(`api/product/update/${product.id}`, product)
-        .catch(err => {
-            console.log(err.response.data);
-            
-            throw {
-                'status': err.response.status,
-                'data': err.response.data,
-            }
-        })
-        return [res.data.success, res.data.data.message];
-    },
 }
 
