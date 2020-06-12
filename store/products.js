@@ -51,8 +51,6 @@ export const actions = {
         return res.data;
     },
     async add({ commit }, product) {
-        console.log(product);
-
         let res = await this.$axios.post(`api/product/add`, product)
         .catch(err => {
             console.log(err.response.data);

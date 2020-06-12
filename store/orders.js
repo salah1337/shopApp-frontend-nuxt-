@@ -8,7 +8,7 @@ export const getters = {
         return state.orders
     },
     userOrders: state => {
-        return state.orders
+        return state.userOrders
     },
 }
 
@@ -36,12 +36,6 @@ export const actions = {
         commit('SET_USER_ORDERS', orders)
     },
     async place({ commit }, orderInfo) {
-        // let config = {
-        //     headers: {
-        //         "accept": "application/json",
-        //         "content-type": "application/json",
-        //     }
-        //   }
         let res = await this.$axios.post('api/customer/order', orderInfo)
         .catch(err => {
             throw {
@@ -60,6 +54,15 @@ export const actions = {
             }
         })
         return [res.data.success, res.data.data.message];
- 
+    },
+    async ship({ commit }, id) {
+        let res = await this.$axios.post(`api/order/ship/${id}`)
+        .catch(err => {
+            throw {
+                'status': err.response.status,
+                'data': err.response.data,
+            }
+        })
+        return [res.data.success, res.data.data.message];
     }
 }
