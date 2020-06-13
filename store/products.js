@@ -1,6 +1,7 @@
 export const state = () => ({
     products: [],
-    liveProducts: []
+    liveProducts: [],
+    allProducts: []
 })
 
 export const getters = {
@@ -10,6 +11,9 @@ export const getters = {
     liveProducts: state => {
         return state.liveProducts
     },
+    allProducts: state => {
+        return state.allProducts
+    },
 }
 
 export const mutations = {
@@ -18,6 +22,9 @@ export const mutations = {
     },
     SET_LIVE_PRODUCTS(state, products) {
         state.liveProducts = products
+    },
+    SET_ALL_PRODUCTS(state, products) {
+        state.allProducts = products
     },
     reset(state) {
         state.products = []
@@ -36,19 +43,10 @@ export const actions = {
         let products = res.data.data;
         commit('SET_LIVE_PRODUCTS', products)
     },
-    async getOne({ commit }, id) {
-        let url = 'api/customer/products/'
-        if ( this.$auth.user.isStaff ){
-            url = 'api/product/show/'
-        }
-        let res = await this.$axios.get(url + id)
-        .catch(err => {
-            throw {
-                'status': err.response.status,
-                'data': err.response.data,
-            }
-        })
-        return res.data;
+    async loadAll({ commit }) {
+        let res = await this.$axios.get('api/admin/products')
+        let products = res.data.data;
+        commit('SET_ALL_PRODUCTS', products)
     },
 }
 

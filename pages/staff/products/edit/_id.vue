@@ -1,5 +1,8 @@
 <template>
 <div>
+    <div v-if="loadError">
+        {{loadError}}
+    </div>
 <div v-if="product">
       <v-btn @click="updateProduct(product.id)">
           Update
@@ -93,19 +96,19 @@ export default {
                 'unlimited': '',
                 'product_category_id': '',
             },
-            errors: {}
+            errors: {},
         }
     },
   computed: {
-    //   async loadProduct(){
-    //     let res = await this.$store.dispatch('products/getOne', this.$route.params.id)
-    //     .catch(err => console.log(err))
-    //     let prod = res.data.product
-    //     this.product = prod
-    //   },
       async loadProduct() {
         let res = await this.dbAction('get', `api/product/show/${this.$route.params.id}`, null, null, true)
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(JSON.parse(err)); 
+            err = JSON.parse(err)
+            this.loadError = err.data.message
+            return
+        })
+        if( this.loadError ) return;
         res = JSON.parse(res)
         if ( !res.success ) {
             console.log(res.message)
@@ -116,7 +119,7 @@ export default {
   },
   methods: {
     async updateProduct(id) {
-        await this.dbAction('post', `api/product/update/${id}`, this.product, 'orders/get')
+        await this.dbAction('post', `api/product/update/${id}`, this.product, 'orders/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
     },
   },

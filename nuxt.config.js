@@ -32,7 +32,8 @@ export default {
   plugins: [
     {src:'~/plugins/vue-notifications', ssr:false},
     '~/plugins/cart-utils',
-    '~/plugins/axios-utils'
+    '~/plugins/axios-utils',
+    '~/plugins/roles-utils'
   ],
   /*
   ** Nuxt.js dev-modules

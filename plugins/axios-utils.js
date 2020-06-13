@@ -32,7 +32,7 @@ Vue.mixin({
                 if (reload) await this.$store.dispatch(reload)
                   this.notify([false, "Something went wrong :O, contact us"])
                 }
-                throw  err.response.data;
+                throw  JSON.stringify(err.response.data);
             })
             return JSON.stringify(res);
         },
