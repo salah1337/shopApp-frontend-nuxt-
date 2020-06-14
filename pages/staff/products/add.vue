@@ -97,17 +97,21 @@
         <strong v-if="errors.unlimited" >{{errors.unlimited}}</strong>
       </div>
       <div>
-        <label for="image">
+        <div v-for="(image, index) in product.images">
+          <label for="image">
             <strong>image:</strong><br/>
-        </label>
-        <input v-model="product.image" type="text">
-        <strong v-if="errors.image" >{{errors.image}}</strong>
+          </label>
+            <!-- <button @click="$refs.imageInput[index].click()" >Img</button> -->
+          <input @change="getImg($event, index)" ref="imageInput" type="file"><span>[remove]</span>
+        </div>
+        <span @click="addImage()">[add image]</span>
+        <strong v-if="errors.images" >{{errors.images}}</strong>
       </div>
       <div>
         <label for="thumb">
             <strong>thumb:</strong><br/>
         </label>
-        <input v-model="product.thumb" type="text">
+        <input @change="getThumb()" ref="thumbInput" type="file">
         <strong v-if="errors.thumb" >{{errors.thumb}}</strong>
       </div>
       <br>
@@ -129,7 +133,7 @@ export default {
                 'shortDesc': 'shortDesc',
                 'longDesc': 'longDesc',
                 'thumb': 'thumb',
-                'image': 'image',
+                'images': [],
                 'location': 'location',
                 'stock': '123',
                 'live': '0',
@@ -139,11 +143,31 @@ export default {
             errors: {}
         }
     },
+    computed: {
+      
+    },
   methods: {
     async createProduct() {
-        await this.dbAction('post', `api/product/add`, this.product, 'orders/get')
+        let form = new FormData()
+        for (let key in this.product){
+            form.set(key, this.product[key])
+        }
+        this.product.images.forEach((image, i) => {
+            form.append(`images[]`, image)
+        });
+        form.set('images', JSON.stringify(this.product.images))
+        await this.dbAction('post', `api/product/add`, form, 'orders/get')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
     },
+    getImg(e, index) {
+        this.product.images[index] = this.$refs.imageInput[index].files[0]
+    },
+    getThumb() {
+        this.product.thumb = this.$refs.thumbInput.files[0]
+    },
+    addImage(){
+      this.product.images.push('')
+    }
   },
 }
 </script>

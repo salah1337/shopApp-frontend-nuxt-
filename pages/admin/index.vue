@@ -81,7 +81,18 @@
           </ul>
         </div>
         <div class="panel">
-          orders
+          <h2>Orders</h2>
+          <ul>
+            <h3>There are {{orders.count}} orders.</h3>
+            <li v-for="order in orders.orders" :key="order.id">
+              <h4>{{order.name}}</h4>
+              <ul>
+                <li v-for="detail in order.details" :key="detail.id">
+                  {{detail.name}}
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
   </div>
@@ -137,7 +148,7 @@ export default {
       abilities: state => state.roles.abilities,
       staff: state => state.staff.staff,
       products: state => state.products.allProducts,
-      orders: state => state.orders.orders,
+      orders: state => state.orders.allOrders,
     }),
    navigate(){
      let triggers = document.querySelectorAll('.trigger')

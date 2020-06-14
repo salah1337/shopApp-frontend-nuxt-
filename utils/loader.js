@@ -18,9 +18,10 @@ export default async function (user, store) {
         ])
         if ( user.isAdmin ){
             await RSVP.all([
+            store.dispatch('products/loadAll'),
+            store.dispatch('orders/loadAll'),
             store.dispatch('roles/load'),
             store.dispatch('roles/loadAbilities'),
-            store.dispatch('products/loadAll'),
             store.dispatch('staff/load'),
             // store.dispatch('stats/load'),
             ])

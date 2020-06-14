@@ -30,6 +30,8 @@ Vue.mixin({
                 }
                 else{
                 if (reload) await this.$store.dispatch(reload)
+                console.log(err.response);
+                
                   this.notify([false, "Something went wrong :O, contact us"])
                 }
                 throw  JSON.stringify(err.response.data);

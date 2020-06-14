@@ -1,10 +1,11 @@
 export const state = () => ({
     orders: [],
-    userOrders: []
+    userOrders: [],
+    allOrders: []
 })
 
 export const getters = {
-    allOrders: state => {
+    orders: state => {
         return state.orders
     },
     userOrders: state => {
@@ -18,6 +19,9 @@ export const mutations = {
     },
     SET_USER_ORDERS(state, orders) {
         state.userOrders = orders
+    },
+    SET_ALL_ORDERS(state, orders) {
+        state.allOrders = orders
     },
     reset(state) {
         state.orders = []
@@ -34,5 +38,10 @@ export const actions = {
         let res = await this.$axios.get('api/customer/order/all')
         let orders = res.data.data;
         commit('SET_USER_ORDERS', orders)
+    },
+    async loadAll({ commit }) {
+        let res = await this.$axios.get('api/admin/orders')
+        let orders = res.data.data;
+        commit('SET_ALL_ORDERS', orders)
     },
 }
