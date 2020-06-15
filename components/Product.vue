@@ -1,6 +1,6 @@
 <template>
 <div>
-<!-- <div v-if="product">
+<div>
       <nuxt-link :to="`/staff/products/edit/${product.id}`" >
         Edit
       </nuxt-link>
@@ -31,32 +31,34 @@
       <h2>
        - {{product.weight}}
       </h2>
-      <img v-for="img in product.image" :key="img" style="width:200px;height:200px;" :src="`http://localhost:6969/storage/${img}`" alt="">
-</div> -->
-<Product :id="$route.params.id" />
+      <img v-for="img in product.images" :key="img" style="width:200px;height:200px;" :src="`http://localhost:6969/storage/${img}`" alt="">
+</div>
 </div>
 </template>
 
 <script>
-import Product from '../../../components/Product'
+
 export default {
-  components: {
-    Product
-  },
-  // data(){
-  //   return {
-  //     product: ''
-  //   }
-  // },
-  // asyncData({params}){
-  //   return{
-  //     id: params.id
-  //   }
-  // },
-  // computed: {
-  //  async load(){
-  //     this.product = await this.loadProduct(this.$route.params.id)
-  //   }
-  // },
+    props: {
+        id: {
+            required: true
+        },
+        scope: {
+            required: false
+        }
+    },
+    data(){
+        return {
+            product: ''
+        }
+    },
+    mounted() {
+        this.load()
+    },
+    methods: {
+        async load(){
+            this.product = await this.loadProduct(this.id, this.scope)
+        }
+    }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div>
-<div v-if="product">
+<!-- <div v-if="product">
   <nuxt-link :to="`/user/order?i=${product.id}`">
     BUY
   </nuxt-link>
@@ -31,27 +31,26 @@
       <h2>
        - {{product.weight}}
       </h2>
-</div>
+</div> -->
+<Product :id="$route.params.id" />
 </div>
 </template>
 
 <script>
-
+import Product from '../../components/Product'
 export default {
-  async asyncData({ store, params}){
-    let res = await store.dispatch('products/getOne', params.id)
-    let prod = res.data
-    if ( res.success ) return prod 
+  components: {
+    Product
   },
-  methods: {
-
-  },
-  computed: {
-    // async getProd(){
-    //   let res = await this.$store.dispatch('products/getOne', this.$route.params.id)
-    //   console.log(res);
-      
-    // }
-  },
+  // data(){
+  //   return {
+  //     product: ''
+  //   }
+  // },
+  // computed: {
+  //   async load(){
+  //     this.product = await this.loadProduct(this.$route.params.id)
+  //   }
+  // },
 }
 </script>

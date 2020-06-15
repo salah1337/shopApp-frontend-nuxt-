@@ -1,38 +1,24 @@
 <template>
 <div>
-  <h5>
-    <ul>
-      <h3>{{cart.count}} items in cart // total: {{cart.total}} <span @click="cartclear()">X</span> </h3>
-      <li v-for="item in cart.items" :key="item.id">
-        {{item.count}} | {{item.name}} | {{item.price}} <br/>
-      </li>
-    </ul>
-  </h5>
+  <Cart :cart="cart" />
     <h1>Prods:</h1>
     <h4>count: {{products.count}}</h4>
-    <div v-for="prod in products.products" :key="prod.id">
-    <nuxt-link :to="`/products/${prod.id}`" >
-      <h1>
-        {{prod.name}}
-      </h1>
-    </nuxt-link>
-      <v-btn @click="cartedit('add', prod.id)">
-        add to cart
-      </v-btn>
-      <v-btn @click="cartedit('remove', prod.id)">
-        remove from cart
-      </v-btn>
-      <v-btn @click="cartedit('removeitem', prod.id)">
-        delete from cart
-      </v-btn>
-  </div>
+    <div v-for="product in products.products" :key="product.id">
+        <ProductCard :product="product" />
+    </div>
 </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import ProductCard from '../../components/ProductCard'
+import Cart from '../../components/Cart'
 
 export default {
+  components: {
+    ProductCard,
+    Cart
+  },
   computed: {
     ...mapState({
       products: state => state.products.liveProducts,

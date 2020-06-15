@@ -79,7 +79,6 @@
 export default {
     data(){
         return{
-            // tryna load product info into inputs
             product: {
                 'name': '',
                 'SKU': '',
@@ -100,22 +99,9 @@ export default {
         }
     },
   computed: {
-      async loadProduct() {
-        let res = await this.dbAction('get', `api/product/show/${this.$route.params.id}`, null, null, true)
-        .catch(err => {
-            console.log(JSON.parse(err)); 
-            err = JSON.parse(err)
-            this.loadError = err.data.message
-            return
-        })
-        if( this.loadError ) return;
-        res = JSON.parse(res)
-        if ( !res.success ) {
-            console.log(res.message)
-            return
-        }
-        this.product = res.data.product
-    },
+    async load(){
+      this.product = await this.loadProduct(this.$route.params.id)
+    }
   },
   methods: {
     async updateProduct(id) {
