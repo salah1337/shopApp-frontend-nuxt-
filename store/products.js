@@ -39,12 +39,12 @@ export const actions = {
         commit('SET_PRODUCTS', products)
     },
     async loadLive({ commit }) {
-        let res = await this.$axios.get('api/customer/products')
+        let res = await this.$axios.get('api/customer/product/all')
         let products = res.data.data;
         commit('SET_LIVE_PRODUCTS', products)
     },
     async loadAll({ commit }) {
-        let res = await this.$axios.get('api/admin/products')
+        let res = await this.$axios.get('api/admin/product/all')
         let products = res.data.data;
         commit('SET_ALL_PRODUCTS', products)
     },

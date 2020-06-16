@@ -85,7 +85,7 @@
           <ul>
             <h3>There are {{orders.count}} orders.</h3>
             <li v-for="order in orders.orders" :key="order.id">
-              <h4>{{order.name}}</h4>
+              <h4>{{order.shipName}}</h4>
               <ul>
                 <li v-for="detail in order.details" :key="detail.id">
                   {{detail.name}}

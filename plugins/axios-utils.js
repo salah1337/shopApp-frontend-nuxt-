@@ -38,23 +38,22 @@ Vue.mixin({
             })
             return JSON.stringify(res);
         },
-        async loadProduct(id, scope) {
-          let url = 'api/customer/product'
+        async loadOne(item, id, scope) {
+          let prefix = `api/customer`
           switch (scope) {
             case 'admin':
-                url = 'api/admin/product'
+                prefix = `api/admin`
               break;
             case 'staff':
-                url = 'api/product/show'
+                prefix = `api`
               break;
             default:
               break;
           }
-          let res = JSON.parse(await this.dbAction('get', `${url}/${id}`, null, null, true))
+          // let res = JSON.parse(await this.dbAction('get', `${url}/${id}`, null, null, true))
+          let res = JSON.parse(await this.dbAction('get', `${prefix}/${item}/show/${id}`, null, null, true))
           if (res.success){
-            let product = res.data.product
-            product.images = JSON.parse(res.data.product.image) 
-            return product 
+            return res.data 
           }else{
             //handle success false
           }

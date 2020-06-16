@@ -57,7 +57,9 @@ export default {
     },
     methods: {
         async load(){
-            this.product = await this.loadProduct(this.id, this.scope)
+            let data = await this.loadOne('product', this.id, this.scope)
+            this.product = data.product
+            this.product.images = JSON.parse(data.product.image) 
         }
     }
 }
