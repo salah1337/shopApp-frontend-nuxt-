@@ -28,7 +28,7 @@ export const mutations = {
     },
     reset(state) {
         state.products = []
-        state.liveProducts = []
+        state.allProducts = []
     },
 }
 

@@ -33,7 +33,8 @@ export default {
     {src:'~/plugins/vue-notifications', ssr:false},
     '~/plugins/cart-utils',
     '~/plugins/axios-utils',
-    '~/plugins/roles-utils'
+    '~/plugins/roles-utils',
+    '~/plugins/loading-overlay'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -48,6 +49,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     'nuxt-i18n',
+    'bootstrap-vue/nuxt'
   ],
 
   i18n: {
@@ -97,6 +99,13 @@ export default {
           success: colors.green.accent3
         }
       }
+    },
+    defaultAssets: {
+      font: true,
+      icons: 'md'
+    },
+    icons: {
+      iconfont: 'md',
     }
   },
   /*

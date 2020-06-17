@@ -2,17 +2,23 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
-        cartedit(action, id){
+        cartedit(action, id, noNotifs, noLoader){
             let payload = {action, id}
+            let loader;
+            if(!noLoader) {loader = this.$loading.show()}
             this.$store.dispatch('cart/edit', payload)
                 .then(res => {
-                  this.notify(res)
+                  if(!noLoader) loader.hide()
+                  if(!noNotifs) this.notify(res)
                 })
           },
-          cartclear(){
+          cartclear(noNotifs, noLoader){
+            let loader;
+            if(!noLoader) {loader = this.$loading.show()}
             this.$store.dispatch('cart/clear')
                 .then(res => {
-                  this.notify(res)
+                  if(!noLoader) loader.hide()
+                  if(!noNotifs) this.notify(res)
                 })
           },
     }

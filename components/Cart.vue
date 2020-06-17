@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h5>
+  <h5 ref="cartContainer">
     <ul>
       <h3>{{cart.count}} items in cart // total: {{cart.total}} <span @click="cartclear()">X</span> </h3>
       <li v-for="item in cart.items" :key="item.id">

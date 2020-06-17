@@ -1,26 +1,7 @@
 <template>
-<div>
+<div class="container">
   <ul>
-    <li v-for="locale in availableLocales()" > 
-      <strong @click="change(locale.code)">
-        {{ locale.code }}  
-      </strong>  
-    </li>
   </ul>
-    <div v-if="this.$auth.loggedIn">
-      <h3>
-          {{ $t('welcome') }} {{ this.$auth.user.info.username }}
-      </h3>
-       <v-btn @click="logoutUser()">{{ $t('auth.singout') }}</v-btn>
-    </div>
-    <div v-else>
-       <nuxt-link :to="`/login`" >
-        {{ $t('auth.signin') }}
-      </nuxt-link>
-      <nuxt-link :to="`/register`" >
-        {{ $t('auth.singup') }}
-      </nuxt-link>
-    </div>
     <nuxt-link :to="`/products`" >
       {{ $t('products') }}
     </nuxt-link>
@@ -31,7 +12,9 @@
 <script>
 import { mapState } from 'vuex'
 
+
 export default {
+
   data(){
     return{
     }
@@ -44,6 +27,7 @@ export default {
   // },
   methods: {
     async logoutUser() {
+      this.$store.dispatch('resetAll')
       await this.$auth.logout()
     },
     change(lang) {

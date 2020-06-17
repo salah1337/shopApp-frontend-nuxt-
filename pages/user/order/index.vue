@@ -48,13 +48,9 @@ export default {
     ...mapState({
       cart: state => state.cart.cart,
     }),
-    addQueryItem(){
-      this.cart.items.forEach(item => {
-        if (item.product_id == this.$route.query.i){
-          this.orderinfo.details.push(item)
-        }
-      });
-    }
+  },
+  mounted() {
+    this.addQueryItem()
   },
   methods: {
     async placeOrder() {
@@ -71,6 +67,16 @@ export default {
     isSelected(item){
       if (this.orderinfo.details.includes(item)) return true;
     },
+    async addQueryItem(){
+      if(!this.$route.query.i) return
+      this.cartedit('add', this.$route.query.i, true)
+      await this.$store.dispatch('cart/load')
+      this.cart.items.forEach(item => {
+        if (item.product_id == this.$route.query.i){
+          this.orderinfo.details.push(item)
+        }
+      });
+    }
   }
 }
 </script>

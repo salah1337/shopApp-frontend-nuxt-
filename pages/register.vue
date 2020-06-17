@@ -16,23 +16,30 @@
     <v-btn  @click="submitForm(userInfo)">
          Log In
     </v-btn>
-
+    <RegisterForm/>
   </v-container>
 </template>
 
 <script>
 import validations from "../utils/validation";
 import loader from "../utils/loader";
+import RegisterForm from '../components/RegisterForm'
 import { mapActions } from 'vuex'
+
 export default {
+    components: {
+        RegisterForm
+    },
     data(){
         return{
+        dialog: false,
+
             userInfo: {
                 email:'6à9@1337jjj.com',
                 password:'lollol',
                 password_confirmation:'lollol',
                 firstName:'lollol',
-                lastName:'',
+                lastName:'dzdz',
                 username:'lollojjjl'
             },
             ...validations

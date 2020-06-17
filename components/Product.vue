@@ -1,9 +1,11 @@
 <template>
 <div>
 <div>
-      <nuxt-link :to="`/staff/products/edit/${product.id}`" >
-        Edit
-      </nuxt-link>
+     <span v-if="this.$auth.loggedIn">
+        <nuxt-link v-if="this.$auth.user.isStaff" :to="`/staff/products/edit/${product.id}`" >
+            Edit
+        </nuxt-link>
+     </span>
       <h1>
         {{product.name}}
       </h1>
@@ -32,6 +34,10 @@
        - {{product.weight}}
       </h2>
       <img v-for="img in product.images" :key="img" style="width:200px;height:200px;" :src="`http://localhost:6969/storage/${img}`" alt="">
+    <nuxt-link :to="`/user/order?i=${product.id}`">
+        Buy Now
+    </nuxt-link>
+    <v-btn v-if="this.$auth.loggedIn" @click="cartedit('add', product.id)">Add To Cart</v-btn>
 </div>
 </div>
 </template>

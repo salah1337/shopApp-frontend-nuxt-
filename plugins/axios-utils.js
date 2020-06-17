@@ -2,11 +2,13 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
-        async dbAction(method, url, data, reload, noNotif) {
+        async dbAction(method, url, data, reload, noNotif, noLoader) {
             console.log(`method:--${method}`);
             console.log(`url:--${url}`);
             console.log(`data:--${data}`);
             console.log(`reload:--${reload}`);
+            let loader;
+            if(!noLoader) {loader = this.$loading.show()}
             let reply;
             let res = await this.$axios({ method: method, url: url, data: data })
             .then(async res => {
@@ -34,8 +36,10 @@ Vue.mixin({
                 
                   this.notify([false, "Something went wrong :O, contact us"])
                 }
+                if(!noLoader) loader.hide()
                 throw  JSON.stringify(err.response.data);
             })
+            if(!noLoader) loader.hide()
             return JSON.stringify(res);
         },
         async loadOne(item, id, scope) {
