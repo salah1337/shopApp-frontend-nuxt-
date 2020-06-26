@@ -1,0 +1,29 @@
+.card{
+    height: 200px;
+    display: grid;
+    grid-template-areas: "image" "image" "title" "description";
+    background-color: var(--gray);
+    border-radius: 8px;
+    padding: 4px;
+    .card-image{
+        grid-area: image;
+        align-self: center;
+        justify-self: center;
+        img{
+            max-width: 100%;
+        }
+    }
+    .card-title{
+        font-size: calc(0.6vw + 0.6rem);
+        grid-area: title;
+        justify-self: center;
+        align-self: end;
+    }
+    .card-description{
+        grid-area: description;
+        color: var(--grayTxt);
+        text-align: center;
+        font-size: calc(0.5vw + 0.5rem);
+
+    }
+}

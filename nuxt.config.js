@@ -34,14 +34,22 @@ export default {
     '~/plugins/cart-utils',
     '~/plugins/axios-utils',
     '~/plugins/roles-utils',
-    '~/plugins/loading-overlay'
+    '~/plugins/loading-overlay',
+    '~/plugins/preloader'
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxtjs/vuetify', 
+    '@nuxtjs/vuetify',
+    '@nuxtjs/style-resources'
   ],
+
+  styleResources: {
+    scss: [
+        '~/assets/scss/base.scss',
+    ]
+  },
   /*
   ** Nuxt.js modules
   */

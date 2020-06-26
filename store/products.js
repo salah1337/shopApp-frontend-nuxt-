@@ -1,7 +1,7 @@
 export const state = () => ({
     products: [],
     liveProducts: [],
-    allProducts: []
+    allProducts: [],
 })
 
 export const getters = {
@@ -43,7 +43,7 @@ export const actions = {
         let products = res.data.data;
         commit('SET_LIVE_PRODUCTS', products)
     },
-    async loadAll({ commit }) {
+    async loadAll({ commit }) { // loads products with trashed
         let res = await this.$axios.get('api/admin/product/all')
         let products = res.data.data;
         commit('SET_ALL_PRODUCTS', products)

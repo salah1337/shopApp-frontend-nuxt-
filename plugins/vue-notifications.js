@@ -18,7 +18,7 @@ const options = {
 Vue.mixin({
     methods:{
         notify(args){
-            this.showMessage({
+            this.fuckyou({
                 type: args[0] ? 'success' : 'warn',
                 title: args[0] ? 'success' : 'failure',
                 message: args[1]
@@ -26,7 +26,7 @@ Vue.mixin({
         }
     },
     notifications: {
-        showMessage: {
+        fuckyou: {
           type: VueNotifications.types.success,
           title: 'Hello there',
           message: 'That\'s the success!'

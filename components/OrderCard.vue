@@ -1,17 +1,18 @@
 <template>
 <div>
-    {{order.shipName}} {{order.id}} || 
-    <span @click="cancel(order.id)"> [cancel] </span>
-    <span v-if="!order.shipped" @click="markShipped(order.id)"> [markShipped] </span>
+    <div>
+        {{order.shipName}} <span v-if="scope === 'staff' && scop == 'admin'">[id: {{order.id}}]</span>
+    </div>
+    <div v-if="scope === 'staff' && scop == 'admin'">
+        <span @click="cancel(order.id)"> [cancel] </span>
+        <span v-if="!order.shipped" @click="markShipped(order.id)"> [markShipped] </span>
+    </div>
     <nuxt-link :to="`/staff/orders/${order.id}`"> [more] </nuxt-link>
-    <ol>
-        <hr>
+    <ul>
         <li v-for="detail in order.details" :key="detail.id">
             {{detail.name}} || {{detail.SKU}}
         </li>
-        <br/>
-        <br/>
-    </ol>
+    </ul>
 </div>
 </template>
 
@@ -21,6 +22,7 @@ export default {
         order: {
             required: true
         },
+        scope:''
     },
     methods: {
         cancel(id) {

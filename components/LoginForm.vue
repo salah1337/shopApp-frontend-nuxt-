@@ -1,101 +1,136 @@
 <template>
-    <div>
-  <b-button v-b-modal.modal-2>{{$t('auth.signin')}}</b-button>
 
-  <b-modal id="modal-2" :title="$t('auth.signin')">
-    <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-
-      <b-form-group
-        id="input-group-2"
-        label="User name:"
-        label-for="input-2"
-        description="Name displayed on your profile page."
-      >
-        <b-form-input
-          id="input-2"
-          v-model="userInfo.username"
-          type="text"
-          placeholder="Enter username"
-        ></b-form-input>
-        <p style="color:red;" class="font-weight-light" v-if="errors.username">{{errors.username[0]}}</p>
-      </b-form-group>
-
-      <b-form-group id="input-group-4" label="Your Password:" label-for="input-5">
-        
-        <b-form-input
-          id="input-5"
-          v-model="userInfo.password"
-          type="password"
-          
-          placeholder="Enter password"
-        ></b-form-input>
-        <p style="color:red;" class="font-weight-light" v-if="errors.password">{{errors.password[0]}}</p>
-
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Login</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
+  <div>
+     <div @click="show = !show" class="popup-trigger">
+        <p>login</p>
+      </div>
+      <div v-if="show" @click="show = !show" class="popup-bg"></div>
+      <div v-if="show" class="popup-content login">
+        <div class="panel login">
+          <div class="title">
+            <h3>login</h3>
+          </div>
+          <div class="form">
+            <div class="input">
+              <label>Email</label>
+              <input v-model="userInfo.email" type="email" class="input input-form input-form1">
+            </div>
+            <div class="input">
+              <label>Password</label>
+              <input v-model="userInfo.password" type="password" class="input input-form input-form1">
+            </div>
+          </div>
+          <div @click="submitForm()" class="submit gridcenter">login</div>
+        </div>
+      </div>
   </div>
-  </b-modal>
-</div>
+
 </template>
 
-<script>
-import validations from "../utils/validation";
-import loader from "../utils/loader";
-import { mapActions } from 'vuex'
-export default {
-    data(){
-        return{
-            userInfo: {
-                username:'69@1337.com',
-                password:'lollol'
-            },
-            ...validations,
-            show: true,
-            errors: {}
-        }
-    },
-    methods: {
-        onSubmit(evt) {
-        evt.preventDefault()
-        this.submitForm()
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.userInfo.email = ''
-        this.userInfo.username = ''
-        this.userInfo.firstName = ''
-        this.userInfo.lastName = ''
-        this.userInfo.password = ''
-        this.userInfo.password_confirmation = ''
+<style lang="scss">
+.login{
+    max-height: 350px;
+    max-width: 550px;
 
-        this.userInfo.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      },
-        submitForm(){
-            this.$auth.loginWith('local', {
-                data: {
-                    username: this.userInfo.username,
-                    password: this.userInfo.password
-                }
-            }).then(async ()=>{
-                    await loader(this.$auth.user, this.$store)
-            })
-        }
+}
+.panel{
+  height: 100%;
+  margin: auto;
+}
+.popup-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 998;
+}
+.popup-content{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  height: 90vh;
+  width: 95vw;
+
+}
+.title, .form{
+  margin-bottom: 5%;
+}
+ .title{
+   text-align: center;
+   
+      h3{
+        text-shadow: -4px 4px 0px var(--main);
+        color: var(--dark);
+        font-weight: 800;
+        font-size: calc(2.5rem + 1.2vw);
+      }
+  }
+  .form{
+    display: grid;
+    .input{
+      display: grid;
+      font-size: calc(0.8rem + 0.6vw);
+      label{
+        font-size: calc(1rem + 0.4vw);
+        font-weight: 800;
+      }
     }
-}
-</script>
-
-<style>
-#modal-2___BV_modal_footer_{
-  display: none;
-}
+  }
+  .submit{
+    color: white;
+    margin: auto;
+    background: var(--main);
+    max-width: 100px;
+    min-height: 40px;
+    background: var(--main);
+    box-shadow: -3px 3px 0px var(--mainDark);
+    border-radius: 1px;
+    transition: 200ms ease-in-out;
+    &:hover{
+      background-color: var(--mainHover);
+      box-shadow: -1px 1px 0px var(--mainDark);
+    }
+    &:active{
+      box-shadow: 3px -3px 0px var(--mainDark) !important;
+      transform: translateY(3px);
+      background-color: var(--mainActive);
+    }
+  }
 </style>
+
+<script>
+    export default {
+      data() {
+        return {
+          userInfo: {
+            email: '69@1337.com',
+            password: 'lollol'
+          },
+          show: false,
+          errors: {}
+        }
+      },
+      methods: {
+        async submitForm() {
+          let loader = this.$loading.show()
+          await this.$auth.loginWith('local', {
+            data: {
+              username: this.userInfo.email,
+              password: this.userInfo.password
+            }
+          }).then(async () => {
+            await this.load()
+            this.notify([true, "Welcome back."])
+            this.show = false
+          }).catch(err => {    
+              this.notify([false, "make sure your data is correct"])
+          })
+          loader.hide()
+        }
+      }
+    }
+</script>

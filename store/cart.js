@@ -3,7 +3,7 @@ export const state = () => ({
 })
 
 export const getters = {
-    cartItems: state => {
+    cart: state => {
         return state.cart
     },
 }
@@ -23,7 +23,7 @@ export const actions = {
         let cart = res.data.data.cart;
         commit('SET_CART', cart)
     },
-    async edit({ commit }, {action, id}){
+    async edit({ commit, dispatch }, {action, id}){
         let res = await this.$axios.post(`api/customer/cart/${action}/${id}`)
         if (res.data.success) {
             let cart = res.data.data.cart;

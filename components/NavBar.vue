@@ -1,92 +1,129 @@
 <template>
-  <div class="nav">
-      <div class="navBody">
-        <ul class="lang" >
-            <h3 class="navLogo">
-                logo
-            </h3>
-            <b-nav-item-dropdown text="Lang" right>
-                <b-dropdown-item v-for="locale in availableLocales()" @click="change(locale.code)" :key="locale.code">
-                    {{ locale.code }}
-                </b-dropdown-item>
-            </b-nav-item-dropdown>
-        </ul>
-        <ul class="navBtns" v-if="this.$auth.loggedIn">
-            <li v-if="this.$auth.user.isAdmin">
-                <v-btn small depressed>Admin</v-btn>
-            </li>
-            <li v-if="this.$auth.user.isStaff">
-                <v-btn small depressed>Staff</v-btn>
-            </li>
-            <li>
-                <b-nav-item-dropdown right>
-                    <!-- Using 'button-content' slot -->
-                    <template v-slot:button-content>
-                        <em>User</em>
-                    </template>
-                    <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-                </b-nav-item-dropdown>
-            </li>
-            <li>
-                <v-btn rounded small depressed>
-                    <v-icon>shopping_cart</v-icon>
-                </v-btn>
-            </li>
-        </ul>
-        <ul v-else>
-            <li>Register</li>
-            <li>Login</li>
-        </ul>
-      </div>
-  </div>
+    <div class="nav-container">
+       <div class="nav-body container">
+            <div class="logo">
+                <v-icon class="icon">store</v-icon>
+                <h3 class="name">
+                    <nuxt-link to="/">
+                        chop<span>shop</span>
+                    </nuxt-link>
+                </h3>
+            </div>
+            <ul class="btns">
+                <li v-if="!this.$auth.loggedIn" class="nav-btn"><LoginForm/></li>
+                <li v-if="!this.$auth.loggedIn" class="nav-btn"><RegisterForm/></li>
+                <v-icon class="nav-btn">search</v-icon>
+                <CartDropdown class="nav-btn"/>
+                <sideBar class="nav-btn"/>
+            </ul>
+       </div>
+    </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
+import CartDropdown from '../components/CartDropdown'
+import sideBar from '../components/sideBar'
 
 export default {
+    components: {
+        RegisterForm,
+        LoginForm,
+        CartDropdown,
+        sideBar
+    },
+    computed: {
+        ...mapState({
+            cart: state => state.cart.cart,
+        })
+    },
     methods: {
         change(lang) {
             this.$i18n.setLocale(lang);
         },
         availableLocales () {
             return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
-        }
+        },
+        async logout() {
+            let loader = this.$loading.show()
+            await this.$store.dispatch('resetAll')
+            await this.$auth.logout()
+            loader.hide()
+            this.notify([true, "Bye."])
+        },
     }
 }
 </script>
 
 <style lang="scss">
 ul{
-    margin: 0 !important;
+  margin: 0;
 }
-.nav{
-    height: 8vh;
+.nav-container{
     width: 100vw;
-    .navBody{
+    height: 10vh;
+    .nav-body, .logo, .btns{
         display: flex;
-        align-items: center;
+    }
+    .nav-body, .btns{
         justify-content: space-between;
-        margin: 0 auto;
-        width: 90vw;
-        max-width: 1200px;
-        .lang{
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 50%;
-            max-width: 200px;
+    }
+    .nav-body{
+        height: 100%;
+        align-items: center;
+    }
+    .btns{
+        width: 70%;
+        max-width: 200px;
+        list-style: none;
+        li{
+            text-transform: capitalize;
         }
-        .navBtns{
-            list-style: none;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 50%;
-            max-width: 350px;
+        .btn-secondary{
+            color: unset;
+            background-color: unset;
+            border-color: unset;
+        }
+    }
+    .nav-btn p{
+        color: var(--dark);
+        font-weight: 600;
+        text-shadow: 0px 4px 2px var(--main);
+        cursor: pointer;
+    }
+    .logo{
+        display: flex;
+        color: var(--grayTxt);
+        .name{
+            align-self: flex-end;
+            font-size: calc(0.8vw + 0.8rem);
+            font-weight: 600;
+            a {
+                color: var(--grayTxt);
+                &:hover{
+                    text-decoration: none !important;
+                }
+            }
+            span{
+                color: var(--main);
+                font-size: calc(1vw + 1rem);
+                font-weight: 800;
+                text-shadow: -2px 2px 2px var(--gray);
+            }
+        }
+        .icon{
+            font-size: calc(2vw + 2rem);
+        }
+    }
+}
+@media (max-width: 700px){
+    .btns{
+        width: 50% !important;
+        li{
+            // display: none;
         }
     }
 }
