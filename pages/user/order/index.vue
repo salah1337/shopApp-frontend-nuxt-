@@ -154,9 +154,12 @@
         </div>
 
         <div v-if="step != 4" class="summary panel panel_content panel_submit">
-            <div v-if="step == 1" @click="addDetails()" class="panel-submit">Procced</div>
-            <div v-if="step == 2" @click="step++" class="panel-submit">go to payment</div>
-            <div v-if="step == 3" @click="placeOrder()" class="panel-submit">Confirm order</div>
+            <div class="summary-submit panel-submit">
+            <div v-if="step > 1" @click="step--" class="summary-submit-btn gridcenter last-step">go back</div>
+              <div v-if="step == 1" @click="addDetails()" class="summary-submit-btn gridcenter next-step">Procced</div>
+              <div v-if="step == 2" @click="step++" class="summary-submit-btn gridcenter next-step">go to payment</div>
+              <div v-if="step == 3" @click="placeOrder()" class="summary-submit-btn gridcenter next-step">Confirm order</div>
+            </div>
             <div class="panel-head">
                 <div class="panel-title">summary</div>
                 <div class="panel-description">Here's your order summary for today</div>
@@ -170,13 +173,13 @@
                 <hr>
                 <div class="prices">
                     <div class="price">
-                        Subtotal: <span>123,456</span>$
+                        Subtotal: <span>{{addTotal()}}</span>$
                     </div>
                     <div class="price">
-                        Subtotal: <span>123</span>$
+                        Tax: <span>{{addTax()}}</span>$
                     </div>
                     <div class="price total">
-                        Subtotal: <span>123,456</span>$
+                        Total: <span>{{addTotal() + addTax()}}</span>$
                     </div>
                 </div>
             </div>
@@ -228,6 +231,7 @@
   }
 }
 .container{
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 0.45fr;
     grid-gap: 30px;
@@ -269,6 +273,7 @@
     .cartItem-delete, .cartItem-select{
         position: absolute;
         right: 10px;
+        cursor: pointer;
     }
     .cartItem-delete{
         bottom: 10px;
@@ -295,7 +300,50 @@
   margin: 0;
   max-height: 70vh;
     .panel-submit{
-        max-height: 40px;
+        all: unset;
+        &:hover{background-color: unset;}
+        &:active{
+            box-shadow: unset !important;
+            transform: unset;
+            background-color: unset;
+        }
+        grid-area: submit;
+        align-self: flex-end;
+        height: 50%;
+        // width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 15px;
+    }
+    .summary-submit-btn{
+      text-align: center;
+      height: 100%;
+      max-height: 70px;
+      max-width: 150px;
+      background-color: var(--success);
+      box-shadow: 0px 2px 0px var(--successDark);
+      border-radius: 2px;
+      color: white;
+      font-size: calc(0.5vw + 0.9rem);
+      font-weight: 450;
+      cursor: pointer;
+      user-select: none;
+      &:hover{background-color: var(--successHover);}
+      &:active{
+        box-shadow: 0px 1px 0px var(--successDark) !important;
+          transform: translateY(3px);
+          background-color: var(--successActive);
+      }
+      &.last-step{
+        background-color: var(--primary);
+        box-shadow: 0px 2px 0px var(--primaryDark);
+        &:hover{background-color: var(--primaryHover);}
+        &:active{
+          box-shadow: 0px 1px 0px var(--primaryDark) !important;
+          background-color: var(--primaryActive);
+        }
+      }
     }
 }
 
@@ -451,7 +499,7 @@ export default {
   },
   methods: {
     async placeOrder() {
-
+      this.step++
     },
     async addDetails() {
         this.orderinfo.details = []
@@ -477,9 +525,27 @@ export default {
       }
       this.cart.items.forEach(item => {
         if (item.product_id == this.$route.query.i){
-          this.select(item)
+          this.selectedItems.push(item.id)
         }
       });
+    },
+    addTotal() {
+      let total = 0
+      this.cart.items.forEach(item => {
+        if (this.selectedItems.includes(item.id)) {
+          total += item.price * item.count
+        }
+      })
+      return Math.ceil(total)
+    },
+    addTax() {
+      let tax = 0
+      this.cart.items.forEach(item => {
+        if (this.selectedItems.includes(item.id)) {
+          tax += (item.price * item.count) / 100
+        }
+      })
+      return Math.ceil(tax)
     },
   }
 }
