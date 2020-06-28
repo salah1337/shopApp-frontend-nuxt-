@@ -1,6 +1,9 @@
 <template>
 
   <div>
+     <div @click="show = !show" class="popup-trigger">
+        <v-icon class="nav-btn">fa fa-user</v-icon>
+      </div>
       <div v-if="show" @click="show = !show" class="popup-bg"></div>
       <div v-if="show" class="popup-content login">
         <div class="panel login">
@@ -16,6 +19,8 @@
               <label>Password</label>
               <input v-model="userInfo.password" type="password" class="input input-form input-form1">
             </div>
+            <div><RegisterModal /></div>
+            <div>Frogot password</div>
           </div>
           <div @click="submitForm()" class="submit gridcenter">login</div>
         </div>
@@ -26,7 +31,7 @@
 
 <style lang="scss">
 .login{
-    max-height: 350px;
+    max-height: 450px !important;
     max-width: 550px;
 
 }
@@ -100,34 +105,39 @@
 </style>
 
 <script>
-    export default {
-      data() {
-        return {
-          userInfo: {
-            email: '69@1337.com',
-            password: 'lollol'
-          },
-          show: true,
-          errors: {}
-        }
+import RegisterModal from '../components/RegisterModal'
+
+export default {
+  components: {
+    RegisterModal
+  },
+  data() {
+    return {
+      userInfo: {
+        email: '69@1337.com',
+        password: 'lollol'
       },
-      methods: {
-        async submitForm() {
-          let loader = this.$loading.show()
-          await this.$auth.loginWith('local', {
-            data: {
-              username: this.userInfo.email,
-              password: this.userInfo.password
-            }
-          }).then(async () => {
-            await this.load()
-            this.notify([true, "Welcome back."])
-            this.show = false
-          }).catch(err => {    
-              this.notify([false, "make sure your data is correct"])
-          })
-          loader.hide()
-        }
-      }
+      show: false,
+      errors: {}
     }
+  },
+  methods: {
+    async submitForm() {
+      let loader = this.$loading.show()
+      await this.$auth.loginWith('local', {
+        data: {
+          username: this.userInfo.email,
+          password: this.userInfo.password
+        }
+      }).then(async () => {
+        await this.load()
+        this.notify([true, "Welcome back."])
+        this.show = false
+      }).catch(err => {    
+          this.notify([false, "make sure your data is correct"])
+      })
+      loader.hide()
+    }
+  }
+}
 </script>

@@ -2,7 +2,7 @@
     <div class="nav-container">
        <div class="nav-body container">
             <div class="logo">
-                <v-icon class="icon">store</v-icon>
+                <v-icon class="icon">fa-shopping-basket</v-icon>
                 <h3 class="name">
                     <nuxt-link to="/">
                         chop<span>shop</span>
@@ -10,11 +10,11 @@
                 </h3>
             </div>
             <ul class="btns">
-                <li v-if="!this.$auth.loggedIn" class="nav-btn"><LoginForm/></li>
-                <li v-if="!this.$auth.loggedIn" class="nav-btn"><RegisterForm/></li>
-                <v-icon class="nav-btn">search</v-icon>
+
+                <v-icon class="nav-btn">fa fa-search</v-icon>
                 <CartDropdown class="nav-btn"/>
-                <sideBar class="nav-btn"/>
+                <sideBar v-if="this.$auth.loggedIn" class="nav-btn"/>
+                <LoginModal v-else class="nav-btn"/>
             </ul>
        </div>
     </div>
@@ -23,15 +23,15 @@
 <script>
 import { mapState } from 'vuex'
 
-import RegisterForm from '../components/RegisterForm'
-import LoginForm from '../components/LoginForm'
+import RegisterModal from '../components/RegisterModal'
+import LoginModal from '../components/LoginModal'
 import CartDropdown from '../components/CartDropdown'
 import sideBar from '../components/sideBar'
 
 export default {
     components: {
-        RegisterForm,
-        LoginForm,
+        RegisterModal,
+        LoginModal,
         CartDropdown,
         sideBar
     },
@@ -47,18 +47,14 @@ export default {
         availableLocales () {
             return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
         },
-        async logout() {
-            let loader = this.$loading.show()
-            await this.$store.dispatch('resetAll')
-            await this.$auth.logout()
-            loader.hide()
-            this.notify([true, "Bye."])
-        },
     }
 }
 </script>
 
 <style lang="scss">
+#loginForm{
+
+}
 ul{
   margin: 0;
 }

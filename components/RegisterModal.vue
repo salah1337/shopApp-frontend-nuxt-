@@ -1,6 +1,9 @@
 <template>
 
   <div>
+    <div @click="show = !show" class="popup-trigger">
+      <p>Register</p>
+    </div>
     <div v-if="show" @click="show = !show" class="popup-bg"></div>
     <div v-if="show" class="popup-content register">
       <div class="panel register">
@@ -123,7 +126,7 @@ export default {
         lastName: 'dzdz',
         username: 'lollojjjl'
       },
-      show: true,
+      show: false,
       errors: {},
       step: 1
     }

@@ -1,12 +1,18 @@
 <template>
    <b-dropdown right id="cartdropdown">
      <template v-slot:button-content>
-     <v-icon class="nav-btn">shopping_cart</v-icon>
+     <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>
     </template>
     <b-dropdown-item v-for="item in cart.items" :key="item.id">
       <div class="cartdropdown-item">
-        <div class="name">{{item.name}}</div>
-        <div @click="cartedit('removeitem', item.product_id)" class="delete gridcenter">X</div>
+        <div class="image">
+          <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
+        </div>
+        <div class="info"> 
+          <div class="name">{{item.name}}</div>
+          <div @click="cartedit('removeitem', item.product_id)" class="delete gridcenter">X</div>
+          </div>
+          <!-- <div class="description">{{item.description}}</div> -->
       </div>
     </b-dropdown-item>
   </b-dropdown>
@@ -43,15 +49,26 @@ export default {
 }
 .cartdropdown-item{
   width: 100%;
-  display: flex;
-
+  height: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
   justify-content: space-between;
+  grid-column-gap: 5px;
+  .image{
+    img{
+      height: 40px;
+    }
+  }
+  .info{
+    display: grid;
+  }
   .delete{
     color: white;
     background: var(--danger);
     width: 24px;
     border-radius: 3px;
     box-shadow: 0px 1px 0px var(--dangerDark);
+    justify-self: end;
   }
 }
 </style>

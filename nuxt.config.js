@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  baseApiUrl: 'http://localhost:6969',
   mode: 'universal',
   /*
   ** Headers of the page
@@ -42,8 +43,18 @@ export default {
   */
   buildModules: [
     '@nuxtjs/vuetify',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    'nuxt-fontawesome'
   ],
+
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      },
+    ]
+  },
 
   styleResources: {
     scss: [
@@ -95,7 +106,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -110,10 +121,10 @@ export default {
     },
     defaultAssets: {
       font: true,
-      icons: 'md'
+      icons: 'fa'
     },
     icons: {
-      iconfont: 'md',
+      iconfont: 'fa',
     }
   },
   /*

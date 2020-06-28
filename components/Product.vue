@@ -1,52 +1,61 @@
 <template>
 <div>
-   <div class="container">
-
+   <div v-if="product" class="container">
         <div class="categoryName">
-            <a href="#"><p>Laptops</p></a>
+            <a href="#"><p>{{product.category.name}}</p></a>
         </div>
-       <div class="product">
-           <div class="header">
-                <div>
-                    <div class="name">Product name</div>
-                    <div class="price">1337$</div>
+        <div class="product">
+            <div class="header">
+                    <div>
+                        <div class="name">{{product.name}}</div>
+                        <div class="price">{{product.price}}$</div>
+                    </div>
+                    <div class="btns">
+                        <nuxt-link :to="`/user/order?i=${product.id}`">
+                            <div class="order bg">
+                                order
+                            </div>
+                        </nuxt-link>
+                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="cart bg">
+                            <v-icon>fa fa-shopping-cart</v-icon>
+                        </div>
+                        <div v-if="cartHas(product.id)" @click="cartedit('remove', product.id)" class="cart bg invert">
+                            <v-icon>fa fa-shopping-cart</v-icon>
+                        </div>
+                        <div class="wishlist bg">
+                            <v-icon>fa fa-heart</v-icon>
+                        </div>
+                    </div>
+            </div>
+            <div class="details">
+                <div class="selectedImage gridcenter bg">
+                    <img src="/img.jpg" alt="">
                 </div>
-                <div class="btns">
-                    <div class="order bg">order</div>
-                    <div class="cart bg">add</div>
-                    <div class="wishlist bg">add</div>
+                <div class="options">
+                    <div v-for="option in product.options" :key="option.id" class="option gridcenter bg">
+                        {{option.name}}
+                    </div>
                 </div>
-           </div>
-           <div class="details">
-               <div class="selectedImage gridcenter bg">
-                <img src="/img.jpg" alt="">
-               </div>
-               <div class="options">
-                <div v-for="option in product.options" :key="option.id" class="option gridcenter bg">
-                    {{option.name}}
+            
+            </div>
+            <div class="images">
+                <div class="image bg gridcenter">
+                    <img  src="/img.jpg" alt="">
                 </div>
-               </div>
-          
-           </div>
-           <div class="images">
-            <div class="image bg gridcenter">
-                 <img  src="/img.jpg" alt="">
-            </div>
-            <div class="image bg gridcenter">
-                 <img  src="/img.jpg" alt="">
-            </div>
-            <div class="image bg gridcenter">
-                 <img  src="/landingImg.png" alt="">
-            </div>
-            <div class="image bg gridcenter">
-                 <img  src="/img.jpg" alt="">
-            </div>
-            <div class="image bg gridcenter">
-                 <img  src="/landingImg.png" alt="">
+                <div class="image bg gridcenter">
+                    <img  src="/img.jpg" alt="">
+                </div>
+                <div class="image bg gridcenter">
+                    <img  src="/landingImg.png" alt="">
+                </div>
+                <div class="image bg gridcenter">
+                    <img  src="/img.jpg" alt="">
+                </div>
+                <div class="image bg gridcenter">
+                    <img  src="/landingImg.png" alt="">
+                </div>
             </div>
         </div>
-       </div>
-
     </div>
 </div>
 </template>
@@ -72,6 +81,9 @@ export default {
         ...mapState({
         cart: state => state.cart.cart,
         }),
+        l() {
+            this.load()
+        }
     },
     mounted() {
         this.load()
@@ -129,9 +141,12 @@ img {
         justify-self: end;
         display: flex;
         justify-content: space-between;
-        width: 70%;
+        width: 100%;
         height: fit-content;
         max-width: 220px;
+        a{
+            text-decoration: none;
+        }
         .order{
             background-color: var(--main);
             border-radius: 4px;
@@ -145,6 +160,9 @@ img {
             padding: 0.6rem 0.6rem;
             color: var(--main);
             cursor: pointer;
+            &.invert{
+                background: var(--main);
+            }
         }
     }
     .details{

@@ -1,13 +1,13 @@
 *{
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
     width: 5px;
 }
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
 background: var(--gray);
 }
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
 background: var(--main); 
 }
 :root{
@@ -34,6 +34,27 @@ background: var(--main);
     display: grid;
     justify-content: center;
     align-items: center;
+}
+.backbtn{
+    max-height: 40px;
+    max-width: 200px;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: white;
+    background: var(--main);
+    background: var(--main);
+    box-shadow: -3px 3px 0px var(--mainDark);
+    border-radius: 1px;
+    transition: 200ms ease-in-out;
+    &:hover{
+      background-color: var(--mainHover);
+      box-shadow: -1px 1px 0px var(--mainDark);
+    }
+    &:active{
+      box-shadow: 3px -3px 0px var(--mainDark) !important;
+      transform: translateY(3px);
+      background-color: var(--mainActive);
+    }
 }
 .input{
     font-size: calc(0.6rem + 0.6vw);
