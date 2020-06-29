@@ -1,15 +1,15 @@
 <template>
     <div class="container">
         <div class="searchBar">
-            <input type="text" class="input search">
+            <input v-model="searchField" @change="filter()" type="text" class="input search">
         </div>
         <div class="list">
-            <div v-for="product in products.products" :key="product.id" class="productCard">
+            <div v-for="product in products.products" :key="product.id" v-if="filter(product.name)" class="productCard">
                 <div class="info">
                     <div class="thumbnail">
                         <img :src="`http://localhost:6969/storage/noimage.jpg`" alt="">
                     </div>
-                    <div class="name">
+                    <div class="name" v-html="highlight(product.name)">
                         {{product.name}}
                     </div>
                 </div>
@@ -28,13 +28,13 @@
         </div>
         <div class="hero">
             <div class="hero-text">
-                The best products, <br> <strong>at your finger tips!</strong>
+                Deals that <br> <strong>you don't want to miss!</strong>
             </div>
             <div class="hero-cta">
                 <input type="text" placeholder="Search products..." class="input search">
             </div>
             <div class="hero-illustration">
-                <img src="/landingSvg.svg" alt="">
+                <img :src="`http://localhost:6969/storage/pages/productlist.png`" alt="">
             </div>
         </div>
         <div class="preview">
@@ -95,7 +95,6 @@
 </template>
 
 <style lang="scss" scoped>
-
 .searchBar{
     height: 120px;
     display: grid;
@@ -113,7 +112,7 @@
     max-height: 100vh;
     overflow-y: scroll;
     overflow: overlay;
-    grid-template-rows: repeat(auto-fill, 100px);
+    grid-template-rows: repeat(auto-fit, 100px);
     grid-row-gap: 10px;
     .productCard{
         height: 100px;
@@ -122,6 +121,9 @@
         padding: 10px;
         border-radius: 15px;
         background-color: var(--gray);
+        .title{
+            text-transform: capitalize;
+        }
         .info{
             height: 100%;
             display: flex;
@@ -137,6 +139,7 @@
             display: grid;
             grid-template-rows: 1fr 1fr;
             grid-row-gap: 5px;
+            max-width: 80px;
             .view{
                 padding: 0.5rem 1.2rem;
                 border: 1px var(--main) solid;
@@ -177,15 +180,45 @@ import ProductCard from '../../components/ProductCard'
 import Cart from '../../components/Cart'
 
 export default {
-  components: {
-    ProductCard,
-    Cart
-  },
-  computed: {
-    ...mapState({
-      products: state => state.products.liveProducts,
-      cart: state => state.cart.cart,
-    }),
-  },
+    components: {
+        ProductCard,
+        Cart
+    },
+    data(){
+        return{
+            searchField:''
+        }
+    },
+    mounted() {
+        this.addQueryItem()
+    },
+    computed: {
+        ...mapState({
+            products: state => state.products.liveProducts,
+        cart: state => state.cart.cart,
+        }),
+    },
+    methods:{
+        filter(str){
+            if (!this.searchField == "")  {
+            let regex = RegExp(`${this.searchField}+`, 'ig')
+            // console.log(`${str} / ${this.searchField}  = ` + regex.test(str));
+            return regex.test(str)}
+            else{
+                return true
+            }
+        },
+        highlight(str){
+            if (this.searchField) {
+                let regex = RegExp(`${this.searchField}+`, 'ig')
+                return str.replace(regex, `<span class='highlited' style='color:var(--main)'>${this.searchField}</span>`)
+            }else{
+                return str
+            }
+        },
+        async addQueryItem(){
+          this.searchField = this.$route.query.s
+        }
+    },
 }
 </script>

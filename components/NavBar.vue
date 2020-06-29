@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-container">
+    <div id="nav" class="nav-container">
        <div class="nav-body container">
             <div class="logo">
                 <v-icon class="icon">fa-shopping-basket</v-icon>
@@ -11,7 +11,7 @@
             </div>
             <ul class="btns">
 
-                <v-icon class="nav-btn">fa fa-search</v-icon>
+                <searchBar class="nav-btn"/>
                 <CartDropdown class="nav-btn"/>
                 <sideBar v-if="this.$auth.loggedIn" class="nav-btn"/>
                 <LoginModal v-else class="nav-btn"/>
@@ -27,18 +27,23 @@ import RegisterModal from '../components/RegisterModal'
 import LoginModal from '../components/LoginModal'
 import CartDropdown from '../components/CartDropdown'
 import sideBar from '../components/sideBar'
+import searchBar from '../components/searchBar'
 
 export default {
     components: {
         RegisterModal,
         LoginModal,
         CartDropdown,
-        sideBar
+        sideBar,
+        searchBar
     },
     computed: {
         ...mapState({
             cart: state => state.cart.cart,
         })
+    },
+    mounted() {
+        this.watchscroll()
     },
     methods: {
         change(lang) {
@@ -47,6 +52,15 @@ export default {
         availableLocales () {
             return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
         },
+        watchscroll() {
+            window.addEventListener('scroll', ()=>{
+                if (window.scrollY > 0) {
+                   document.getElementById('nav').style.position = 'fixed'
+                }else{
+                   document.getElementById('nav').style.position = 'static'
+                }
+            })
+        }
     }
 }
 </script>
@@ -59,6 +73,8 @@ ul{
   margin: 0;
 }
 .nav-container{
+    z-index: 995;
+    background: white;
     width: 100vw;
     height: 10vh;
     .nav-body, .logo, .btns{
@@ -84,10 +100,12 @@ ul{
             border-color: unset;
         }
     }
-    .nav-btn p{
+    .nav-btn{
+        p{
         color: var(--dark);
         font-weight: 600;
         text-shadow: 0px 4px 2px var(--main);
+        }
         cursor: pointer;
     }
     .logo{
