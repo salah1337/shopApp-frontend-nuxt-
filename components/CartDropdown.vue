@@ -4,16 +4,18 @@
      <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>
     </template>
     <b-dropdown-item v-for="item in cart.items" :key="item.id">
-      <div class="cartdropdown-item">
-        <div class="image">
-          <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
-        </div>
-        <div class="info"> 
-          <div class="name">{{item.name}}</div>
-          <div @click="cartedit('removeitem', item.product_id)" class="delete gridcenter">X</div>
+      <nuxt-link :to="`/products/${item.product_id}`">
+        <div class="cartdropdown-item">
+          <div class="image">
+            <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
           </div>
-          <!-- <div class="description">{{item.description}}</div> -->
-      </div>
+          <div class="info"> 
+            <div class="name">{{item.name}}</div>
+            <div @click="cartedit('removeitem', item.product_id)" class="delete gridcenter">X</div>
+            </div>
+            <!-- <div class="description">{{item.description}}</div> -->
+        </div>
+      </nuxt-link>
     </b-dropdown-item>
   </b-dropdown>
 </template>

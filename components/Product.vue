@@ -32,8 +32,13 @@
                     <img src="/img.jpg" alt="">
                 </div>
                 <div class="options">
-                    <div v-for="option in product.options" :key="option.id" class="option gridcenter bg">
-                        {{option.name}}
+                    <div class="optiongroup" v-if="getGroup(group)" v-for="group in products.optiongroups" :key="group">
+                        <div>
+                            {{group}}
+                        </div>
+                        <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" class="option gridcenter bg">
+                            {{option.name}}
+                        </div>
                     </div>
                 </div>
             
@@ -80,19 +85,26 @@ export default {
     computed: {
         ...mapState({
         cart: state => state.cart.cart,
+        products: state => state.products.liveProducts,
         }),
-        l() {
-            this.load()
+        async l() {
+            await this.load()
         }
     },
-    mounted() {
-        this.load()
+    async mounted() {
+        await this.load()
     },
     methods: {
         async load(){
             let data = await this.loadOne('product', this.id, this.scope)
             this.product = data.product
-            this.product.images = JSON.parse(data.product.image) 
+            // this.product.images = JSON.parse(data.product.image) 
+        },
+        getGroup(name) {
+           let group = this.product.options.filter(opt => {
+               return opt.group.name == name
+           })
+           return group.length > 0 ? true : false
         }
     }
 }
@@ -175,13 +187,15 @@ img {
         grid-template-columns: 1fr 0.45fr;
         grid-gap: 10px;
         .options{
-            grid-area: options;
-            display: grid;
-            grid-template-rows: repeat(auto-fill, 35px);
-            grid-row-gap: 10px;
-            max-height: 50vh;
-            overflow-y: scroll;
-            overflow: overlay;
+            .optiongroup{
+                grid-area: options;
+                display: grid;
+                grid-template-rows: repeat(auto-fill, 35px);
+                grid-row-gap: 10px;
+                // max-height: 50vh;
+                overflow-y: scroll;
+                overflow: overlay;
+            }
             .option{
                 height: 35px;
             }

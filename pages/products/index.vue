@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <div class="searchBar">
-            <input v-model="searchField" @change="filter()" type="text" class="input search">
+            <h3 class="title">Find Anything You need!</h3>
+            <input v-model="searchField" placeholder="search products by name..." @change="filter()" type="text" class="input search">
         </div>
         <div class="list">
             <div v-for="product in products.products" :key="product.id" v-if="filter(product.name)" class="productCard">
@@ -98,8 +99,13 @@
 
 <style lang="scss" scoped>
 .searchBar{
-    height: 120px;
-    display: grid;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    .title{
+        font-size: calc(1vw + 1rem);
+        text-align: center;
+    }
     .input{
         justify-self: center;
         align-self: center;
@@ -111,6 +117,7 @@
 .list{
     padding: 10px;
     display: grid;
+    min-height: 50vh;
     max-height: 100vh;
     overflow-y: scroll;
     overflow: overlay;

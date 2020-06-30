@@ -41,7 +41,7 @@
                 </p>
             </div>
             <div class="preview-content products">
-                <div v-for="(product, index) in products.products" :key="product.id" class="featuredProductCard">
+                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
                     <nuxt-link :to="`/products/${product.id}`">
                         <div class="image">
                             <img :src="`http://localhost:6969/storage/noimage.jpg`" alt="">
