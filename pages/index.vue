@@ -6,7 +6,10 @@
                 The best products, <br> <strong>at your finger tips!</strong>
             </div>
             <div class="hero-cta">
-                <input type="text" placeholder="Search products..." class="input search">
+                <input v-model="searchField" type="text" placeholder="Search products..." class="input search">
+                <nuxt-link :to="`/products?s=${searchField}`">
+                    <div @click="search()" class="searchBtn">search</div>
+                </nuxt-link>
             </div>
             <div class="hero-illustration">
                 <img :src="`http://localhost:6969/storage/pages/landingImg.png`" alt="">
@@ -108,7 +111,8 @@ export default {
   },
   data(){
     return{
-     'featuredProducts': ''
+     'featuredProducts': '',
+     'searchField': '',
     }
   },
   async fetch({store}) {
@@ -125,11 +129,40 @@ export default {
   methods: {
     getProds(){
       this.featuredProducts = Object.values(this.products.products).slice(0, 4);
+    },
+    search() {
+
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.hero-cta{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    a{
+        &:hover{
+            text-decoration: none;
+        }
+    }
+    .searchBtn{
+        background: var(--main);
+        width: 100px;
+        color: white;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2.5px 0px  var(--mainDark);
+        &:hover{
+            background: var(--mainHover);
+        }
+        &:active{
+            transform: translateY(1px);
+            box-shadow: 0px 2px 0px  var(--mainDark);
+        }
+    }
+}
 .categoryCard{
     background-color: var(--gray);
     border-radius: 8px;

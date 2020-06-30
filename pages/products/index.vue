@@ -31,7 +31,9 @@
                 Deals that <br> <strong>you don't want to miss!</strong>
             </div>
             <div class="hero-cta">
-                <input type="text" placeholder="Search products..." class="input search">
+                <nuxt-link to="#">
+                    <div @click="search()" class="searchBtn">see deals</div>
+                </nuxt-link>
             </div>
             <div class="hero-illustration">
                 <img :src="`http://localhost:6969/storage/pages/productlist.png`" alt="">
@@ -171,6 +173,34 @@
 .cardgrid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
+}
+.searchBtn{
+        background: var(--main);
+        width: 100px;
+        color: white;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2.5px 0px  var(--mainDark);
+        &:hover{
+            background: var(--mainHover);
+        }
+        &:active{
+            transform: translateY(1px);
+            box-shadow: 0px 2px 0px  var(--mainDark);
+        }
+    }
+@media (max-width: 700px){
+  .hero{
+    height: 30vh;
+    grid-template-columns: 1fr;
+    grid-template-areas: "text" "cta";
+  }
+  .hero-illustration{
+    img{
+      display: none;
+    }
+  }
 }
 </style>
 
