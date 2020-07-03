@@ -1,5 +1,5 @@
 <template>
-    <div id="nav" class="nav-container">
+    <div v-if="$nuxt.$route.path != '/admin' && $nuxt.$route.path != '/staff'" id="nav" class="nav-container">
        <div class="nav-body container">
             <div class="logo">
                 <v-icon class="icon">fa-shopping-basket</v-icon>
@@ -9,8 +9,7 @@
                     </nuxt-link>
                 </h3>
             </div>
-            <ul class="btns">
-
+            <ul class="nav-btns">
                 <searchBar class="nav-btn"/>
                 <CartDropdown class="nav-btn"/>
                 <sideBar v-if="this.$auth.loggedIn" class="nav-btn"/>
@@ -43,7 +42,7 @@ export default {
         })
     },
     mounted() {
-        this.watchscroll()
+        // this.watchscroll()
     },
     methods: {
         change(lang) {
@@ -77,17 +76,18 @@ ul{
     background: white;
     width: 100vw;
     height: 10vh;
-    .nav-body, .logo, .btns{
+    .nav-body, .logo, .nav-btns{
         display: flex;
     }
-    .nav-body, .btns{
+    .nav-body, .nav-btns{
         justify-content: space-between;
     }
     .nav-body{
         height: 100%;
         align-items: center;
     }
-    .btns{
+    .nav-btns{
+
         width: 70%;
         max-width: 200px;
         list-style: none;
@@ -134,7 +134,7 @@ ul{
     }
 }
 @media (max-width: 700px){
-    .btns{
+    .nav-btns{
         width: 50% !important;
         li{
             // display: none;
