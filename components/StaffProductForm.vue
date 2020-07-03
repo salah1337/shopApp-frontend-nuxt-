@@ -84,6 +84,7 @@ export default {
     transform: translateX(-50%);
         .panel {
           height: 500px;
+          max-height: 95vh;
           display: grid;
 
           &.panel_content {
@@ -99,11 +100,10 @@ export default {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-column-gap: 80px;
-
           .left,
           .right {
             display: grid;
-            grid-row-gap: 10px;
+            grid-row-gap: 5px;
 
             .field {
               display: grid;
@@ -154,6 +154,7 @@ export default {
         @media(max-width: 550px) {
           .form {
             grid-template-columns: 1fr;
+            max-height: unset;
           }
         }
 

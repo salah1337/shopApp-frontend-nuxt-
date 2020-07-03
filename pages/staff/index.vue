@@ -14,9 +14,9 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <div class="btn gridcenter">Button</div>
-                    <div class="btn gridcenter">Button</div>
-                    <div class="btn gridcenter">Button</div>
+                    <div class="btn gridcenter">Overview</div>
+                    <div @click="show('products')" class="btn gridcenter">Products</div>
+                    <div @click="show('orders')" class="btn gridcenter">Orders</div>
                 </div>
             </div>
         </div>
@@ -30,12 +30,12 @@
                 </div>
             </div>
             <div class="btns">
-                <div class="btn gridcenter">Button</div>
-                <div class="btn gridcenter">Button</div>
-                <div class="btn gridcenter">Button</div>
+                <div class="btn gridcenter">Overview</div>
+                <div @click="show('products')" class="btn gridcenter">Products</div>
+                <div @click="show('orders')" class="btn gridcenter">Orders</div>
             </div>
         </div>
-        <div class="content">
+        <div v-if="showProducts" id="products" class="content">
             <div class="header">
                 <div class="stats">
                     <div class="panel panel_content">
@@ -98,19 +98,102 @@
                 </div>
             </div>
         </div>
+        <div v-if="showOrders" id="orders" class="content">
+            <div class="header">
+                <div class="stats">
+                    <div class="panel panel_content">
+                        <div class="panel-header">
+                            <div class="panel-title">Stats</div>
+                        </div>
+                        <div class="panel-content">
+                            <div class="stat-rows">
+                                <div class="stat-row">
+                                    <div class="name">All</div>
+                                    <div class="name">100</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="name">All</div>
+                                    <div class="name">100</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="name">All</div>
+                                    <div class="name">100</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <OrderForm/>
+                </div>
+            </div>
+            <div class="list">
+                <div class="panel panel_list">
+                    <div class="panel-header">
+                        <div class="panel-title">Orders List</div>
+                        <div class="panel-description">Click the cards to see more information</div>
+                    </div>
+                    <div class="panel-search">
+                        <input type="text" class="input input-form input-form2">
+                    </div>
+                    <div class="panel-list">
+                        <div class="list-head">
+                            <div class="main">
+                                <p>fuck</p>
+                            </div>
+                            <div class="others">
+                                <p>Y</p>
+                                <p>o</p>
+                                <p>u</p>
+                            </div>
+                        </div>
+                        <div class="list-items">
+                            <div class="item">
+                                <p class="main">suh</p>
+                                <div class="others">
+                                    <p class="line">suh</p>
+                                    <p class="line">suh</p>
+                                    <p class="line">suh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import ProductForm from '../../components/StaffProductForm'
+import OrderForm from '../../components/StaffOrderForm'
 export default {
     components:{
-        ProductForm
+        ProductForm,
+        OrderForm,
     },
     data() {
         return{
+            showProducts: true,
+            showOrders: false,
             showSideMenu: false,
             showProductForm: false,
+        }
+    },
+    methods: {
+        show(tab) {
+            this.showProducts = this.showOrders = this.showSideMenu = false;
+            switch (tab) {
+                case 'products':
+                    this.showProducts = true
+                    break;
+                case 'orders':
+                    this.showOrders = true
+                    break;
+            
+                default:
+                    break;
+            }
         }
     }
 }
