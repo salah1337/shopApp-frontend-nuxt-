@@ -5,6 +5,7 @@
             <span>Add product</span> <span class="sign">+</span>
         </div>
         <div v-if="show" id="staffproductform" class="container">
+          <div v-if="show" @click="show = !show" class="product-form-bg"></div>
             <div class="panel panel_content panel_submit">
                 <div class="panel-header">
                     <div class="panel-title">
@@ -18,6 +19,10 @@
                         <div class="left">
                             <div class="field name">
                                 <label for="">Name</label>
+                                <input type="text" class="input input-form input-form2">
+                            </div>
+                            <div class="field sku">
+                                <label for="">sku</label>
                                 <input type="text" class="input input-form input-form2">
                             </div>
                             <div class="field price">
@@ -78,20 +83,34 @@ export default {
 <style lang="scss">
 #staffproductform{
     color: black;
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    bottom: 0;
+    right: 0;
+    .panel-submit{
+      margin-bottom: 5%;
+    }
+    .product-form-bg{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 998;
+    }
         .panel {
-          height: 500px;
-        //   max-height: 95vh;
+          z-index: 999;
+          // max-height: 95vh;
+          max-width: 95vw;
+          overflow-y: scroll;
           display: grid;
-
+          position: relative;
+          
           &.panel_content {
             grid-template-rows: none;
-
             .panel-content {}
-
             height: 100%;
           }
         }

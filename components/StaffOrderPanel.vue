@@ -7,7 +7,7 @@
             <div class="others">
                 <p class="line">{{order.shipName}}</p>
                 <p class="line">{{order.created_at.substring(0, 10)}}</p>
-                <p v-if="order.live" class="line status status-success">shipped</p>
+                <p v-if="order.shipped" class="line status status-success">shipped</p>
                 <p v-else class="line status status-primary">not shipped</p>
             </div>
         </div>
@@ -130,8 +130,8 @@
                     </div>
                 </div>
                 <div class="oip-btns">
-                    <div class="gridcenter oip-btn oip-cancel">Cancel</div>
-                    <div class="gridcenter oip-btn oip-ship">Mark Shipped</div>
+                    <div @click="cancel()" class="gridcenter oip-btn oip-cancel">Cancel</div>
+                    <div v-if="!order.shipped" @click="markShipped()" class="gridcenter oip-btn oip-ship">Mark Shipped</div>
                 </div>
             </div>
         </div>
@@ -146,6 +146,14 @@ export default {
     data(){
         return{
             show: false
+        }
+    },
+    methods: {
+        cancel() {
+            this.dbAction('get', `api/order/cancel/${this.order.id}`, null, 'orders/load')
+        },
+        markShipped() {
+            this.dbAction('get', `api/order/ship/${this.order.id}`, null, 'orders/load')
         }
     }
 }

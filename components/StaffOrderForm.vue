@@ -4,165 +4,166 @@
         <div @click="show = !show" class="action">
             <span>Place Order</span> <span class="sign">+</span>
         </div>
-        <div v-if="show" id="stafforderform" class="container">
-               <div class="mainpanel panel panel_content panel_submit">
-            <div class="panel-header">
-                <div class="panel-title">Place Order</div>
-            </div>
-            <div class="panel-content">
-                <div class="order-items">
-                    <div class="header">
-                        <p>Order info</p>
-                        <div class="actions">
-                            <div class="action">
-                                <span>Add product</span> <span class="sign">+</span>
+        <div v-if="show" id="stafforderform" class="container ²">
+          <div v-if="show" @click="show = !show" class="order-form-bg"></div>
+            <div class="mainpanel panel panel_content panel_submit">
+                <div class="panel-header">
+                    <div class="panel-title">Place Order</div>
+                </div>
+                <div class="panel-content">
+                    <div class="order-items">
+                        <div class="header">
+                            <p>Order info</p>
+                            <div class="actions">
+                                <div class="action">
+                                    <span>Add product</span> <span class="sign">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="items">
+                            <div class="order-item">
+                                <div class="gridcenter cartItem-thumbnail">
+                                    <img src="/landingImg.png" alt="">
+                                </div>
+                                <div class="cartItem-info">
+                                    <p>Name</p>
+                                    <p>13£</p>
+                                </div>
+                                <div class="cartItem-count">
+                                    <p class="btn">-</p>
+                                    <p class="count">69</p>
+                                    <p class="btn">+</p>
+                                </div>
+                                <!-- <div class="btns"> -->
+                                <div class="cartItem-select">
+                                    []
+                                </div>
+                                <div class="cartItem-delete">
+                                    x
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                            <div class="order-item">
+                                <div class="gridcenter cartItem-thumbnail">
+                                    <img src="/landingImg.png" alt="">
+                                </div>
+                                <div class="cartItem-info">
+                                    <p>Name</p>
+                                    <p>13£</p>
+                                </div>
+                                <div class="cartItem-count">
+                                    <p class="btn">-</p>
+                                    <p class="count">69</p>
+                                    <p class="btn">+</p>
+                                </div>
+                                <!-- <div class="btns"> -->
+                                <div class="cartItem-select">
+                                    []
+                                </div>
+                                <div class="cartItem-delete">
+                                    x
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                            <div class="order-item">
+                                <div class="gridcenter cartItem-thumbnail">
+                                    <img src="/landingImg.png" alt="">
+                                </div>
+                                <div class="cartItem-info">
+                                    <p>Name</p>
+                                    <p>13£</p>
+                                </div>
+                                <div class="cartItem-count">
+                                    <p class="btn">-</p>
+                                    <p class="count">69</p>
+                                    <p class="btn">+</p>
+                                </div>
+                                <!-- <div class="btns"> -->
+                                <div class="cartItem-select">
+                                    []
+                                </div>
+                                <div class="cartItem-delete">
+                                    x
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                            <div class="order-item">
+                                <div class="gridcenter cartItem-thumbnail">
+                                    <img src="/landingImg.png" alt="">
+                                </div>
+                                <div class="cartItem-info">
+                                    <p>Name</p>
+                                    <p>13£</p>
+                                </div>
+                                <div class="cartItem-count">
+                                    <p class="btn">-</p>
+                                    <p class="count">69</p>
+                                    <p class="btn">+</p>
+                                </div>
+                                <!-- <div class="btns"> -->
+                                <div class="cartItem-select">
+                                    []
+                                </div>
+                                <div class="cartItem-delete">
+                                    x
+                                </div>
+                                <!-- </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="items">
-                        <div class="order-item">
-                            <div class="gridcenter cartItem-thumbnail">
-                                <img src="/landingImg.png" alt="">
+                    <div class="order-info">
+                        <div class="form">
+                            <div class="email">
+                                <label for="email">email</label>
+                                <input id="email" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-info">
-                                <p>Name</p>
-                                <p>13£</p>
+                            <div class="firstName">
+                                <label for="firstName">firstName</label>
+                                <input id="firstName" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-count">
-                                <p class="btn">-</p>
-                                <p class="count">69</p>
-                                <p class="btn">+</p>
+                            <div class="lastName">
+                                <label for="lastName">lastName</label>
+                                <input id="lastName" type="text" class="input input-form input-form2">
                             </div>
-                            <!-- <div class="btns"> -->
-                            <div class="cartItem-select">
-                                []
+                            <div class="country">
+                                <label for="country">country</label>
+                                <input id="country" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-delete">
-                                x
+                            <div class="state">
+                                <label for="state">state</label>
+                                <input id="state" type="text" class="input input-form input-form2">
                             </div>
-                            <!-- </div> -->
-                        </div>
-                        <div class="order-item">
-                            <div class="gridcenter cartItem-thumbnail">
-                                <img src="/landingImg.png" alt="">
+                            <div class="city">
+                                <label for="city">city</label>
+                                <input id="city" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-info">
-                                <p>Name</p>
-                                <p>13£</p>
+                            <div class="phone">
+                                <label for="phone">phone</label>
+                                <input id="phone" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-count">
-                                <p class="btn">-</p>
-                                <p class="count">69</p>
-                                <p class="btn">+</p>
+                            <div class="zip">
+                                <label for="zip">zip</label>
+                                <input id="zip" type="text" class="input input-form input-form2">
                             </div>
-                            <!-- <div class="btns"> -->
-                            <div class="cartItem-select">
-                                []
+                            <div class="fax">
+                                <label for="fax">fax</label>
+                                <input id="fax" type="text" class="input input-form input-form2">
                             </div>
-                            <div class="cartItem-delete">
-                                x
+                            <div class="address">
+                                <label for="address">address</label>
+                                <textarea id="address1" class="input input-form input-form2"></textarea>
                             </div>
-                            <!-- </div> -->
-                        </div>
-                        <div class="order-item">
-                            <div class="gridcenter cartItem-thumbnail">
-                                <img src="/landingImg.png" alt="">
+                            <div class="address2">
+                                <label for="address2">address2</label>
+                                <!-- <input id="address2" type="text" class="input input-form input-form2"> -->
+                                <textarea id="address2" class="input input-form input-form2"></textarea>
                             </div>
-                            <div class="cartItem-info">
-                                <p>Name</p>
-                                <p>13£</p>
-                            </div>
-                            <div class="cartItem-count">
-                                <p class="btn">-</p>
-                                <p class="count">69</p>
-                                <p class="btn">+</p>
-                            </div>
-                            <!-- <div class="btns"> -->
-                            <div class="cartItem-select">
-                                []
-                            </div>
-                            <div class="cartItem-delete">
-                                x
-                            </div>
-                            <!-- </div> -->
-                        </div>
-                        <div class="order-item">
-                            <div class="gridcenter cartItem-thumbnail">
-                                <img src="/landingImg.png" alt="">
-                            </div>
-                            <div class="cartItem-info">
-                                <p>Name</p>
-                                <p>13£</p>
-                            </div>
-                            <div class="cartItem-count">
-                                <p class="btn">-</p>
-                                <p class="count">69</p>
-                                <p class="btn">+</p>
-                            </div>
-                            <!-- <div class="btns"> -->
-                            <div class="cartItem-select">
-                                []
-                            </div>
-                            <div class="cartItem-delete">
-                                x
-                            </div>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
-                <div class="order-info">
-                    <div class="form">
-                        <div class="email">
-                            <label for="email">email</label>
-                            <input id="email" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="firstName">
-                            <label for="firstName">firstName</label>
-                            <input id="firstName" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="lastName">
-                            <label for="lastName">lastName</label>
-                            <input id="lastName" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="country">
-                            <label for="country">country</label>
-                            <input id="country" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="state">
-                            <label for="state">state</label>
-                            <input id="state" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="city">
-                            <label for="city">city</label>
-                            <input id="city" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="phone">
-                            <label for="phone">phone</label>
-                            <input id="phone" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="zip">
-                            <label for="zip">zip</label>
-                            <input id="zip" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="fax">
-                            <label for="fax">fax</label>
-                            <input id="fax" type="text" class="input input-form input-form2">
-                        </div>
-                        <div class="address">
-                            <label for="address">address</label>
-                            <textarea id="address1" class="input input-form input-form2"></textarea>
-                        </div>
-                        <div class="address2">
-                            <label for="address2">address2</label>
-                            <!-- <input id="address2" type="text" class="input input-form input-form2"> -->
-                            <textarea id="address2" class="input input-form input-form2"></textarea>
-                        </div>
-                    </div>
-                </div>
+                <div @click="show = !show" class="panel-close">X</div>
+                <div class="panel-submit">Create</div>
             </div>
-            <div @click="show = !show" class="panel-close">X</div>
-            <div class="panel-submit">Create</div>
-        </div>
         </div>
     </div>
 </template>
@@ -179,12 +180,26 @@ export default {
 
 <style lang="scss">
 #stafforderform{
-    color: black;
-    position: absolute;
+      color: black;
+    position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    .order-items{
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+     .panel-submit{
+      margin-bottom: 5%;
+    }
+      .order-form-bg{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 998;
+    }
+.order-items{
     .header{
         display: flex;
         justify-content: space-between;
@@ -301,6 +316,12 @@ export default {
     }
 }
 .mainpanel{
+       z-index: 999;
+          // max-height: 95vh;
+          max-width: 95vw;
+          overflow-y: scroll;
+          display: grid;
+          position: relative;
     .panel-header, .panel-close{
         height: 40px;
     }
