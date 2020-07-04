@@ -3,7 +3,7 @@
   <div>
       <div v-if="show" @click="show = !show" class="popup-bg"></div>
       <div v-if="show" class="popup-content login">
-        <div class="panel login">
+        <div class="panel login-panel login">
           <div class="title">
             <h3>login</h3>
           </div>
@@ -30,7 +30,7 @@
     max-width: 550px;
 
 }
-.panel{
+.login-panel{
   height: 100%;
   margin: auto;
 }

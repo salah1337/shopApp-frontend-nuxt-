@@ -37,6 +37,19 @@ background: var(--main);
     justify-content: center;
     align-items: center;
 }
+.status{
+    padding: 2px;
+    text-align: center;
+    color: white;
+    font-weight: 550;
+    border-radius: 2px;
+    &.status-success{
+        background-color: var(--success);
+    }
+    &.status-primary{
+        background-color: var(--primary);
+    }
+}
 .backbtn{
     max-height: 40px;
     max-width: 200px;

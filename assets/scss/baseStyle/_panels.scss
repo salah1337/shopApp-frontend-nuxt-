@@ -48,6 +48,7 @@
         grid-area: close;
         font-size: calc(1vw + 1rem);
         font-weight: 700;
+        height: 65%;
         width: 30%;
         background-color: var(--danger);
         box-shadow: 0px 3px 0px var(--dangerDark);
@@ -150,6 +151,11 @@
 
 }
 .panel{
+    &.panel_info{
+        border-bottom: none;
+        border-right: 5px solid var(--primary);
+        background-color: var(--gray);
+    }
     &.panel_content{
         &.panel_submit{
             grid-template-areas: 

@@ -84,7 +84,7 @@ export default {
     transform: translateX(-50%);
         .panel {
           height: 500px;
-          max-height: 95vh;
+        //   max-height: 95vh;
           display: grid;
 
           &.panel_content {

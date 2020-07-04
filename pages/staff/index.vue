@@ -35,7 +35,7 @@
                 <div @click="show('orders')" class="btn gridcenter">Orders</div>
             </div>
         </div>
-        <div v-if="showProducts" id="products" class="content">
+        <!-- <div v-if="showProducts" id="products" class="content">
             <div class="header">
                 <div class="stats">
                     <div class="panel panel_content">
@@ -76,29 +76,30 @@
                     <div class="panel-list">
                         <div class="list-head">
                             <div class="main">
-                                <p>fuck</p>
+                                <p>name</p>
                             </div>
                             <div class="others">
-                                <p>Y</p>
-                                <p>o</p>
-                                <p>u</p>
+                                <p>price</p>
+                                <p>stock</p>
+                                <p>status</p>
                             </div>
                         </div>
                         <div class="list-items">
-                            <div class="item">
-                                <p class="main">suh</p>
+                            <div v-for="product in products.products" :key="product.id" class="item">
+                                <p class="main">{{product.name}}</p>
                                 <div class="others">
-                                    <p class="line">suh</p>
-                                    <p class="line">suh</p>
-                                    <p class="line">suh</p>
+                                    <p class="line">{{product.price}}</p>
+                                    <p class="line">{{product.stock}}</p>
+                                    <p v-if="product.live" class="line status status-success">Live</p>
+                                    <p v-else class="line status status-primary">Unlisted</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-if="showOrders" id="orders" class="content">
+        </div> -->
+        <!-- <div v-if="showOrders" id="orders" class="content">
             <div class="header">
                 <div class="stats">
                     <div class="panel panel_content">
@@ -139,38 +140,45 @@
                     <div class="panel-list">
                         <div class="list-head">
                             <div class="main">
-                                <p>fuck</p>
+                                <p>Products</p>
                             </div>
                             <div class="others">
-                                <p>Y</p>
-                                <p>o</p>
-                                <p>u</p>
+                                <p>Name</p>
+                                <p>place at</p>
+                                <p>status</p>
                             </div>
                         </div>
                         <div class="list-items">
-                            <div class="item">
-                                <p class="main">suh</p>
+                            <div v-for="order in orders.orders" :key="order.id" class="item">
+                                <p class="main">
+                                    {{order.details.length}} products, total: {{order.amount}}
+                                </p>
                                 <div class="others">
-                                    <p class="line">suh</p>
-                                    <p class="line">suh</p>
-                                    <p class="line">suh</p>
+                                    <p class="line">{{order.shipName}}</p>
+                                    <p class="line">{{order.created_at.substring(0, 10)}}</p>
+                                    <p v-if="order.live" class="line status status-success">shipped</p>
+                                    <p v-else class="line status status-primary">not shipped</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <ProductsTab v-if="showProducts" />
+        <OrdersTab v-if="showOrders" />
     </div>
 </template>
 
 <script>
-import ProductForm from '../../components/StaffProductForm'
-import OrderForm from '../../components/StaffOrderForm'
+import ProductsTab from '../../components/StaffProductsTab'
+import OrdersTab from '../../components/StaffOrdersTab'
+import { mapState } from 'vuex'
+
 export default {
     components:{
-        ProductForm,
-        OrderForm,
+        OrdersTab,
+        ProductsTab,
     },
     data() {
         return{
@@ -179,6 +187,12 @@ export default {
             showSideMenu: false,
             showProductForm: false,
         }
+    },
+    computed: {
+        ...mapState({
+            products: state => state.products.products,
+            orders: state => state.orders.orders,
+        })
     },
     methods: {
         show(tab) {
@@ -210,6 +224,7 @@ img{
     max-width: 70px;
     max-height: 70px;
 }
+
 .sidebar, .menu{
     max-width: 300px;
     background-color: var(--dark);
@@ -250,12 +265,15 @@ img{
 .content{
     padding: 30px;
     display: grid;
+    max-height: 100vh;
+    overflow: overlay;
+    overflow-y: scroll;
     .header{
         display: grid;
         grid-template-columns: 1fr 0.7fr;
         column-gap: 15px;
         height: 150px;
-        margin-bottom: 15px;
+        margin-bottom: 8%;
         .stats{
             .panel{
                 height: 100%;
@@ -309,10 +327,13 @@ img{
                 grid-column: auto / span 2;
             }
             .panel-search{
-                    input{
-                        width: 90%;
-                    }
+                input{
+                    width: 90%;
                 }
+            }
+            .list-items{
+                max-height: 50vh;
+            }
         }
     }
 }
