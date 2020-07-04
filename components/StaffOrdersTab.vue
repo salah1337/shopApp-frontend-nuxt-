@@ -49,17 +49,7 @@
                             </div>
                         </div>
                         <div class="list-items">
-                            <div v-for="order in orders.orders" :key="order.id" class="item">
-                                <p class="main">
-                                    {{order.details.length}} products, total: {{order.amount}}
-                                </p>
-                                <div class="others">
-                                    <p class="line">{{order.shipName}}</p>
-                                    <p class="line">{{order.created_at.substring(0, 10)}}</p>
-                                    <p v-if="order.live" class="line status status-success">shipped</p>
-                                    <p v-else class="line status status-primary">not shipped</p>
-                                </div>
-                            </div>
+                            <OrderPanel v-for="order in orders.orders" :key="order.id" :order="order"/>
                         </div>
                     </div>
                 </div>
@@ -69,12 +59,14 @@
 
 <script>
 import OrderForm from './StaffOrderForm'
+import OrderPanel from './StaffOrderPanel'
 
 import { mapState } from 'vuex'
 
 export default {
-       components:{
-        OrderForm
+    components:{
+        OrderForm,
+        OrderPanel
     },
       computed: {
         ...mapState({

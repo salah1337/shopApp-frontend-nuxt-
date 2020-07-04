@@ -35,136 +35,6 @@
                 <div @click="show('orders')" class="btn gridcenter">Orders</div>
             </div>
         </div>
-        <!-- <div v-if="showProducts" id="products" class="content">
-            <div class="header">
-                <div class="stats">
-                    <div class="panel panel_content">
-                        <div class="panel-header">
-                            <div class="panel-title">Stats</div>
-                        </div>
-                        <div class="panel-content">
-                            <div class="stat-rows">
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <ProductForm/>
-                </div>
-            </div>
-            <div class="list">
-                <div class="panel panel_list">
-                    <div class="panel-header">
-                        <div class="panel-title">Products List</div>
-                        <div class="panel-description">Click the cards to see more information</div>
-                    </div>
-                    <div class="panel-search">
-                        <input type="text" class="input input-form input-form2">
-                    </div>
-                    <div class="panel-list">
-                        <div class="list-head">
-                            <div class="main">
-                                <p>name</p>
-                            </div>
-                            <div class="others">
-                                <p>price</p>
-                                <p>stock</p>
-                                <p>status</p>
-                            </div>
-                        </div>
-                        <div class="list-items">
-                            <div v-for="product in products.products" :key="product.id" class="item">
-                                <p class="main">{{product.name}}</p>
-                                <div class="others">
-                                    <p class="line">{{product.price}}</p>
-                                    <p class="line">{{product.stock}}</p>
-                                    <p v-if="product.live" class="line status status-success">Live</p>
-                                    <p v-else class="line status status-primary">Unlisted</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div v-if="showOrders" id="orders" class="content">
-            <div class="header">
-                <div class="stats">
-                    <div class="panel panel_content">
-                        <div class="panel-header">
-                            <div class="panel-title">Stats</div>
-                        </div>
-                        <div class="panel-content">
-                            <div class="stat-rows">
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                                <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <OrderForm/>
-                </div>
-            </div>
-            <div class="list">
-                <div class="panel panel_list">
-                    <div class="panel-header">
-                        <div class="panel-title">Orders List</div>
-                        <div class="panel-description">Click the cards to see more information</div>
-                    </div>
-                    <div class="panel-search">
-                        <input type="text" class="input input-form input-form2">
-                    </div>
-                    <div class="panel-list">
-                        <div class="list-head">
-                            <div class="main">
-                                <p>Products</p>
-                            </div>
-                            <div class="others">
-                                <p>Name</p>
-                                <p>place at</p>
-                                <p>status</p>
-                            </div>
-                        </div>
-                        <div class="list-items">
-                            <div v-for="order in orders.orders" :key="order.id" class="item">
-                                <p class="main">
-                                    {{order.details.length}} products, total: {{order.amount}}
-                                </p>
-                                <div class="others">
-                                    <p class="line">{{order.shipName}}</p>
-                                    <p class="line">{{order.created_at.substring(0, 10)}}</p>
-                                    <p v-if="order.live" class="line status status-success">shipped</p>
-                                    <p v-else class="line status status-primary">not shipped</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <ProductsTab v-if="showProducts" />
         <OrdersTab v-if="showOrders" />
     </div>
@@ -215,7 +85,7 @@ export default {
 
 <style lang="scss" scoped>
 #wrapper{
-    display: grid;
+    display: flex;
     grid-template-columns: 0.4fr 1fr;
     height: 100vh;
     width: 100vw;
@@ -226,6 +96,7 @@ img{
 }
 
 .sidebar, .menu{
+    width: 40%;
     max-width: 300px;
     background-color: var(--dark);
     display: grid;
@@ -263,6 +134,7 @@ img{
     }
 }
 .content{
+    width: 100%;
     padding: 30px;
     display: grid;
     max-height: 100vh;

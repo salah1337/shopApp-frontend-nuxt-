@@ -1,99 +1,99 @@
 <template>
-   <div class="container">
-        <div class="panel panel_info product-info-panel">
-            <div class="details">
-                <div class="title">Details</div>
-                <div class="content">
+   <div class="oip-container">
+        <div class="oip-panel panel_info order-info-panel">
+            <div class="oip-details">
+                <div class="oip-title">Details</div>
+                <div class="oip-content">
                     <div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">full name</label>
                             <p>Jhon doe</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">country</label>
                             <p>US</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">state</label>
                             <p>texas</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">city</label>
                             <p>smth</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">phone</label>
                             <p>(555) 123 456</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">zip code</label>
                             <p>123 456</p>
                         </div>
-                        <div class="detail">
+                        <div class="oip-detail">
                             <label for="">fax</label>
                             <p>123</p>
                         </div>
                     </div>
                     <div>
-                        <div class="detail description">
+                        <div class="oip-detail description">
                             <label for="">first address</label>
                             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores perferendis vel ipsa cupiditate aperiam doloribus!</p>
                         </div>
-                        <div class="detail description">
+                        <div class="oip-detail description">
                             <label for="">second address</label>
                             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor natus, nobis hic, dolorem officiis incidunt quam nihil.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="products">
-                <div class="title">products</div>
-                <div class="content">
-                    <div class="header">
-                        <div class="main">
+            <div class="oip-orders">
+                <div class="oip-title">orders</div>
+                <div class="oip-content">
+                    <div class="oip-header">
+                        <div class="oip-main">
                             <p>Name</p>
                         </div>
-                        <div class="others">
-                            <div class="row">
+                        <div class="oip-others">
+                            <div class="oip-row">
                                 <p>unit price</p>
                             </div>
-                            <div class="row">
+                            <div class="oip-row">
                                 <p>ammount ordered</p>
                             </div>
-                            <div class="row">
-                                <p>product total</p>
+                            <div class="oip-row">
+                                <p>order total</p>
                             </div>
                         </div>
                     </div>
-                    <div class="items">
-                        <div class="item">
-                            <div class="main">
+                    <div class="oip-items">
+                        <div class="oip-item">
+                            <div class="oip-main">
                                 <p>Razer Headset</p>
                             </div>
-                            <div class="others">
-                                <div class="row">
+                            <div class="oip-others">
+                                <div class="oip-row">
                                     <p>10 $</p>
                                 </div>
-                                <div class="row">
+                                <div class="oip-row">
                                     <p>3</p>
                                 </div>
-                                <div class="row">
+                                <div class="oip-row">
                                     <p>30 $</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="main">
+                        <div class="oip-item">
+                            <div class="oip-main">
                                 <p>Corsair Case</p>
                             </div>
-                            <div class="others">
-                                <div class="row">
+                            <div class="oip-others">
+                                <div class="oip-row">
                                     <p>5 $</p>
                                 </div>
-                                <div class="row">
+                                <div class="oip-row">
                                     <p>1</p>
                                 </div>
-                                <div class="row">
+                                <div class="oip-row">
                                     <p>5 $</p>
                                 </div>
                             </div>
@@ -101,23 +101,23 @@
                     </div>
                 </div>
             </div>
-            <div class="prices">
-                <div class="price subtotal">
-                    <div class="title">Subtotal</div>
-                    <div class="value">35 $</div>
+            <div class="oip-prices">
+                <div class="oip-price subtotal">
+                    <div class="oip-title">Subtotal</div>
+                    <div class="oip-value">35 $</div>
                 </div>
-                <div class="price tax">
-                    <div class="title">Tax</div>
-                    <div class="value">1.7 $</div>
+                <div class="oip-price tax">
+                    <div class="oip-title">Tax</div>
+                    <div class="oip-value">1.7 $</div>
                 </div>
-                <div class="price total">
-                    <div class="title">Total</div>
-                    <div class="value">37.7 $</div>
+                <div class="oip-price total">
+                    <div class="oip-title">Total</div>
+                    <div class="oip-value">37.7 $</div>
                 </div>
             </div>
-            <div class="btns">
-                <div class="gridcenter btn cancel">Cancel</div>
-                <div class="gridcenter btn ship">Mark Shipped</div>
+            <div class="oip-btns">
+                <div class="oip-gridcenter btn cancel">Cancel</div>
+                <div class="oip-gridcenter btn ship">Mark Shipped</div>
             </div>
         </div>
     </div>
@@ -130,42 +130,42 @@ export default {
 </script>
 
 <style lang="scss">
-.product-info-panel{
+.oip-order-info-panel{
     display: grid;
-    .stock, .details, .products, .btns{
+    .oip-stock, .oip-details, .oip-orders, .oip-btns{
         margin: 15px 0;
         width: 100%;
     }
-    .stock, .details, .products{
+    .oip-stock, .oip-details, .oip-orders{
         display: grid;
         grid-row-gap: 10px;
-        .title{
+        .oip-title{
             font-size: calc(0.9rem + 0.9vw);
         }
     }
-    .stock{
-        .content{
+    .oip-stock{
+        .oip-content{
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-column-gap: 10px;
             max-width: 500px;
             width: 80%;
             margin: 0 auto;
-            .row{
+            .oip-row{
                 display: grid;
                 grid-template-rows: 1fr 1fr;
-                .title{
+                .oip-title{
                     font-size: calc(0.7rem + 0.7vw);
                     color: var(--grayTxt);
                 }
-                .value{
+                .oip-value{
                     font-size: calc(0.8rem + 0.8vw);
                 }
             }
         }
     }
-    .details{
-        .content{
+    .oip-details{
+        .oip-content{
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-column-gap: 50px;
@@ -174,7 +174,7 @@ export default {
                 display: grid;
                 grid-row-gap: 20px;
             }
-            .detail{
+            .oip-detail{
                 display: flex;
                 justify-content: space-between;
                 max-width: 300px;
@@ -183,33 +183,33 @@ export default {
                     color: var(--grayTxt);
                 }
             }
-            .description{
+            .oip-description{
                 flex-direction: column;
             }
         }
     }
-    .products{
-        .content{
-            .header, .item{
+    .oip-orders{
+        .oip-content{
+            .oip-header, .oip-item{
                 display: grid;
                 grid-template-columns: .5fr 1fr;
-                .others{
+                .oip-others{
                     display: grid;
                     grid-template-columns: 1fr 1fr 1fr;
                     grid-column-gap: 5px;
                 }
             }
-            .header{
+            .oip-header{
                 font-size: calc(0.7rem + 0.7vw);
                 color: var(--grayTxt);
             }
         }
     }
-    .btns{
+    .oip-btns{
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        .btn{
+        .oip-btn{
             height: 50px;
             width: 150px;
             margin: 2% 0;
@@ -217,7 +217,7 @@ export default {
             border-radius: 2px;
             cursor: pointer;
         }
-        .ship{
+        .oip-ship{
             background: var(--success);
             box-shadow: 0px 2px 0px var(--successDark);
             &:hover{
@@ -229,7 +229,7 @@ export default {
                 box-shadow: 0px 1px 0px var(--successDark);
             }
         }
-        .cancel{
+        .oip-cancel{
             background: var(--danger);
             box-shadow: 0px 2px 0px var(--dangerDark);
             &:hover{
@@ -242,27 +242,27 @@ export default {
             }
         }
     }
-    .prices{
+    .oip-prices{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
     }
 }
 @media (max-width: 700px) {
-    .details{
-        .content{
+    .oip-details{
+        .oip-content{
             grid-template-columns: 1fr !important;
         }
     }
-    .products{
-        .content{
-            .header, .item{
+    .oip-orders{
+        .oip-content{
+            .oip-header, .oip-item{
                 grid-template-columns: .1fr 1fr;
             }
         }
     }
-    .btns{
+    .oip-btns{
         flex-direction: unset !important;
-        .btn{
+        .oip-btn{
             margin: 0 2% !important;
         }
     }
