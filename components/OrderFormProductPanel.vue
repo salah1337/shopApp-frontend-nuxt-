@@ -1,6 +1,12 @@
 <template>
-   <div id="productinfopanel" class="pip-container">
+  <div>
+       <div @click="show = !show" class="">
+            Details
+        </div>
+     <div v-if="show" class="productinfopanel gridcenter pip-container">
+        <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
         <div class="panel panel_info product-info-panel">
+            <div @click="show = !show" class="product-panel-close">X</div>
             <div class="pip-stock">
                 <div class="pip-title">Stock</div>
                 <div class="pip-content">
@@ -9,7 +15,7 @@
                             Current Stock
                         </div>
                         <div class="pip-value">
-                            {{product.stock}}
+                            154
                         </div>
                     </div>
                     <div class="pip-row">
@@ -40,7 +46,7 @@
             </div>
             <div class="pip-details">
                 <div class="pip-title">Details</div>
-                <div class="pip-content">
+               <div class="pip-content">
                     <div>
                         <div class="pip-detail">
                             <label for="">category</label>
@@ -95,44 +101,93 @@
                         </div>
                     </div>
                     <div class="pip-items">
-                        <div v-for="option in product.option" :key="option.id" class="pip-item">
-                            <div class="pip-main">
-                                <p>{{option.name}}</p>
+                        <div v-for="option in product.options" :key="option.id" class="pip-item">
+                        <div class="pip-main">
+                            <p>{{option.name}}</p>
+                        </div>
+                        <div class="pip-others">
+                            <div class="pip-row">
+                                <p>{{option.group.name}}</p>
                             </div>
-                            <div class="pip-others">
-                                <div class="pip-row">
-                                    <p>{{option.group.name}}</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>3</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>3 $</p>
-                                </div>
+                            <div class="pip-row">
+                                <p>3</p>
                             </div>
+                            <div class="pip-row">
+                                <p>3 $</p>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="pip-btns">
-                <div class="pip-gridcenter btn edit">Edit</div>
-                <div class="pip-gridcenter btn delete">Delete</div>
+                <!-- <div class="gridcenter pip-btn pip-edit">Edit</div> -->
+                <div @click="show = !show" class="gridcenter pip-btn pip-delete">Close</div>
             </div>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
+import ProductInfoPanel from './ProductInfoPanel'
 export default {
-
+    props: [
+        'product'
+    ],
+    components: {
+        ProductInfoPanel
+    },
+    data(){
+        return{
+            show: false
+        }
+    }
 }
 </script>
 
 <style lang="scss">
 
-#productinfopanel{
-    .product-info-panel{
-    display: grid;
+// .product-info-panel-bg{
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     bottom: 0;
+//     right: 0;
+//     background: rgba(0, 0, 0, 0.2);
+// }
+.productinfopanel{
+    color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    .product-panel-close{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: calc(1vw + 1rem);
+        color: var(--primaryActive);
+        cursor: pointer;
+        font-weight: 700;
+    }
+    .product-info-panel-bg{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 998;
+    }
+   .product-info-panel{
+        z-index: 999;
+        max-height: 95vh;
+        max-width: 95vw;
+        overflow-y: scroll;
+        display: grid;
+        position: relative;
     .pip-stock, .pip-details, .pip-options, .pip-btns{
         margin: 15px 0;
         width: 100%;

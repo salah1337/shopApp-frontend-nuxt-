@@ -52,48 +52,48 @@
             <div class="panel-content">
               <div class="email">
                   <label for="email">email</label>
-                  <input id="email" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.email" id="email" type="text" class="input input-form input-form2">
               </div>
               <div class="firstName">
                   <label for="firstName">firstName</label>
-                  <input id="firstName" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.firstName" id="firstName" type="text" class="input input-form input-form2">
               </div>
               <div class="lastName">
                   <label for="lastName">lastName</label>
-                  <input id="lastName" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.lastName" id="lastName" type="text" class="input input-form input-form2">
               </div>
               <div class="country">
                   <label for="country">country</label>
-                  <input id="country" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.country" id="country" type="text" class="input input-form input-form2">
               </div>
               <div class="state">
                   <label for="state">state</label>
-                  <input id="state" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.state" id="state" type="text" class="input input-form input-form2">
               </div>
               <div class="city">
                   <label for="city">city</label>
-                  <input id="city" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.city" id="city" type="text" class="input input-form input-form2">
               </div>
               <div class="phone">
                   <label for="phone">phone</label>
-                  <input id="phone" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.phone" id="phone" type="text" class="input input-form input-form2">
               </div>
               <div class="zip">
                   <label for="zip">zip</label>
-                  <input id="zip" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.zip" id="zip" type="text" class="input input-form input-form2">
               </div>
               <div class="fax">
                   <label for="fax">fax</label>
-                  <input id="fax" type="text" class="input input-form input-form2">
+                  <input v-model="orderinfo.fax" id="fax" type="text" class="input input-form input-form2">
               </div>
               <div class="address">
                   <label for="address">address</label>
-                  <textarea id="address1" class="input input-form input-form2"></textarea>
+                  <textarea v-model="orderinfo.shipAddress" id="address1" class="input input-form input-form2"></textarea>
               </div>
               <div class="address2">
                   <label for="address2">address2</label>
                   <!-- <input id="address2" type="text" class="input input-form input-form2"> -->
-                  <textarea id="address2" class="input input-form input-form2"></textarea>
+                  <textarea v-model="orderinfo.shipAddress2" id="address2" class="input input-form input-form2"></textarea>
               </div>
             </div>
           </div>
@@ -468,7 +468,8 @@ export default {
     return{
       orderinfo: {
         'amount': '3',
-        'shipName': 'shipName', 
+        'firstName': 'first name',
+        'lastName': 'last name', 
         'shipAddress': 'shipAddress', 
         'shipAddress2': 'shipAddress2', 
         'city': 'city', 
@@ -499,6 +500,9 @@ export default {
   },
   methods: {
     async placeOrder() {
+      this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
+      await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
+      .then(reply => console.log('success')).catch(err => console.log('fail'))
       this.step++
     },
     async addDetails() {
@@ -511,8 +515,6 @@ export default {
           }
         })
         this.step++
-        // await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
-        // .then(reply => console.log('success')).catch(err => console.log('fail'))
     },
     async AddAddress() {
 

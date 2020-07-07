@@ -21,41 +21,41 @@
                         <div>
                             <div class="oip-detail">
                                 <label for="">full name</label>
-                                <p>Jhon doe</p>
+                                <p>{{order.shipName}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">country</label>
-                                <p>US</p>
+                                <p>{{order.country}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">state</label>
-                                <p>texas</p>
+                                <p>{{order.state}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">city</label>
-                                <p>smth</p>
+                                <p>{{order.city}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">phone</label>
-                                <p>(555) 123 456</p>
+                                <p>{{order.phone}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">zip code</label>
-                                <p>123 456</p>
+                                <p>{{order.zip}}</p>
                             </div>
                             <div class="oip-detail">
                                 <label for="">fax</label>
-                                <p>123</p>
+                                <p>{{order.fax}}</p>
                             </div>
                         </div>
                         <div>
                             <div class="oip-detail description">
                                 <label for="">first address</label>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores perferendis vel ipsa cupiditate aperiam doloribus!</p>
+                                <p>{{order.shipAddress}}</p>
                             </div>
                             <div class="oip-detail description">
                                 <label for="">second address</label>
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor natus, nobis hic, dolorem officiis incidunt quam nihil.</p>
+                                <p>{{order.shipAddress2}}</p>
                             </div>
                         </div>
                     </div>
@@ -80,35 +80,19 @@
                             </div>
                         </div>
                         <div class="oip-items">
-                            <div class="oip-item">
+                            <div v-for="detail in order.details" :key="detail.id" class="oip-item">
                                 <div class="oip-main">
-                                    <p>Razer Headset</p>
+                                    <p>{{detail.SKU}}</p>
                                 </div>
                                 <div class="oip-others">
                                     <div class="oip-row">
-                                        <p>10 $</p>
+                                        <p>{{detail.price / detail.quantity}}</p>
                                     </div>
                                     <div class="oip-row">
-                                        <p>3</p>
+                                        <p>{{detail.quantity}}</p>
                                     </div>
                                     <div class="oip-row">
-                                        <p>30 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="oip-item">
-                                <div class="oip-main">
-                                    <p>Corsair Case</p>
-                                </div>
-                                <div class="oip-others">
-                                    <div class="oip-row">
-                                        <p>5 $</p>
-                                    </div>
-                                    <div class="oip-row">
-                                        <p>1</p>
-                                    </div>
-                                    <div class="oip-row">
-                                        <p>5 $</p>
+                                        <p>{{detail.price}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +110,7 @@
                     </div>
                     <div class="oip-price total">
                         <div class="oip-title">Total</div>
-                        <div class="oip-value">37.7 $</div>
+                        <div class="oip-value">{{order.amount}}</div>
                     </div>
                 </div>
                 <div class="oip-btns">

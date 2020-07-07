@@ -64,11 +64,11 @@ import StaffProductPanel from './StaffProductPanel'
 import { mapState } from 'vuex'
 
 export default {
-       components:{
+    components:{
         ProductForm,
         StaffProductPanel,
     },
-      computed: {
+    computed: {
         ...mapState({
             products: state => state.products.products,
         })

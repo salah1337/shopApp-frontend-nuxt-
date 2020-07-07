@@ -13,54 +13,84 @@
                     </div>
                 </div>
                 <div @click="show = !show" class="panel-close">X</div>
-                <div class="panel-submit">create</div>
+                <div @click="createProduct()" class="panel-submit">create</div>
                 <div class="panel-content">
                     <div class="form">
                         <div class="left">
                             <div class="field name">
                                 <label for="">Name</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input v-model="product.name" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.name" >{{errors.name[0]}}</span>
                             </div>
                             <div class="field sku">
                                 <label for="">sku</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input v-model="product.SKU" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.SKU" >{{errors.SKU[0]}}</span>
                             </div>
                             <div class="field price">
                                 <label for="">Price</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input v-model="product.price" type="text" class="input input-form input-form2">
+                                 <span class="error" v-if="errors.price" >{{errors.price[0]}}</span>
                             </div>
                             <div class="field weight">
                                 <label for="">weight</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input v-model="product.weight" type="text" class="input input-form input-form2">
+                                 <span class="error" v-if="errors.weight" >{{errors.weight[0]}}</span>
                             </div>
                             <div class="field rows-3 cart-description">
                                 <label for="">cart description</label>
-                                <textarea name="" class="input input-form input-form2" id="" ></textarea>
+                                <textarea v-model="product.cartDesc" name="" class="input input-form input-form2" id="" ></textarea>
+                                <span class="error" v-if="errors.cartDesc" >{{errors.cartDesc[0]}}</span>
                             </div>
                             <div class="field rows-3 short-description">
                                 <label for="">short description</label>
-                                <textarea name="" class="input input-form input-form2" id="" ></textarea>
+                                <textarea v-model="product.shortDesc" name="" class="input input-form input-form2" id="" ></textarea>
+                                 <span class="error" v-if="errors.shortDesc" >{{errors.shortDesc[0]}}</span>
                             </div>
                             <div class="field rows-3 long-description">
                                 <label for="">long description</label>
-                                <textarea name="" class="input input-form input-form2" id="" ></textarea>
+                                <textarea v-model="product.longDesc" name="" class="input input-form input-form2" id="" ></textarea>
+                                 <span class="error" v-if="errors.longDesc" >{{errors.longDesc[0]}}</span>
                             </div>
                         </div>
                         <div class="right">
                             <div class="field stock">
                                 <label for="">stock</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input v-model="product.stock" type="text" class="input input-form input-form2">
+                                 <span class="error" v-if="errors.stock" >{{errors.stock[0]}}</span>
                             </div>
                             <div class="field thumbnail">
                                 <label for="">thumbnail</label>
-                                <input type="text" class="input input-form input-form2">
+                                <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
+                                <div class="input">
+                                  <img :src="thumbPreview" alt="">
+                                  <div class="image-overlay">
+                                        <div class="image-overlay-remove">x</div>
+                                        <div @click="$refs.thumbInput.click()" class="image-overlay-change">S</div>
+                                      </div>
+                                </div>
+                                <span class="error" v-if="errors.thumb" >{{errors.thumb[0]}}</span>
                             </div>
                             <div class="field images">
                                 <label for="">images</label>
                                 <div class="inputs">
-                                    <img class="input" src="/img.jpg">
-                                    <div class="addbtn ">+</div>
+                                    <div v-for="(image, index) in product.images" >
+                                      <div v-if="image == ''" @click="$refs.imageInput[index].click()" class="addbtn gridcenter">+</div>
+                                    </div>
+                                    <div v-for="(image, index) in product.images" class="input">
+                                      <div v-if="image != ''">
+                                        <div class="image-overlay">
+                                        <div @click="removeImage(index)" class="image-overlay-remove">x</div>
+                                          <div @click="$refs.imageInput[index].click()" class="image-overlay-change">S</div>
+                                        </div>
+                                        <div class="imagePreview">
+                                          <img :src="imagePreviews[index]" alt="">
+                                        </div>
+                                      </div>
+                                      <input style="display: none" @change="getImg($event, index)" ref="imageInput" type="file">
+                                    </div>
                                 </div>
+                                <span class="error" v-if="errors.images" >{{errors.images[0]}}</span>
                             </div>
                         </div>
                     </div>
@@ -71,12 +101,85 @@
 </template>
 
 <script>
+
 export default {
-    data() {
+    data(){
         return{
+            product: {
+                'name': 'name',
+                'SKU': 'SSS',
+                'price': '123',
+                'weight': '123',
+                'cartDesc': 'cartDesc',
+                'shortDesc': 'shortDesc',
+                'longDesc': 'longDesc',
+                'thumb': 'thumb',
+                'images': [''],
+                'location': 'location',
+                'stock': '123',
+                'live': '0',
+                'unlimited': '1',
+                'product_category_id': '1',
+            },
+            errors: {},
             show: false,
+            imagePreviews: [],
+            thumbPreview: '',
         }
+    },
+    computed: {
+      
+    },
+  methods: {
+    async createProduct() {
+        let form = new FormData()
+        for (let key in this.product){
+            form.set(key, this.product[key])
+        }
+        let images = []
+        this.product.images.forEach((image, i) => {
+          if(!image == '') {
+            images.push(image)
+            form.append(`images[]`, image)
+          }
+        });
+        form.set('images', JSON.stringify(images))
+        await this.dbAction('post', `api/product/add`, form, 'orders/get')
+        .then(reply => console.log('success')).catch(err => console.log('fail'))
+    },
+    getImg(e, index) {
+      if (this.product.images[index] == '') this.product.images.push('')
+        this.product.images[index] = this.$refs.imageInput[index].files[0]       
+        let reader = new FileReader;
+        reader.onload = (e) => {
+          this.imagePreviews[index] = e.target.result
+        }
+        reader.readAsDataURL(this.$refs.imageInput[index].files[0])  
+        
+    },
+    getThumb(e) {
+      console.log(e);
+      let reader = new FileReader;
+      reader.onload = (e) => {
+        this.thumbPreview = e.target.result
+      }
+      reader.readAsDataURL(this.$refs.thumbInput.files[0])
+
+        this.product.thumb = this.$refs.thumbInput.files[0]
+    },
+    addImage(){
+      this.product.images.push('')
+      console.log(this.product.images.length);
+
+      
+      this.$refs.imageInput[this.product.images.length - 1].click()
+    },
+    removeImage(index){
+      // console.log(this.product.images.indexOf(image));
+      this.$delete(this.product.images, index - 1)
+      // this.product.images.splice(this.product.images.indexOf(image), 1)
     }
+  },
 }
 </script>
 
@@ -135,11 +238,60 @@ export default {
                 align-self: center;
               }
             }
-
+             .image-overlay{
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: rgba(255, 255, 255, 0.5);
+                    z-index: 998;
+                  }
+                  .image-overlay, .image-overlay-change, .image-overlay-remove{
+                    display: none;
+                    position: absolute;
+                    font-weight: 600;
+                    font-size: calc(0.8rem + 0.8vw);
+                  }
+                  .image-overlay-change, .image-overlay-remove{
+                    z-index: 999;
+                    cursor: pointer;
+                  }
+                  .image-overlay-remove{
+                    top: 2%;
+                    right: 4%;
+                  }
+                  .image-overlay-change{
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  }
+                  .imagePreview{
+                    height: 100px;
+                    width: 100px;
+                    img{
+                      height: 100%;
+                      width: 100%;
+                    }
+                  }
+                  // &:hover{
+                  //   .image-overlay, .image-overlay-remove, .image-overlay-change{
+                  //     display: unset;
+                  //   }
+                  // }
             .thumbnail {
               .input {
+                position: relative;
                 height: 150px;
                 max-width: 150px;
+                img{
+                  height: 100%;
+                  width: 100%;
+                }
+                &:hover{
+                  .image-overlay, .image-overlay-remove, .image-overlay-change{
+                    display: unset;
+                  }
+                }
               }
             }
 
@@ -155,9 +307,18 @@ export default {
                 .addbtn {
                   margin: 0 1px;
                   height: 100px;
-                  max-width: 100px;
+                  width: 100px;
+                  position: relative;
+                  padding: 0;
+                 
                 }
-
+                .input{
+                                    &:hover{
+                    .image-overlay, .image-overlay-remove, .image-overlay-change{
+                      display: unset;
+                    }
+                  }
+                }
                 .addbtn {
                   height: 100px;
                   //  width: 100px;

@@ -52,37 +52,37 @@
             </div>
             <div class="pip-details">
                 <div class="pip-title">Details</div>
-                <div class="pip-content">
+               <div class="pip-content">
                     <div>
                         <div class="pip-detail">
-                            <label for="">#id</label>
-                            <p>132</p>
+                            <label for="">category</label>
+                            <p>{{product.category.name}}</p>
                         </div>
                         <div class="pip-detail">
                             <label for="">name</label>
-                            <p>Ninja turtles backpack</p>
+                            <p>{{product.name}}</p>
                         </div>
                         <div class="pip-detail">
                             <label for="">price</label>
-                            <p>43$</p>
+                            <p>{{product.price}}</p>
                         </div>
                         <div class="pip-detail">
                             <label for="">weight</label>
-                            <p>123g</p>
+                            <p>{{product.weight}}</p>
                         </div>
                         <div class="pip-detail description">
                             <label for="">Cart Description</label>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, culpa?</p>
+                            <p>{{product.cartDesc}}</p>
                         </div>
                     </div>
                     <div>
                         <div class="pip-detail description">
                             <label for="">Short Description</label>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores perferendis vel ipsa cupiditate aperiam doloribus!</p>
+                            <p>{{product.shortDesc}}</p>
                         </div>
                         <div class="pip-detail description">
                             <label for="">Long Description</label>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor natus, nobis hic, dolorem officiis incidunt quam nihil, nesciunt ad architecto fuga quae nulla vitae? Reprehenderit perspiciatis commodi quae error quos?</p>
+                            <p>{{product.longDesc}}</p>
                         </div>
                     </div>
                 </div>
@@ -107,37 +107,21 @@
                         </div>
                     </div>
                     <div class="pip-items">
-                        <div class="pip-item">
-                            <div class="pip-main">
-                                <p>Blue</p>
+                        <div v-for="option in product.options" :key="option.id" class="pip-item">
+                        <div class="pip-main">
+                            <p>{{option.name}}</p>
+                        </div>
+                        <div class="pip-others">
+                            <div class="pip-row">
+                                <p>{{option.group.name}}</p>
                             </div>
-                            <div class="pip-others">
-                                <div class="pip-row">
-                                    <p>colors</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>3</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>3 $</p>
-                                </div>
+                            <div class="pip-row">
+                                <p>3</p>
+                            </div>
+                            <div class="pip-row">
+                                <p>3 $</p>
                             </div>
                         </div>
-                        <div class="pip-item">
-                            <div class="pip-main">
-                                <p>Xl</p>
-                            </div>
-                            <div class="pip-others">
-                                <div class="pip-row">
-                                    <p>sizes</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>1</p>
-                                </div>
-                                <div class="pip-row">
-                                    <p>5 $</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

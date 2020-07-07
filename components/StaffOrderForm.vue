@@ -6,6 +6,50 @@
         </div>
         <div v-if="show" id="stafforderform" class="container ²">
           <div v-if="show" @click="show = !show" class="order-form-bg"></div>
+
+            <div v-if="showProductList" class="addProductsList">
+                <div class="list">
+                    <div class="staff-products-tab-panel panel panel_list">
+                        <div @click="showProductList = !showProductList" class="panel-close">X</div>
+                        <div class="panel-header">
+                            <div class="panel-title">Products List</div>
+                            <div class="panel-description">Click the cards to see more information</div>
+                        </div>
+                        <div class="panel-search">
+                            <input type="text" class="input input-form input-form2">
+                        </div>
+                        <div class="panel-list">
+                            <div class="list-head">
+                                <div class="main">
+                                    <p>name</p>
+                                </div>
+                                <div class="others">
+                                    <p>price</p>
+                                    <p>stock</p>
+                                    <p>status</p>
+                                </div>
+                            </div>
+                            <div class="list-items">
+                                <div v-for="product in products.products" :key="product.id" class="item">
+                                    <p class="main">{{product.name}}</p>
+                                    <div class="others">
+                                        <p class="line">{{product.price}}</p>
+                                        <p class="line">{{product.stock}}</p>
+                                        <div class="line addproductlist-btns">
+                                            <div class="status status-success">Add</div>
+                                            <div class="status status-primary">
+                                                <OrderFormProductPanel :product="product"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="addProductsList-bg" v-if="showProductList" @click="showProductList = !showProductList"></div>
+
             <div class="mainpanel panel panel_content panel_submit">
                 <div class="panel-header">
                     <div class="panel-title">Place Order</div>
@@ -15,78 +59,13 @@
                         <div class="header">
                             <p>Order info</p>
                             <div class="actions">
-                                <div class="action">
+                                <div @click="showProductList = !showProductList" class="action">
                                     <span>Add product</span> <span class="sign">+</span>
+                                   
                                 </div>
                             </div>
                         </div>
                         <div class="items">
-                            <div class="order-item">
-                                <div class="gridcenter cartItem-thumbnail">
-                                    <img src="/landingImg.png" alt="">
-                                </div>
-                                <div class="cartItem-info">
-                                    <p>Name</p>
-                                    <p>13£</p>
-                                </div>
-                                <div class="cartItem-count">
-                                    <p class="btn">-</p>
-                                    <p class="count">69</p>
-                                    <p class="btn">+</p>
-                                </div>
-                                <!-- <div class="btns"> -->
-                                <div class="cartItem-select">
-                                    []
-                                </div>
-                                <div class="cartItem-delete">
-                                    x
-                                </div>
-                                <!-- </div> -->
-                            </div>
-                            <div class="order-item">
-                                <div class="gridcenter cartItem-thumbnail">
-                                    <img src="/landingImg.png" alt="">
-                                </div>
-                                <div class="cartItem-info">
-                                    <p>Name</p>
-                                    <p>13£</p>
-                                </div>
-                                <div class="cartItem-count">
-                                    <p class="btn">-</p>
-                                    <p class="count">69</p>
-                                    <p class="btn">+</p>
-                                </div>
-                                <!-- <div class="btns"> -->
-                                <div class="cartItem-select">
-                                    []
-                                </div>
-                                <div class="cartItem-delete">
-                                    x
-                                </div>
-                                <!-- </div> -->
-                            </div>
-                            <div class="order-item">
-                                <div class="gridcenter cartItem-thumbnail">
-                                    <img src="/landingImg.png" alt="">
-                                </div>
-                                <div class="cartItem-info">
-                                    <p>Name</p>
-                                    <p>13£</p>
-                                </div>
-                                <div class="cartItem-count">
-                                    <p class="btn">-</p>
-                                    <p class="count">69</p>
-                                    <p class="btn">+</p>
-                                </div>
-                                <!-- <div class="btns"> -->
-                                <div class="cartItem-select">
-                                    []
-                                </div>
-                                <div class="cartItem-delete">
-                                    x
-                                </div>
-                                <!-- </div> -->
-                            </div>
                             <div class="order-item">
                                 <div class="gridcenter cartItem-thumbnail">
                                     <img src="/landingImg.png" alt="">
@@ -165,21 +144,55 @@
                 <div class="panel-submit">Create</div>
             </div>
         </div>
+        
     </div>
 </template>
 
 <script>
+import OrderFormProductPanel from './OrderFormProductPanel'
+import { mapState } from 'vuex'
+
 export default {
+    components: {
+        OrderFormProductPanel
+    },
     data() {
         return{
+            orderinfo: {
+                'amount': '3',
+                'firstName': 'first name',
+                'lastName': 'last name', 
+                'shipAddress': 'shipAddress', 
+                'shipAddress2': 'shipAddress2', 
+                'city': 'city', 
+                'state': 'state', 
+                'zip': '3', 
+                'country': 'country', 
+                'phone': '3', 
+                'fax': '3', 
+                'shipping': '3', 
+                'tax': '3', 
+                'email': 'email', 
+                'shipped': '0', 
+                'trackingNumber': '1',
+                'details': []
+            },
+            errors: {},
             show: false,
+            showProductList: false
         }
-    }
+    },
+    computed: {
+        ...mapState({
+            products: state => state.products.liveProducts,
+        })
+    },
 }
 </script>
 
 <style lang="scss">
 #stafforderform{
+    
       color: black;
     position: fixed;
     top: 0;
@@ -187,6 +200,37 @@ export default {
     bottom: 0;
     right: 0;
     overflow-y: scroll;
+    .addproductlist-btns{
+        display: grid;
+        grid-row-gap: 1px;
+    }
+    .addProductsList{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 95%;
+        max-height: 95vh;
+        z-index: 999;
+        .panel-close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            height: 35px;
+            width: 35px;
+        }
+    }
+    .addProductsList-bg{
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 998;
+    }
      .panel-submit{
       margin-bottom: 5%;
     }
@@ -197,13 +241,14 @@ export default {
         bottom: 0;
         right: 0;
         background: rgba(0, 0, 0, 0.2);
-        z-index: 998;
+        z-index: 996;
     }
 .order-items{
     .header{
         display: flex;
         justify-content: space-between;
     }
+
     .items{
         display: grid;
         grid-row-gap: 5px;
@@ -316,7 +361,7 @@ export default {
     }
 }
 .mainpanel{
-       z-index: 999;
+       z-index: 997;
           // max-height: 95vh;
           max-width: 95vw;
           overflow-y: scroll;
