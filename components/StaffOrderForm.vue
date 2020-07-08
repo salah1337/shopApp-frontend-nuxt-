@@ -36,7 +36,7 @@
                                         <p class="line">{{product.price}}</p>
                                         <p class="line">{{product.stock}}</p>
                                         <div class="line addproductlist-btns">
-                                            <div class="status status-success">Add</div>
+                                            <div v-if="!productInDetails(product.id)" @click="addToDetails(product)" class="status status-success">Add</div>
                                             <div class="status status-primary">
                                                 <OrderFormProductPanel :product="product"/>
                                             </div>
@@ -66,85 +66,96 @@
                             </div>
                         </div>
                         <div class="items">
-                            <div class="order-item">
+                            <div v-for="item in orderinfo.details" class="order-item" :key="item.id">
                                 <div class="gridcenter cartItem-thumbnail">
                                     <img src="/landingImg.png" alt="">
                                 </div>
                                 <div class="cartItem-info">
-                                    <p>Name</p>
-                                    <p>13£</p>
+                                    <p>{{item.name}}</p>
+                                    <p>{{item.price}}$</p>
                                 </div>
                                 <div class="cartItem-count">
-                                    <p class="btn">-</p>
-                                    <p class="count">69</p>
-                                    <p class="btn">+</p>
+                                    <p v-if="item.quantity > 1" @click="item.quantity--" class="btn">-</p>
+                                    <p class="count">{{item.quantity}}</p>
+                                    <p @click="item.quantity++" class="btn">+</p>
                                 </div>
                                 <!-- <div class="btns"> -->
                                 <div class="cartItem-select">
-                                    []
+                                    <OrderFormProductPanel :product="item.product"/>
                                 </div>
-                                <div class="cartItem-delete">
-                                    x
+                                <div @click="removeFromDetails(item)" class="cartItem-delete">
+                                    <font-awesome-icon icon="trash"/>
                                 </div>
                                 <!-- </div> -->
                             </div>
+                            <span class="error" v-if="errors.details" >{{errors.details[0]}}</span>
                         </div>
                     </div>
                     <div class="order-info">
                         <div class="form">
                             <div class="email">
                                 <label for="email">email</label>
-                                <input id="email" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.email" id="email" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.email" >{{errors.email[0]}}</span>
                             </div>
                             <div class="firstName">
                                 <label for="firstName">firstName</label>
-                                <input id="firstName" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.firstName" id="firstName" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.shipName" >{{errors.shipName[0]}}</span>
                             </div>
                             <div class="lastName">
                                 <label for="lastName">lastName</label>
-                                <input id="lastName" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.lastName" id="lastName" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.shipName" >{{errors.shipName[0]}}</span>
                             </div>
                             <div class="country">
                                 <label for="country">country</label>
-                                <input id="country" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.country" id="country" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.country" >{{errors.country[0]}}</span>
                             </div>
                             <div class="state">
                                 <label for="state">state</label>
-                                <input id="state" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.state" id="state" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.state" >{{errors.state[0]}}</span>
                             </div>
                             <div class="city">
                                 <label for="city">city</label>
-                                <input id="city" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.city" id="city" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.city" >{{errors.city[0]}}</span>
                             </div>
                             <div class="phone">
                                 <label for="phone">phone</label>
-                                <input id="phone" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.phone" id="phone" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.phone" >{{errors.phone[0]}}</span>
                             </div>
                             <div class="zip">
                                 <label for="zip">zip</label>
-                                <input id="zip" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.zip" id="zip" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.zip" >{{errors.zip[0]}}</span>
                             </div>
                             <div class="fax">
                                 <label for="fax">fax</label>
-                                <input id="fax" type="text" class="input input-form input-form2">
+                                <input v-model="orderinfo.fax" id="fax" type="text" class="input input-form input-form2">
+                                <span class="error" v-if="errors.fax" >{{errors.fax[0]}}</span>
                             </div>
                             <div class="address">
                                 <label for="address">address</label>
-                                <textarea id="address1" class="input input-form input-form2"></textarea>
+                                <textarea v-model="orderinfo.shipAddress" id="address1" class="input input-form input-form2"></textarea>
+                                <span class="error" v-if="errors.shipAddress" >{{errors.shipAddress[0]}}</span>
                             </div>
                             <div class="address2">
                                 <label for="address2">address2</label>
                                 <!-- <input id="address2" type="text" class="input input-form input-form2"> -->
-                                <textarea id="address2" class="input input-form input-form2"></textarea>
+                                <textarea v-model="orderinfo.shipAddress2" id="address2" class="input input-form input-form2"></textarea>
+                                <span class="error" v-if="errors.shipAddress2" >{{errors.shipAddress2[0]}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div @click="show = !show" class="panel-close">X</div>
-                <div class="panel-submit">Create</div>
+                <div @click="placeOrder()" class="panel-submit">Create</div>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -187,6 +198,33 @@ export default {
             products: state => state.products.liveProducts,
         })
     },
+    methods: {
+        async placeOrder() {
+            this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
+            await this.dbAction('post', `api/order/add`, this.orderinfo, 'orders/get')
+            .then(reply => console.log('success')).catch(err => console.log('fail'))
+        },
+        addToDetails(product){
+            this.orderinfo.details.push({
+                'name': product.name,
+                'price': product.price,
+                'image': product.thumb,
+                'sku': product.SKU,
+                'quantity': 1,
+                'product_id': product.id,
+                'product': product
+            })
+            this.showProductList = false
+        },
+        removeFromDetails(item){
+            this.orderinfo.details.splice(this.orderinfo.details.indexOf(item), 1)
+        },
+        productInDetails(id){
+            return this.orderinfo.details.filter(detail => {
+                return detail.product_id == id
+            }).length > 0 ? true : false
+        }
+    }
 }
 </script>
 
@@ -347,7 +385,7 @@ export default {
     .cartItem-select{
         top: 10px;
         color: var(--primary);
-
+   
     }
     .cartItem-count{
         display: flex;

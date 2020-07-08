@@ -35,16 +35,23 @@ export const mutations = {
 export const actions = {
     async load({ commit }) {
         let res = await this.$axios.get('api/product')
+        .catch(err => {
+            console.log(err)
+        })
         let products = res.data.data;
         commit('SET_PRODUCTS', products)
     },
     async loadLive({ commit }) {
-        let res = await this.$axios.get('api/customer/product/all')
+        let res = await this.$axios.get('api/customer/product/all').catch(err => {
+            console.log(err)
+        })
         let products = res.data.data;
         commit('SET_LIVE_PRODUCTS', products)
     },
     async loadAll({ commit }) { // loads products with trashed
-        let res = await this.$axios.get('api/admin/product/all')
+        let res = await this.$axios.get('api/admin/product/all').catch(err => {
+            console.log(err)
+        })
         let products = res.data.data;
         commit('SET_ALL_PRODUCTS', products)
     },

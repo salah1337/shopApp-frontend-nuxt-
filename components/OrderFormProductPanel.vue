@@ -1,7 +1,7 @@
 <template>
   <div>
        <div @click="show = !show" class="">
-            Details
+            <font-awesome-icon icon="info-circle"/>
         </div>
      <div v-if="show" class="productinfopanel gridcenter pip-container">
         <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
@@ -163,6 +163,7 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
+    z-index: 999;
     .product-panel-close{
         position: absolute;
         top: 15px;

@@ -127,8 +127,8 @@
                 </div>
             </div>
             <div class="pip-btns">
-                <div class="gridcenter pip-btn pip-edit">Edit</div>
-                <div class="gridcenter pip-btn pip-delete">Delete</div>
+                <StaffProductUpdate :id="product.id" />
+                <div @click="deleteProduct()" class="gridcenter pip-btn pip-delete">Delete</div>
             </div>
         </div>
     </div>
@@ -137,16 +137,24 @@
 
 <script>
 import ProductInfoPanel from './ProductInfoPanel'
+import StaffProductUpdate from './StaffProductUpdate'
 export default {
     props: [
         'product'
     ],
     components: {
-        ProductInfoPanel
+        ProductInfoPanel,
+        StaffProductUpdate
     },
     data(){
         return{
             show: false
+        }
+    },
+    methods: {
+        async deleteProduct() {
+            await this.dbAction('get', `api/product/delete/${this.product.id}`, null, 'products/load')
+            .then(reply => console.log('success')).catch(err => console.log('fail'))
         }
     }
 }

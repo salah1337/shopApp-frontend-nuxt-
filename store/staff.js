@@ -19,7 +19,9 @@ export const mutations = {
 
 export const actions = {
     async load({ commit }) {
-        let res = await this.$axios.get('api/admin/staff')
+        let res = await this.$axios.get('api/admin/staff').catch(err => {
+            console.log(err)
+        })
         let staff = res.data.data;
         commit('SET_STAFF', staff)
     }

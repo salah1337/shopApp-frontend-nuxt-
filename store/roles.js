@@ -24,12 +24,16 @@ export const mutations = {
 
 export const actions = {
     async load({ commit }) {
-        let res = await this.$axios.get('api/admin/roles')
+        let res = await this.$axios.get('api/admin/roles').catch(err => {
+            console.log(err)
+        })
         let roles = res.data.data;
         commit('SET_ROLES', roles)
     },
     async loadAbilities({ commit }) {
-        let res = await this.$axios.get('api/admin/abilities')
+        let res = await this.$axios.get('api/admin/abilities').catch(err => {
+            console.log(err)
+        })
         let abilities = res.data.data;
         commit('SET_ABILITIES', abilities)
     },

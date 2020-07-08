@@ -30,17 +30,23 @@ export const mutations = {
 
 export const actions = {
     async load({ commit }) {
-        let res = await this.$axios.get('api/order')
+        let res = await this.$axios.get('api/order').catch(err => {
+            console.log(err)
+        })
         let orders = res.data.data;
         commit('SET_ORDERS', orders)
     },
     async get({ commit }) {
-        let res = await this.$axios.get('api/customer/order/all')
+        let res = await this.$axios.get('api/customer/order/all').catch(err => {
+            console.log(err)
+        })
         let orders = res.data.data;
         commit('SET_USER_ORDERS', orders)
     },
     async loadAll({ commit }) {
-        let res = await this.$axios.get('api/admin/orders')
+        let res = await this.$axios.get('api/admin/orders').catch(err => {
+            console.log(err)
+        })
         let orders = res.data.data;
         commit('SET_ALL_ORDERS', orders)
     },
