@@ -117,7 +117,7 @@ export default {
   methods: {
     async load(){
         let data = await this.loadOne('product', this.id, 'staff')
-        this.product = data.product
+        this.product = {...data.product}
         this.product.images = JSON.parse(this.product.image)
         this.product.image = JSON.parse(this.product.image)
         this.product.images.push('')
@@ -175,9 +175,13 @@ export default {
     },
     removeImage(index) {
       // console.log(this.product.images.indexOf(image));
-      this.$delete(this.product.images, index - 1)
-      this.$delete(this.product.imagePreviews, index - 1)
-      // this.product.images.splice(this.product.images.indexOf(image), 1)
+      if (typeof(this.product.images[index]) == 'string' && this.product.images[index] != '') {
+            this.product.image.splice(this.product.image.indexOf(this.product.images[index]), 1)
+        }
+    //   this.$delete(this.product.images, index - 1)
+    //   this.$delete(this.product.imagePreviews, index - 1)
+    this.product.images.splice(index, 1)
+    this.imagePreviews.splice(index, 1)
     }
   }
 }
