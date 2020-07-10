@@ -1,116 +1,74 @@
 <template>
-  <div id="grid">
-      <ul class="menu">
-        <h3>Hello {{$auth.user.info.username}}</h3>
-        <li class="trigger">Manage Roles</li>
-        <li class="trigger">Manage Staff</li>
-        <li class="trigger">Manage Products</li>
-        <li class="trigger">Manage Orders</li>
-      </ul>
-      <div class="panels">
-        <div class="panel">
-          <h2>Roles</h2>
-          <ul>
-            <h3>There are {{roles.count}} roles.</h3>
-            <li v-for="role in roles.roles" :key="role.id">
-              <h3>{{ role.label }}--- <span @click="deleteRole(role.id)"> [delete] </span> </h3> 
-              <ul v-if="role.abilities.length > 0">
-                <h4>Can:</h4>
-                <li v-for="ability in role.abilities" :key="ability.id">
-                  {{ ability.label }} <span @click="removeAbility(role.name, ability.name)"> [remove] </span>
-                </li>
-              </ul>
-              <select v-model="ability" name="abilitites">
-                <option v-for="ability in abilities.abilities" :key="ability.id" :value="ability.name">
-                  {{ability.label}}
-                </option>
-              </select>
-              <v-btn @click="grantAbility(role.name)" x-small>
-                allow to
-              </v-btn>
-            </li>
-          </ul>
-          <br/>
-          <div>
-            <label for="">Label</label>
-            <input v-model="role.label" type="text">
-          </div>
-          <div>
-            <label for="">Name</label>
-            <input v-model="role.name" type="text">
-          </div>
-          <v-btn @click="createRole()">
-            Add Role
-          </v-btn>
+  <div id="wrapper">
+        <div class="sidebar-menu">
+            <div @click="showSideMenu = !showSideMenu" class="trigger gridcenter"><span>=</span></div>
+            <div v-if="showSideMenu" @click="showSideMenu = !showSideMenu" class="sidebar-menu-bg"></div>
+            <div v-if="showSideMenu" class="menu">
+                <div @click="showSideMenu = !showSideMenu" class="sidebar-menu-close-btn">X</div>
+                <div class="user gridcenter">
+                    <div class="image">
+                        <img src="/img.jpg" alt="">
+                    </div>
+                    <div class="username">
+                        username
+                    </div>
+                </div>
+                <div class="btns">
+                    <div class="btn gridcenter">Overview</div>
+                    <div @click="show('products')" class="btn gridcenter">Products</div>
+                    <div @click="show('orders')" class="btn gridcenter">Orders</div>
+                </div>
+            </div>
         </div>
-        <div class="panel">
-          <h2>Staff</h2>
-          <ul>
-            <h3>There are {{staff.staffCount}} staff members.</h3>
-            <li v-for="members in staff.staff" :key="members.name">
-              <h4>{{members.name}}</h4>
-              <ul>
-                <li v-for="member in members.users" :key="member">
-                  {{member}} <span @click="revokeRole(member, members.name)">[revoke role]</span>
-                </li>
-              </ul>
-              <br/>
-              <br/>
-            </li>
-          </ul>
-          <input v-model="user" type="text">
-          <select v-model="roleToAssign" name="roles">
-            <option v-for="role in roles.roles" :key="role.id" :value="role.name">
-              {{role.label}}
-            </option>
-          </select>
-          <v-btn @click="assignRole(user, roleToAssign)"> assign role to user </v-btn>
+        <div class="sidebar">
+            <div class="user gridcenter">
+                <div class="image">
+                    <img src="/img.jpg" alt="">
+                </div>
+                <div class="username">
+                    username
+                </div>
+            </div>
+            <div class="btns">
+                <div class="btn gridcenter">Overview</div>
+                <div @click="show('staff')" class="btn gridcenter">Staff</div>
+                <div @click="show('products')" class="btn gridcenter">Products</div>
+                <div @click="show('orders')" class="btn gridcenter">Orders</div>
+                <div @click="show('roles')" class="btn gridcenter">Roles</div>
+            </div>
         </div>
-        <div class="panel">
-          <h2>Products</h2>
-          <ul>
-            <h3>There are {{products.count}} products.</h3>
-            <li v-for="product in products.products" :key="product.id">
-              <h4>{{product.name}}</h4>
-              <ul>
-                <li v-for="option in product.options" :key="option.id">
-                  {{option.name}}
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h2>Orders</h2>
-          <ul>
-            <h3>There are {{orders.count}} orders.</h3>
-            <li v-for="order in orders.orders" :key="order.id">
-              <h4>{{order.shipName}}</h4>
-              <ul>
-                <li v-for="detail in order.details" :key="detail.id">
-                  {{detail.name}}
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-  </div>
+        <ProductsTab v-if="showProducts" />
+        <OrdersTab v-if="showOrders" />
+        <RolesTab v-if="showRoles" />
+    </div>
 </template>
 
 <script>
+import ProductsTab from '../../components/StaffProductsTab'
+import OrdersTab from '../../components/StaffOrdersTab'
+import RolesTab from '../../components/AdminRolesTab'
 import { mapState } from 'vuex'
 
 export default {
+  components:{
+        OrdersTab,
+        ProductsTab,
+        RolesTab,
+    },
    data(){
      return{
-       role: {
-         label: '',
-         name: ''
-       },
-       ability: '',
-       user:'',
-       roleToAssign: ''
+        role: {
+          label: '',
+          name: ''
+        },
+        ability: '',
+        user:'',
+        roleToAssign: '',
+        showProducts: true,
+        showOrders: false,
+        showSideMenu: false,
+        showProductForm: false,
+        showRoles: false,
      }
    },
    methods: {
@@ -131,8 +89,6 @@ export default {
        await this.dbAction('post', `api/admin/roles/unallow`, {role, ability}, 'roles/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
-
-
      async assignRole(username, role){
         await this.dbAction('post', `api/admin/staff/assign`, {username, role}, 'staff/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
@@ -141,6 +97,23 @@ export default {
         await this.dbAction('post', `api/admin/staff/revoke`, {username, role}, 'staff/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
+     show(tab) {
+            this.showProducts = this.showOrders = this.showRoles = this.showSideMenu = false;
+            switch (tab) {
+                case 'products':
+                    this.showProducts = true
+                    break;
+                case 'orders':
+                    this.showOrders = true
+                    break;
+                case 'roles':
+                    this.showRoles = true
+                    break;
+            
+                default:
+                    break;
+            }
+        }
    },
  computed: {
    ...mapState({
@@ -150,64 +123,190 @@ export default {
       products: state => state.products.allProducts,
       orders: state => state.orders.allOrders,
     }),
-   navigate(){
-     let triggers = document.querySelectorAll('.trigger')
-     let panels = document.querySelectorAll('.panel')
-     triggers.forEach((trigger, i) => {
-       trigger.addEventListener('click', function(){
-         panels.forEach(panel => {
-           panel.style.display = 'none'
-         })
-         panels[i].style.display = 'block'
-       })
-     });
-   }
+
  }
 }
 </script>
 
-<style lang="scss">
-select{
-  color: black;
-  background: white;
-}
-  #grid {
-    display: grid;
-    grid-template-columns: 30% 1fr;
+<style lang="scss" scoped>
+#wrapper{
+    display: flex;
+    grid-template-columns: 0.4fr 1fr;
     height: 100vh;
-    .menu{
-      background: rgb(169, 169, 169);
+    width: 100vw;
+}
+img{
+    max-width: 70px;
+    max-height: 70px;
+}
+
+.sidebar, .menu{
+    width: 40%;
+    max-width: 300px;
+    background-color: var(--dark);
+    display: grid;
+    grid-template-rows: 0.3fr 1fr;
+    .user{
+        .image{
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .username{
+            color: var(--grayTxt);
+            text-align: center;
+        }
     }
-    .panels{
-      background: #232323;
-      color: white;
-      .panel{
-        display: none;
-      }
+    .btns{
+        align-self: center;
+        display: grid;
+        grid-row-gap: 10px;
+        padding: 0 5px;
+        .btn{
+            height: 45px;
+            border: 0.2px solid var(--main);
+            color: var(--main);
+            font-weight: 650;
+            transition: 100ms ease-in-out;
+            &:hover{
+                box-shadow: inset 0px 0px 4px var(--main);
+                border: 1px solid var(--main);
+            }
+            &:active{
+                box-shadow: inset 0px 0px 12px var(--main);
+                border: 1px solid var(--main);
+            }
+        }
     }
-  }
-  .menu{
-    padding: 5px;
-    text-align: center;
+}
+.content{
+    width: 100%;
+    padding: 30px;
+    display: grid;
+    max-height: 100vh;
+    overflow: overlay;
+    overflow-y: scroll;
+    .header{
+        display: grid;
+        grid-template-columns: 1fr 0.7fr;
+        column-gap: 15px;
+        height: 150px;
+        margin-bottom: 8%;
+        .stats{
+            .panel{
+                height: 100%;
+                .panel-content{
+                    padding-bottom: 0px;
+                    .stat-rows{
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+            }
+        }
+        .actions{
+            display: grid;
+           
+            .action{
+                align-self: flex-start;
+                justify-self: end;
+                height: 100%;
+                width: 100%;
+                max-height: 45px;
+                max-width: 150px;
+                background-color: var(--success);
+                box-shadow: 0px 2px 0px var(--successDark);
+                border-radius: 2px;
+                color: white;
+                font-size: calc(0.4vw + 0.8rem);
+                font-weight: 450;
+                cursor: pointer;
+                user-select: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                .sign{
+                    font-size: calc(0.5vw + 1rem);
+                    font-weight: 600;
+                }
+                &:hover{background-color: var(--successHover);}
+                &:active{
+                    box-shadow: 0px 1px 0px var(--successDark) !important;
+                    transform: translateY(3px);
+                    background-color: var(--successActive);
+                }
+            }
+        }
+    }
+    .list{
+        .panel{
+            height: 100%;
+            .panel-header{
+                grid-column: auto / span 2;
+            }
+            .panel-search{
+                input{
+                    width: 90%;
+                }
+            }
+            .list-items{
+                max-height: 50vh;
+            }
+        }
+    }
+}
+.sidebar-menu{
+    display: none;
+    height: 0;
+    position: relative;
+    .sidebar-menu-close-btn{
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        color: white;
+        font-weight: 600;
+    }
+    .sidebar-menu-bg{
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 997;
+        background: rgba(0, 0, 0, 0.3);
+    }
     .trigger{
-      margin: 5px 0;
-      border: 1px white solid;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: black;
-      font-size: x-large;
-      &:hover{
-        background: gray;
-      }
-      &:active{
-        background: rgb(106, 106, 106);
-      }
+        display: none;
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        border-radius: 2px;
+        top: 5%;
+        left: 0;
+        background-color: var(--main);
     }
-  }
-  .panels{
-    padding: 15px;
-  }
+    .menu{
+        // display: none;
+        // max-width: unset;
+        z-index: 998;
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+    }
+}
+@media (max-width: 700px) {
+    #wrapper{
+        // grid-template-columns: unset;
+        display: flex;
+        .content{
+            margin: 0 auto;
+        }
+    }
+    .sidebar{
+        display: none;
+    }
+    .sidebar-menu{
+        display: grid;
+        .trigger{
+            display: grid;
+        }
+    }
+}
 </style>

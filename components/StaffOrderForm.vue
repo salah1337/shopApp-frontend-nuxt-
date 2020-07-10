@@ -201,8 +201,9 @@ export default {
     methods: {
         async placeOrder() {
             this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
-            await this.dbAction('post', `api/order/add`, this.orderinfo, 'orders/get')
+            await this.dbAction('post', `api/order/add`, this.orderinfo, 'orders/load')
             .then(reply => console.log('success')).catch(err => console.log('fail'))
+            this.show = false
         },
         addToDetails(product){
             this.orderinfo.details.push({

@@ -1,59 +1,59 @@
 <template>
     <div id="products" class="content">
-        <div class="header">
-            <div class="stats">
-                <div class="panel panel_content">
-                    <div class="panel-header">
-                        <div class="panel-title">Stats</div>
-                    </div>
-                    <div class="panel-content">
-                        <div class="stat-rows">
-                            <div class="stat-row">
-                                <div class="name">All</div>
-                                <div class="name">100</div>
-                            </div>
-                            <div class="stat-row">
-                                <div class="name">All</div>
-                                <div class="name">100</div>
-                            </div>
-                            <div class="stat-row">
-                                <div class="name">All</div>
-                                <div class="name">100</div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="header">
+        <div class="stats">
+          <div class="panel panel_content">
+            <div class="panel-header">
+              <div class="panel-title">Stats</div>
+            </div>
+            <div class="panel-content">
+              <div class="stat-rows">
+                <div class="stat-row">
+                  <div class="name">All</div>
+                  <div class="name">100</div>
                 </div>
+                <div class="stat-row">
+                  <div class="name">All</div>
+                  <div class="name">100</div>
+                </div>
+                <div class="stat-row">
+                  <div class="name">All</div>
+                  <div class="name">100</div>
+                </div>
+              </div>
             </div>
-            <div class="actions">
-                <ProductForm/>
-            </div>
+          </div>
         </div>
-        <div class="list">
-            <div class="staff-products-tab-panel panel panel_list">
-                <div class="panel-header">
-                    <div class="panel-title">Products List</div>
-                    <div class="panel-description">Click the cards to see more information</div>
-                </div>
-                <div class="panel-search">
-                    <input type="text" class="input input-form input-form2">
-                </div>
-                <div class="panel-list">
-                    <div class="list-head">
-                        <div class="main">
-                            <p>name</p>
-                        </div>
-                        <div class="others">
-                            <p>price</p>
-                            <p>stock</p>
-                            <p>status</p>
-                        </div>
-                    </div>
-                    <div class="list-items">
-                        <StaffProductPanel v-for="product in products.products" :key="product.id" :product="product"/>
-                    </div>
-                </div>
-            </div>
+        <div class="actions">
+          <ProductForm />
         </div>
+      </div>
+      <div class="list">
+        <div class="staff-products-tab-panel panel panel_list">
+          <div class="panel-header">
+            <div class="panel-title">Products List</div>
+            <div class="panel-description">Click the cards to see more information</div>
+          </div>
+          <div class="panel-search">
+            <input type="text" class="input input-form input-form2">
+          </div>
+          <div class="panel-list">
+            <div class="list-head">
+              <div class="main">
+                <p>name</p>
+              </div>
+              <div class="others">
+                <p>price</p>
+                <p>stock</p>
+                <p>status</p>
+              </div>
+            </div>
+            <div class="list-items">
+              <StaffProductPanel v-for="product in products.products" :key="product.id" :product="product" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
