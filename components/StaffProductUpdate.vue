@@ -1,9 +1,9 @@
 <template>
         <div>
         <div @click="show = !show" class="gridcenter pip-btn pip-edit">Edit</div>
-        <div v-if="show" id="staffproductform" class="container">
+        <div v-if="show" id="staffproductform" class="container gridcenter">
             <div v-if="show" @click="show = !show" class="product-form-bg"></div>
-            <div class="panel panel_content panel_submit">
+            <div class="panel gridcenter panel_content panel_submit">
             <div class="panel-header">
                 <div class="panel-title">
                     Edit
@@ -211,6 +211,7 @@ export default {
           z-index: 999;
           // max-height: 95vh;
           max-width: 95vw;
+        //   max-width: 700px;
           overflow-y: scroll;
           display: grid;
           position: relative;

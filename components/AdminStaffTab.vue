@@ -1,5 +1,5 @@
 <template>
-    <div id="admin-roles-tab" class="content">
+    <div id="admin-staff-tab" class="content">
       <div class="header">
         <div class="stats">
           <div class="panel panel_content">
@@ -25,14 +25,14 @@
           </div>
         </div>
         <div class="actions">
-          <RoleForm />
+          <AddstaffForm :members="staff.staffMembers" :roles="roles" :users="users.users"/>
         </div>
       </div>
       <div class="list">
         <div class="staff-products-tab-panel panel panel_list">
           <div class="panel-header">
-            <div class="panel-title">Roles List</div>
-            <div class="panel-description">You can grant and revoke roles to staff members here.</div>
+            <div class="panel-title">staff List</div>
+            <div class="panel-description">Click the cards for more info.</div>
           </div>
           <div class="panel-search">
             <input type="text" class="input input-form input-form2">
@@ -43,22 +43,22 @@
                 <p>name</p>
               </div>
               <div class="others">
-                <p>abilities</p>
+                <p>roles</p>
               </div>
             </div>
             <div class="list-items">
-              <div v-for="role in roles.roles" class="item">
-                <p class="main">{{role.label}}</p>
+              <div v-for="member in staff.staffMembers" :key="member.id" class="item">
+                <p class="main">{{member.username}}</p>
                 <div class="others">
                   <div class="line list-item-abilities">
-                    <div v-for="ability in role.abilities">
-                      {{ability.label}}
+                    <div v-for="role in member.roles" :key="role.id">
+                      {{role.label}}
                     </div>
                   </div>
                 </div>
-                <RoleInfoPanel :role="role" :abilities="abilities.abilities"/>
-                <AbilityMenu class="abilityadditem" :abilities="abilities.abilities" :role="role"/>
-                <div @click="deleteRole(role.id)" class="delete-role">
+                <staffInfoPanel/>
+                <AssignRoleMenu :member="member" :roles="roles.roles" class="roleManageMenu"/>
+                <div @click="fireMember(member.id)" class="delete-staff">
                   <font-awesome-icon icon="trash"/>
                 </div>
               </div>
@@ -70,27 +70,28 @@
 </template>
 
 <script>
-import RoleForm from './RoleForm'
-import RoleInfoPanel from './RoleInfoPanel'
-import AbilityMenu from './AbilityMenu'
+import StaffInfoPanel from './StaffInfoPanel'
+import AssignRoleMenu from './AssignRoleMenu'
+import AddstaffForm from './AddstaffForm'
 
 import { mapState } from 'vuex'
 
 export default {
     components:{
-        RoleForm,
-        RoleInfoPanel,
-        AbilityMenu,
+        StaffInfoPanel,
+        AssignRoleMenu,
+        AddstaffForm
     },
     computed: {
         ...mapState({
+            staff: state => state.staff.staff,
             roles: state => state.roles.roles,
-            abilities: state => state.roles.abilities,
+            users: state => state.users.users,
         }),
     },
     methods: {
-      async deleteRole(id){
-       await this.dbAction('get', `api/admin/roles/delete/${id}`, null, 'roles/load')
+      async fireMember(id){
+       await this.dbAction('get', `api/admin/staff/fire/${id}`, null, 'staff/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
     }
@@ -98,7 +99,7 @@ export default {
 </script>
 
 <style lang="scss">
-#admin-roles-tab {
+#admin-staff-tab {
   &.content {
     padding: 30px;
     display: grid;
@@ -192,11 +193,10 @@ export default {
 
           .item {
             position: relative;
-
-            // .abilityadditem {
-            //   grid-column: auto / span 2;
-            // }
-
+            .roleManageMenu {
+              display: grid;
+              justify-content: end;
+            }
             height: fit-content;
 
             .ability-add-btn {
@@ -215,7 +215,7 @@ export default {
     }
   }
 
-  .delete-role {
+  .delete-staff {
     position: absolute;
     right: 10px;
     top: 10px;

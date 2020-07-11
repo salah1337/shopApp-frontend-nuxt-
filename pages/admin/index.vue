@@ -40,6 +40,7 @@
         <ProductsTab v-if="showProducts" />
         <OrdersTab v-if="showOrders" />
         <RolesTab v-if="showRoles" />
+        <StaffTab v-if="showStaff" />
     </div>
 </template>
 
@@ -47,6 +48,7 @@
 import ProductsTab from '../../components/StaffProductsTab'
 import OrdersTab from '../../components/StaffOrdersTab'
 import RolesTab from '../../components/AdminRolesTab'
+import StaffTab from '../../components/AdminStaffTab'
 import { mapState } from 'vuex'
 
 export default {
@@ -54,6 +56,7 @@ export default {
         OrdersTab,
         ProductsTab,
         RolesTab,
+        StaffTab,
     },
    data(){
      return{
@@ -69,6 +72,7 @@ export default {
         showSideMenu: false,
         showProductForm: false,
         showRoles: false,
+        showStaff: false,
      }
    },
    methods: {
@@ -98,7 +102,7 @@ export default {
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
      show(tab) {
-            this.showProducts = this.showOrders = this.showRoles = this.showSideMenu = false;
+            this.showProducts = this.showOrders = this.showRoles = this.showStaff = this.showSideMenu = false;
             switch (tab) {
                 case 'products':
                     this.showProducts = true
@@ -108,6 +112,9 @@ export default {
                     break;
                 case 'roles':
                     this.showRoles = true
+                    break;
+                case 'staff':
+                    this.showStaff = true
                     break;
             
                 default:
