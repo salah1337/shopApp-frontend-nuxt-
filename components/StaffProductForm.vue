@@ -148,16 +148,22 @@ export default {
         .then(reply => {
           console.log('success')
           this.show = false  
+          this.resetForm()
         }).catch(err => console.log('fail'))
     },
-    getImg(e, index) {
+     getImg(e, index) {
       let file = this.$refs.imageInput[index].files[0]
       if (file) {
+        if (typeof(this.product.images[index]) == 'string' && this.product.images[index] != '') {
+            this.product.image.splice(this.product.image.indexOf(this.product.images[index]), 1)
+        }
         if (this.product.images[index] == '') this.product.images.push('')
-          this.product.images[index] = file       
+        //   this.product.images[index] = file       
+          this.$set(this.product.images, index, file)
           let reader = new FileReader;
           reader.onload = (e) => {
-            this.imagePreviews[index] = e.target.result
+            // this.imagePreviews[index] = e.target.result
+            this.$set(this.imagePreviews, index, e.target.result)
           }
           reader.readAsDataURL(file)  
       }
@@ -182,6 +188,25 @@ export default {
       this.$delete(this.product.images, index - 1)
       this.$delete(this.product.imagePreviews, index - 1)
       // this.product.images.splice(this.product.images.indexOf(image), 1)
+    },
+    resetForm() {
+        this.product.name = 'name'
+        this.product.SKU = 'SSS'
+        this.product.price = '123'
+        this.product.weight = '123'
+        this.product.cartDesc = 'cartDesc'
+        this.product.shortDesc = 'shortDesc'
+        this.product.longDesc = 'longDesc'
+        this.product.thumb = 'thumb'
+        this.product.images = ['']
+        this.product.location = 'location'
+        this.product.stock = '123'
+        this.product.live = '0'
+        this.product.unlimited = '1'
+        this.product.product_category_id = '1'
+        this.errors = {}
+        this.imagePreviews = []
+        this.thumbPreview = ''
     }
   },
 }

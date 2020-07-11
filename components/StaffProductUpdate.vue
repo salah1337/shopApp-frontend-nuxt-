@@ -61,7 +61,7 @@
                             <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
                             <div class="input">
                                 <img v-if="thumbPreview" :src="thumbPreview" alt="">
-                                <img v-else :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+                                <img v-else :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                                 <div class="image-overlay">
                                     <div class="image-overlay-remove">x</div>
                                     <div @click="$refs.thumbInput.click()" class="image-overlay-change">S</div>
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="imagePreview">
                                         <img v-if="imagePreviews[index]" :src="imagePreviews[index]" alt="">
-                                        <img v-else :src="`http://localhost:6969/storage/${image}`" alt="">
+                                        <img v-else :src="`${apiUrl}/storage/${image}`" alt="">
                                     </div>
                                     </div>
                                     <input style="display: none" @change="getImg($event, index)" ref="imageInput" type="file">
@@ -109,10 +109,12 @@ export default {
       show: false,
       imagePreviews: [],
       thumbPreview: '',
+      apiUrl: process.env.apiUrl
     }
   },
   async created() {
     await this.load()
+    console.log(process.env.apiUrl)
   },
   methods: {
     async load(){
@@ -141,6 +143,7 @@ export default {
         .then(reply => {
           console.log('success')
           this.show = false  
+          this.errors = {}
         }).catch(err => console.log('fail'))
     },
     getImg(e, index) {
@@ -150,10 +153,12 @@ export default {
             this.product.image.splice(this.product.image.indexOf(this.product.images[index]), 1)
         }
         if (this.product.images[index] == '') this.product.images.push('')
-          this.product.images[index] = file       
+        //   this.product.images[index] = file       
+          this.$set(this.product.images, index, file)
           let reader = new FileReader;
           reader.onload = (e) => {
-            this.imagePreviews[index] = e.target.result
+            // this.imagePreviews[index] = e.target.result
+            this.$set(this.imagePreviews, index, e.target.result)
           }
           reader.readAsDataURL(file)  
       }

@@ -1,7 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  baseApiUrl: 'http://localhost:6969',
+  env: {
+    apiUrl: process.env.API_URL || 'http://localhost:6969',
+  },
   mode: 'universal',
   /*
   ** Headers of the page
