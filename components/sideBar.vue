@@ -22,7 +22,14 @@
                 </nuxt-link>
             </li>
             <li v-if="this.$auth.user.isStaff" class="col-12">
-                
+                <nuxt-link to="/staff">
+                    staff
+                </nuxt-link>
+            </li>
+            <li v-if="this.$auth.user.isAdmin" class="col-12">
+                <nuxt-link to="/admin">
+                    Admin
+                </nuxt-link>
             </li>
         </ul>
         <template v-slot:footer="{ hide }">

@@ -29,7 +29,7 @@
             </div>
             <div class="details">
                 <div class="selectedImage gridcenter bg">
-                    <img src="/img.jpg" alt="">
+                    <img :src="`${apiUrl}/storage/${selectedImage}`" alt="">
                 </div>
                 <div class="options">
                     <div class="optiongroup" v-if="getGroup(group)" v-for="group in products.optiongroups" :key="group">
@@ -43,21 +43,21 @@
                 </div>
             
             </div>
+            <!-- <div class="images">
+                <div v-for="image in product.images" class="image bg gridcenter">
+                    <img v-if="image == selectedImage" class="selectedImage" :src="`${apiUrl}/storage/${image}`" alt="">
+                    <img v-else @click="selectImage(image)" :src="`${apiUrl}/storage/${image}`" alt="">
+                </div>
+            </div> -->
+            
             <div class="images">
-                <div class="image bg gridcenter">
-                    <img  src="/img.jpg" alt="">
-                </div>
-                <div class="image bg gridcenter">
-                    <img  src="/img.jpg" alt="">
-                </div>
-                <div class="image bg gridcenter">
-                    <img  src="/landingImg.png" alt="">
-                </div>
-                <div class="image bg gridcenter">
-                    <img  src="/img.jpg" alt="">
-                </div>
-                <div class="image bg gridcenter">
-                    <img  src="/landingImg.png" alt="">
+                <div v-for="image in product.images">
+                    <div v-if="image == selectedImage" class="selectedImage image bg gridcenter">
+                        <img :src="`${apiUrl}/storage/${image}`" alt="">
+                    </div>
+                    <div v-else @click="selectImage(image)" class="image bg gridcenter">
+                        <img :src="`${apiUrl}/storage/${image}`" alt="">
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +79,9 @@ export default {
     },
     data(){
         return {
-            product: ''
+            product: '',
+            apiUrl: process.env.apiUrl,
+            selectedImage: null
         }
     },
     computed: {
@@ -98,6 +100,8 @@ export default {
         async load(){
             let data = await this.loadOne('product', this.id, this.scope)
             this.product = data.product
+            this.product.images = JSON.parse(this.product.image)
+            this.selectedImage = this.product.images[0]
             // this.product.images = JSON.parse(data.product.image) 
         },
         getGroup(name) {
@@ -105,6 +109,9 @@ export default {
                return opt.group.name == name
            })
            return group.length > 0 ? true : false
+        },
+        selectImage(image){
+            this.selectedImage = image
         }
     }
 }
@@ -129,6 +136,9 @@ img {
         border-color: var(--main);
     }
     cursor: pointer;
+}
+.selectedImage{
+    border: 1px solid var(--main);
 }
 @media(max-width: 700px){
     .header{

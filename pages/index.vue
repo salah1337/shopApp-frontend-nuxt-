@@ -12,7 +12,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`http://localhost:6969/storage/pages/landingImg.png`" alt="">
+                <img :src="`${apiUrl}/storage/pages/landingImg.png`" alt="">
             </div>
         </div>
         <div class="preview">
@@ -44,7 +44,7 @@
                 <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
                     <nuxt-link :to="`/products/${product.id}`">
                         <div class="image">
-                            <img :src="`http://localhost:6969/storage/noimage.jpg`" alt="">
+                            <img :src="`${apiUrl}/storage/noimage.jpg`" alt="">
                         </div>
                         <div class="name">
                             <p>{{product.name}}</p>
@@ -113,6 +113,7 @@ export default {
     return{
      'featuredProducts': '',
      'searchField': '',
+      apiUrl: process.env.apiUrl
     }
   },
   async fetch({store}) {

@@ -1,102 +1,106 @@
 <template>
-        <div>
-        <div @click="show = !show" class="gridcenter pip-btn pip-edit">Edit</div>
-        <div v-if="show" id="staffproductform" class="container gridcenter">
-            <div v-if="show" @click="show = !show" class="product-form-bg"></div>
-            <div class="panel gridcenter panel_content panel_submit">
-            <div class="panel-header">
-                <div class="panel-title">
-                    Edit
-                </div>
+<div>
+    <div @click="show = !show" class="gridcenter pip-btn pip-edit">Edit</div>
+    <div v-if="show" id="staffproductform" class="container gridcenter">
+    <div v-if="show" @click="show = !show" class="product-form-bg"></div>
+    <div class="panel gridcenter panel_content panel_submit">
+        <div class="panel-header">
+        <div class="panel-title">
+            Edit
+        </div>
+        </div>
+        <div @click="show = !show" class="panel-close">X</div>
+        <div @click="updateProduct()" class="panel-submit">Update</div>
+        <div class="panel-content">
+        <div class="form">
+            <div class="left">
+            <div class="field name">
+                <label for="">Name</label>
+                <input v-model="product.name" type="text" class="input input-form input-form2">
+                <span class="error" v-if="errors.name">{{errors.name[0]}}</span>
             </div>
-            <div @click="show = !show" class="panel-close">X</div>
-            <div @click="updateProduct()" class="panel-submit">Update</div>
-            <div class="panel-content">
-                <div class="form">
-                    <div class="left">
-                        <div class="field name">
-                            <label for="">Name</label>
-                            <input v-model="product.name" type="text" class="input input-form input-form2">
-                            <span class="error" v-if="errors.name" >{{errors.name[0]}}</span>
-                        </div>
-                        <div class="field sku">
-                            <label for="">sku</label>
-                            <input v-model="product.SKU" type="text" class="input input-form input-form2">
-                            <span class="error" v-if="errors.SKU" >{{errors.SKU[0]}}</span>
-                        </div>
-                        <div class="field price">
-                            <label for="">Price</label>
-                            <input v-model="product.price" type="text" class="input input-form input-form2">
-                                <span class="error" v-if="errors.price" >{{errors.price[0]}}</span>
-                        </div>
-                        <div class="field weight">
-                            <label for="">weight</label>
-                            <input v-model="product.weight" type="text" class="input input-form input-form2">
-                                <span class="error" v-if="errors.weight" >{{errors.weight[0]}}</span>
-                        </div>
-                        <div class="field rows-3 cart-description">
-                            <label for="">cart description</label>
-                            <textarea v-model="product.cartDesc" name="" class="input input-form input-form2" id="" ></textarea>
-                            <span class="error" v-if="errors.cartDesc" >{{errors.cartDesc[0]}}</span>
-                        </div>
-                        <div class="field rows-3 short-description">
-                            <label for="">short description</label>
-                            <textarea v-model="product.shortDesc" name="" class="input input-form input-form2" id="" ></textarea>
-                                <span class="error" v-if="errors.shortDesc" >{{errors.shortDesc[0]}}</span>
-                        </div>
-                        <div class="field rows-3 long-description">
-                            <label for="">long description</label>
-                            <textarea v-model="product.longDesc" name="" class="input input-form input-form2" id="" ></textarea>
-                                <span class="error" v-if="errors.longDesc" >{{errors.longDesc[0]}}</span>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="field stock">
-                            <label for="">stock</label>
-                            <input v-model="product.stock" type="text" class="input input-form input-form2">
-                                <span class="error" v-if="errors.stock" >{{errors.stock[0]}}</span>
-                        </div>
-                        <div class="field thumbnail">
-                            <label for="">thumbnail</label>
-                            <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
-                            <div class="input">
-                                <img v-if="thumbPreview" :src="thumbPreview" alt="">
-                                <img v-else :src="`${apiUrl}/storage/${product.thumb}`" alt="">
-                                <div class="image-overlay">
-                                    <div class="image-overlay-remove">x</div>
-                                    <div @click="$refs.thumbInput.click()" class="image-overlay-change">S</div>
-                                    </div>
-                            </div>
-                            <span class="error" v-if="errors.thumb" >{{errors.thumb[0]}}</span>
-                        </div>
-                        <div class="field images">
-                            <label for="">images</label>
-                            <div class="inputs">
-                                <div v-for="(image, index) in product.images" >
-                                    <div v-if="image == ''" @click="$refs.imageInput[index].click()" class="addbtn gridcenter">+</div>
-                                </div>
-                                <div v-for="(image, index) in product.images" class="input">
-                                    <div v-if="image != ''">
-                                    <div class="image-overlay">
-                                    <div @click="removeImage(index)" class="image-overlay-remove">x</div>
-                                        <div @click="$refs.imageInput[index].click()" class="image-overlay-change">S</div>
-                                    </div>
-                                    <div class="imagePreview">
-                                        <img v-if="imagePreviews[index]" :src="imagePreviews[index]" alt="">
-                                        <img v-else :src="`${apiUrl}/storage/${image}`" alt="">
-                                    </div>
-                                    </div>
-                                    <input style="display: none" @change="getImg($event, index)" ref="imageInput" type="file">
-                                </div>
-                            </div>
-                            <span class="error" v-if="errors.image" >{{errors.image[0]}}</span>
-                        </div>
+            <div class="field sku">
+                <label for="">sku</label>
+                <input v-model="product.SKU" type="text" class="input input-form input-form2">
+                <span class="error" v-if="errors.SKU">{{errors.SKU[0]}}</span>
+            </div>
+            <div class="field price">
+                <label for="">Price</label>
+                <input v-model="product.price" type="text" class="input input-form input-form2">
+                <span class="error" v-if="errors.price">{{errors.price[0]}}</span>
+            </div>
+            <div class="field weight">
+                <label for="">weight</label>
+                <input v-model="product.weight" type="text" class="input input-form input-form2">
+                <span class="error" v-if="errors.weight">{{errors.weight[0]}}</span>
+            </div>
+            <div class="field rows-3 cart-description">
+                <label for="">cart description</label>
+                <textarea v-model="product.cartDesc" name="" class="input input-form input-form2"
+                id=""></textarea>
+                <span class="error" v-if="errors.cartDesc">{{errors.cartDesc[0]}}</span>
+            </div>
+            <div class="field rows-3 short-description">
+                <label for="">short description</label>
+                <textarea v-model="product.shortDesc" name="" class="input input-form input-form2"
+                id=""></textarea>
+                <span class="error" v-if="errors.shortDesc">{{errors.shortDesc[0]}}</span>
+            </div>
+            <div class="field rows-3 long-description">
+                <label for="">long description</label>
+                <textarea v-model="product.longDesc" name="" class="input input-form input-form2"
+                id=""></textarea>
+                <span class="error" v-if="errors.longDesc">{{errors.longDesc[0]}}</span>
+            </div>
+            </div>
+            <div class="right">
+            <div class="field stock">
+                <label for="">stock</label>
+                <input v-model="product.stock" type="text" class="input input-form input-form2">
+                <span class="error" v-if="errors.stock">{{errors.stock[0]}}</span>
+            </div>
+            <div class="field thumbnail">
+                <label for="">thumbnail</label>
+                <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
+                <div class="input">
+                <img v-if="thumbPreview" :src="thumbPreview" alt="">
+                <img v-else :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                <div class="image-overlay">
+                    <div class="image-overlay-remove">x</div>
+                    <div @click="$refs.thumbInput.click()" class="image-overlay-change">S</div>
+                </div>
+                </div>
+                <span class="error" v-if="errors.thumb">{{errors.thumb[0]}}</span>
+            </div>
+            <div class="field images">
+                <label for="">images</label>
+                <div class="inputs">
+                <div v-for="(image, index) in product.images">
+                    <div v-if="image == ''" @click="$refs.imageInput[index].click()" class="addbtn gridcenter">+
                     </div>
                 </div>
+                <div v-for="(image, index) in product.images" class="input">
+                    <div v-if="image != ''">
+                        <div class="image-overlay">
+                            <div @click="removeImage(index)" class="image-overlay-remove">x</div>
+                            <div @click="$refs.imageInput[index].click()" class="image-overlay-change">S</div>
+                        </div>
+                        <div class="imagePreview">
+                            <img v-if="imagePreviews[index]" :src="imagePreviews[index]" alt="">
+                            <img v-else :src="`${apiUrl}/storage/${image}`" alt="">
+                        </div>
+                    </div>
+                    <input style="display: none" @change="getImg($event, index)" ref="imageInput" type="file">
+                </div>
+                </div>
+                <span class="error" v-if="errors.image">{{errors.image[0]}}</span>
+            </div>
             </div>
         </div>
         </div>
-        </div>
+    </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -114,7 +118,6 @@ export default {
   },
   async created() {
     await this.load()
-    console.log(process.env.apiUrl)
   },
   methods: {
     async load(){
@@ -152,7 +155,11 @@ export default {
         if (typeof(this.product.images[index]) == 'string' && this.product.images[index] != '') {
             this.product.image.splice(this.product.image.indexOf(this.product.images[index]), 1)
         }
-        if (this.product.images[index] == '') this.product.images.push('')
+        // if (this.product.images[index] == '') this.product.images.push('')
+        if (this.product.images[index] == '') {
+            this.$set(this.product.images, this.product.images.length, '')
+            
+        }
         //   this.product.images[index] = file       
           this.$set(this.product.images, index, file)
           let reader = new FileReader;
