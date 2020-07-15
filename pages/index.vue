@@ -20,15 +20,15 @@
                 <p class="preview-title">
                     Categories
                 </p>
-                <p class="preview-btn">
+                 <nuxt-link to="/products" class="preview-btn">
                     See All
-                </p>
+                </nuxt-link>
             </div>
             <div class="preview-content categories">
-                <div v-for="category in products.categories" :key="category.id" class="categoryCard">
+                <nuxt-link :to="`/products?c=${category.name}`" v-for="category in products.categories" :key="category.id" class="categoryCard">
                     <v-icon>{{category.icon}}</v-icon>
                     <p>{{category.name}}</p>
-                </div>
+                </nuxt-link>
             </div>
         </div>
         <div class="preview">
@@ -36,9 +36,9 @@
                 <p class="preview-title">
                     Featured Products
                 </p>
-                <p class="preview-btn">
-                    See All
-                </p>
+                <nuxt-link to="/products" class="preview-btn">
+                    See More
+                </nuxt-link>
             </div>
             <div class="preview-content products">
                 <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">

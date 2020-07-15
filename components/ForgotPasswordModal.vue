@@ -1,28 +1,32 @@
 <template>
 
-  <div>
+  <div id="forgot-password">
      <div @click="show = !show" class="popup-trigger">
-        <v-icon class="nav-btn">fa fa-user</v-icon>
+              <p>Forgot Password</p>
       </div>
       <div v-if="show" @click="show = !show" class="popup-bg"></div>
       <div v-if="show" class="popup-content login">
         <div class="panel login-panel login">
-          <div class="title">
-            <h3>login</h3>
-          </div>
-          <div class="form">
-            <div class="input">
-              <label>Email</label>
-              <input v-model="userInfo.email" type="email" class="input input-form input-form1">
+            <div v-if="step == 1">
+                <div class="title">
+                    <h3>Forgot Password</h3>
+                </div>
+                <div class="form">
+                    <div class="input">
+                    <label>Email</label>
+                    <input v-model="userInfo.email" type="email" class="input input-form input-form1">
+                    </div>
+                </div>
+                <div @click="submitForm()" class="submit gridcenter">Send Email</div>
             </div>
-            <div class="input">
-              <label>Password</label>
-              <input v-model="userInfo.password" type="password" class="input input-form input-form1">
+            <div class="gridcenter" v-if="step == 2">
+                <img class="success2" :src="`${apiUrl}/storage/pages/success2.png`" alt="">
+                <div>
+                    <h3>Success</h3>
+                    <h5>Check your email!</h5>
+                    <p @click="show = !show" class="submit gridcenter">close</p>
+                </div>
             </div>
-            <div><RegisterModal /></div>
-            <div><ForgotPasswordModal /></div>
-          </div>
-          <div @click="submitForm()" class="submit gridcenter">login</div>
         </div>
       </div>
   </div>
@@ -30,6 +34,11 @@
 </template>
 
 <style lang="scss">
+#forgot-password{
+    .success2{
+        max-height: 200px;
+    }
+}
 .login{
     max-height: 450px !important;
     max-width: 550px;
@@ -106,13 +115,8 @@
 
 <script>
 import RegisterModal from '../components/RegisterModal'
-import ForgotPasswordModal from '../components/ForgotPasswordModal'
 
 export default {
-  components: {
-    RegisterModal,
-    ForgotPasswordModal
-  },
   data() {
     return {
       userInfo: {
@@ -120,23 +124,20 @@ export default {
         password: 'lollol'
       },
       show: false,
-      errors: {}
+      errors: {},
+      step: 1,
+      apiUrl: process.env.apiUrl
     }
   },
   methods: {
     async submitForm() {
       let loader = this.$loading.show()
-      await this.$auth.loginWith('local', {
-        data: {
-          username: this.userInfo.email,
-          password: this.userInfo.password
-        }
-      }).then(async () => {
-        await this.load()
-        this.notify([true, "Welcome back."])
-        this.show = false
+      await this.dbAction('post', 'api/reset', {'email':this.userInfo.email}) 
+      .then(async () => {
+          console.log('success');
+          this.step = 2
       }).catch(err => {    
-          this.notify([false, "make sure your data is correct"])
+          console.log('fail'); 
       })
       loader.hide()
     }

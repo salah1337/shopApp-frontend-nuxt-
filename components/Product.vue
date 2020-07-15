@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div v-if="product" class="container">
+   <div id="productShow" v-if="product" class="container">
         <div class="categoryName">
             <a href="#"><p>{{product.category.name}}</p></a>
         </div>
@@ -12,23 +12,23 @@
                     </div>
                     <div class="btns">
                         <nuxt-link :to="`/user/order?i=${product.id}`">
-                            <div class="order bg">
+                            <div class="order product-bg">
                                 order
                             </div>
                         </nuxt-link>
-                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="cart bg">
+                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="cart product-bg">
                             <v-icon>fa fa-shopping-cart</v-icon>
                         </div>
-                        <div v-if="cartHas(product.id)" @click="cartedit('remove', product.id)" class="cart bg invert">
+                        <div v-if="cartHas(product.id)" @click="cartedit('remove', product.id)" class="cart product-bg invert">
                             <v-icon>fa fa-shopping-cart</v-icon>
                         </div>
-                        <div class="wishlist bg">
+                        <div class="wishlist product-bg">
                             <v-icon>fa fa-heart</v-icon>
                         </div>
                     </div>
             </div>
             <div class="details">
-                <div class="selectedImage gridcenter bg">
+                <div class="selectedImage gridcenter product-bg">
                     <img :src="`${apiUrl}/storage/${selectedImage}`" alt="">
                 </div>
                 <div class="options">
@@ -36,7 +36,7 @@
                         <div>
                             {{group}}
                         </div>
-                        <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" class="option gridcenter bg">
+                        <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" class="option gridcenter product-bg">
                             {{option.name}}
                         </div>
                     </div>
@@ -44,7 +44,7 @@
             
             </div>
             <!-- <div class="images">
-                <div v-for="image in product.images" class="image bg gridcenter">
+                <div v-for="image in product.images" class="image product-bg gridcenter">
                     <img v-if="image == selectedImage" class="selectedImage" :src="`${apiUrl}/storage/${image}`" alt="">
                     <img v-else @click="selectImage(image)" :src="`${apiUrl}/storage/${image}`" alt="">
                 </div>
@@ -52,10 +52,10 @@
             
             <div class="images">
                 <div v-for="image in product.images">
-                    <div v-if="image == selectedImage" class="selectedImage image bg gridcenter">
+                    <div v-if="image == selectedImage" class="selectedImage image product-bg gridcenter">
                         <img :src="`${apiUrl}/storage/${image}`" alt="">
                     </div>
-                    <div v-else @click="selectImage(image)" class="image bg gridcenter">
+                    <div v-else @click="selectImage(image)" class="image product-bg gridcenter">
                         <img :src="`${apiUrl}/storage/${image}`" alt="">
                     </div>
                 </div>
@@ -118,7 +118,8 @@ export default {
 </script>
 
 <style lang="scss">
-.categoryName{
+#productShow{
+    .categoryName{
     a{
         color: var(--grayTxt);
     }
@@ -128,7 +129,7 @@ img {
     max-height: 100%;
     object-fit: cover;
 }
-.bg{
+.product-bg{
     border-radius: 8px;
     border: 1px solid var(--gray);
     background-color: var(--gray);
@@ -228,5 +229,6 @@ img {
             height: 90px;
         }
     }
+}
 }
 </style>

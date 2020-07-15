@@ -1,19 +1,7 @@
 <template>
       <div>
-       <div @click="show = !show" class="item">
-            <p class="main">{{product.name}}</p>
-            <div class="others">
-                <p class="line">{{product.price}}</p>
-                <p class="line">{{product.stock}}</p>
-                <!-- <p class="line"> -->
-                    <!-- <v-switch 
-                    @change="toggleProductStatus(product.id)" 
-                    :value="product.live"
-                    ></v-switch> -->
-                    <p v-if="product.live" @click="toggleProductStatus(product.id)" class="line status status-success">Live</p>
-                    <p v-else @click="toggleProductStatus(product.id)" class="line status status-primary">Unlisted</p>
-                <!-- </p> -->
-            </div>
+       <div @click="show = !show" class="status status-primary">
+            <font-awesome-icon icon="info-circle"/>
         </div>
      <div v-if="show" class="productinfopanel gridcenter pip-container">
         <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
@@ -162,10 +150,6 @@ export default {
             await this.dbAction('get', `api/product/delete/${this.product.id}`, null, 'products/load')
             .then(reply => console.log('success')).catch(err => console.log('fail'))
         },
-        async toggleProductStatus(id){
-            await this.dbAction('get', `api/product/togglestatus/${id}`, null, 'products/load')
-            .then(reply => console.log('success')).catch(err => console.log('fail'))
-        }
     }
 }
 </script>

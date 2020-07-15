@@ -38,7 +38,8 @@ export default {
     '~/plugins/axios-utils',
     '~/plugins/roles-utils',
     '~/plugins/loading-overlay',
-    '~/plugins/preloader'
+    '~/plugins/preloader',
+    '~/plugins/timeSince'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -70,7 +71,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     'nuxt-i18n',
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    'moment'
   ],
 
   i18n: {
@@ -136,6 +138,11 @@ export default {
     /*
     ** You can extend webpack config here
     */
+   vendor: [
+    //...
+    'moment',
+    //...
+    ],
     extend (config, ctx) {
     },
     transpile: ['vue-notifications']

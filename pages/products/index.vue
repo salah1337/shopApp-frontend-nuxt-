@@ -2,10 +2,18 @@
     <div class="container">
         <div class="searchBar">
             <h3 class="title">Find Anything You need!</h3>
-            <input v-model="searchField" placeholder="search products by name..." @change="filter()" type="text" class="input search">
+            <input v-model="searchField" placeholder="search products by name..." @change="filterSearch()" type="text" class="input search">
+        </div>
+        <div class="categories">
+            <div @click="selectCategory(category.name)" 
+            v-bind:class='(selectedCategory == category.name ? "selected" : "")'
+            v-for="category in products.categories" :key="category.id" class="categoryCard">
+                <v-icon>{{category.icon}}</v-icon>
+                <p>{{category.name}}</p>
+            </div>
         </div>
         <div class="list">
-            <div v-for="product in products.products" :key="product.id" v-if="filter(product.name)" class="productCard">
+            <div v-for="product in products.products" :key="product.id" class="productCard" v-if="filterSearch(product.name) && filterCategory(product.category.name)">
                 <div class="info">
                     <div class="thumbnail">
                         <img :src="`http://localhost:6969/storage/noimage.jpg`" alt="">
@@ -112,6 +120,28 @@
         width: 70vw;
         height: 30px;
         max-width: 500px;
+    }
+}
+.categories{
+    display: flex;
+    margin: 10px;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow: overlay;
+    .categoryCard{
+        background-color: var(--gray);
+        border-radius: 8px;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+        height: 120px;
+        text-align: center;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    .selected{
+        border: 1px solid var(--main);
     }
 }
 .list{
@@ -223,7 +253,9 @@ export default {
     },
     data(){
         return{
-            searchField:''
+            searchField: '',
+            selectedCategory: '',
+            listProducts: null
         }
     },
     mounted() {
@@ -232,16 +264,23 @@ export default {
     computed: {
         ...mapState({
             products: state => state.products.liveProducts,
-        cart: state => state.cart.cart,
+            cart: state => state.cart.cart,
         }),
     },
     methods:{
-        filter(str){
+        filterSearch(name){
             if (!this.searchField == "")  {
-            let regex = RegExp(`${this.searchField}+`, 'ig')
-            // console.log(`${str} / ${this.searchField}  = ` + regex.test(str));
-            return regex.test(str)}
+                let regex = RegExp(`${this.searchField}+`, 'ig')
+                // console.log(`${str} / ${this.searchField}  = ` + regex.test(str));
+                return regex.test(name)}
             else{
+                return true
+            }
+        },
+        filterCategory(category){
+            if (this.selectedCategory != '') {
+                return this.selectedCategory == category ? true : false
+            }else{
                 return true
             }
         },
@@ -255,6 +294,10 @@ export default {
         },
         async addQueryItem(){
           this.searchField = this.$route.query.s
+          this.selectedCategory = this.$route.query.c ? this.$route.query.c : '' 
+        },
+        selectCategory(name){
+            this.selectedCategory = name
         }
     },
 }

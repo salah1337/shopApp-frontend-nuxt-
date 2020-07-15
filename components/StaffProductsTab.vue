@@ -1,5 +1,6 @@
 <template>
-    <div id="products" class="content">
+<v-app class="content">
+        <!-- <div id="adminProductTab" class="content"> -->
       <div class="header">
         <div class="stats">
           <div class="panel panel_content">
@@ -32,7 +33,7 @@
         <div class="staff-products-tab-panel panel panel_list">
           <div class="panel-header">
             <div class="panel-title">Products List</div>
-            <div class="panel-description">Click the cards to see more information</div>
+            <div class="panel-description">Click the <font-awesome-icon icon="info-circle"/> to see more information</div>
           </div>
           <div class="panel-search">
             <input type="text" class="input input-form input-form2">
@@ -49,12 +50,30 @@
               </div>
             </div>
             <div class="list-items">
-              <StaffProductPanel v-for="product in products.products" :key="product.id" :product="product" />
+              <div v-for="product in products.products" :key="product.id" class="item">
+                <p class="main">{{product.name}}</p>
+                <div class="others">
+                    <p class="line">{{product.price}}</p>
+                    <p class="line">{{product.stock}}</p>
+                    <div class="line">
+                         <div v-if="$auth.user.isAdmin" @click="toggleProductStatus(product.id)">
+                             <v-switch
+                            :value="product.live"
+                            ></v-switch>
+                         </div>
+                        <p v-if="product.live"  class="status status-success">Live</p>
+                        <p v-else class="status status-primary">Unlisted</p>
+                    </div>
+                </div>
+                <div></div>
+                <StaffProductPanel class="product-info-btn" :product="product" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
+</v-app>
 </template>
 
 <script>
@@ -73,10 +92,20 @@ export default {
             products: state => state.products.products,
         }),
     },
+    methods: {
+        async toggleProductStatus(id){
+            await this.dbAction('get', `api/product/togglestatus/${id}`, null, 'products/load')
+            .then(reply => console.log('success')).catch(err => console.log('fail'))
+        }
+    }
 }
 </script>
 
 <style lang="scss">
+    .product-info-btn{
+        width: 100px;
+        justify-self: flex-end;
+    }
 .content{
     padding: 30px;
     display: grid;
@@ -148,6 +177,9 @@ export default {
             }
             .list-items{
                 max-height: 50vh;
+                .item{
+                    height: 100%;
+                }
             }
         }
     }

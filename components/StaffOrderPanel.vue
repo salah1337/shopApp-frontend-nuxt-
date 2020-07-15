@@ -1,15 +1,7 @@
 <template>
   <div>
-        <div @click="show = !show" class="item">
-            <p class="main">
-                {{order.details.length}} products, total: {{order.amount}}
-            </p>
-            <div class="others">
-                <p class="line">{{order.shipName}}</p>
-                <p class="line">{{order.created_at.substring(0, 10)}}</p>
-                <p v-if="order.shipped" class="line status status-success">shipped</p>
-                <p v-else class="line status status-primary">not shipped</p>
-            </div>
+        <div @click="show = !show" class="status status-primary">
+            <font-awesome-icon icon="info-circle"/>
         </div>
         <div v-if="show" class="orderinfopanel gridcenter oip-container">
             <div v-if="show" @click="show = !show" class="order-info-panel-bg"></div>

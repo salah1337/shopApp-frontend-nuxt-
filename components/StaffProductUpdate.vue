@@ -109,6 +109,7 @@ export default {
   data() {
     return {
       product: '',
+      initialProduct: '',
       errors: {},
       show: false,
       imagePreviews: [],
@@ -123,16 +124,27 @@ export default {
     async load(){
         let data = await this.loadOne('product', this.id, 'staff')
         this.product = {...data.product}
+        this.initialProduct = {...data.product}
+        let parsedImages = JSON.parse(this.product.image)
+        
         this.product.images = JSON.parse(this.product.image)
         this.product.image = JSON.parse(this.product.image)
+
+        // this.initialProduct.images = JSON.parse(this.initialProduct.image)
+        // this.initialProduct.image = JSON.parse(this.initialProduct.image)
         this.product.images.push('')
+        // this.initialProduct.images.push('')
+        // this.initialProduct.images.push('')
         // this.product.images = JSON.parse(data.product.image) 
     },
     async updateProduct() {
     //   this.product.image = JSON.stringify(this.product.image)
       let form = new FormData()
       for (let key in this.product) {
-        form.set(key, this.product[key])
+        //   if (key == 'image' || key == 'images') return
+        if (this.product[key] != this.initialProduct[key]){
+            form.set(key, this.product[key])
+        }
       }
       let images = []
       this.product.images.forEach((image, i) => {
@@ -142,6 +154,7 @@ export default {
         }
       });
       form.set('images', JSON.stringify(images))
+      form.set('image', this.product.image)
       await this.dbAction('post', `api/product/update/${this.product.id}`, form, 'products/load')
         .then(reply => {
           console.log('success')

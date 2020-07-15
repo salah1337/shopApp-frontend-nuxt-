@@ -40,16 +40,28 @@
                     <div class="panel-list">
                         <div class="list-head">
                             <div class="main">
-                                <p>Products</p>
+                                <p>orders</p>
                             </div>
                             <div class="others">
                                 <p>Name</p>
-                                <p>place at</p>
                                 <p>status</p>
                             </div>
                         </div>
                         <div class="list-items">
-                            <OrderPanel v-for="order in orders.orders" :key="order.id" :order="order"/>
+                            <div v-for="order in orders.orders" class="item">
+                                <p class="main">
+                                    {{order.details.length}} products, total: {{order.amount}}
+                                </p>
+                                <div class="others">
+                                    <p class="line">{{order.shipName}}</p>
+                                    <p v-if="order.shipped" class="line status status-success">shipped</p>
+                                    <p v-else class="line status status-primary">not shipped</p>
+                                </div>
+                                <div>
+                                    {{timeSince(new Date(order.created_at))}} ago
+                                </div>
+                            <OrderPanel class="order-info-btn" :key="order.id" :order="order"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,6 +89,10 @@ export default {
 </script>
 
 <style lang="scss">
+    .order-info-btn{
+        width: 100px;
+        justify-self: flex-end;
+    }
 .content{
     padding: 30px;
     display: grid;
@@ -148,6 +164,9 @@ export default {
             }
             .list-items{
                 max-height: 50vh;
+                .item{
+                    height: 100%;
+                }
             }
         }
     }
