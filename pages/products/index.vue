@@ -4,19 +4,26 @@
             <h3 class="title">Find Anything You need!</h3>
             <input v-model="searchField" placeholder="search products by name..." @change="filterSearch()" type="text" class="input search">
         </div>
+        <div @click="clearFilters()">
+            <p class="clearFilters">X Clear Filters</p>
+        </div>
         <div class="categories">
             <div @click="selectCategory(category.name)" 
             v-bind:class='(selectedCategory == category.name ? "selected" : "")'
             v-for="category in products.categories" :key="category.id" class="categoryCard">
-                <v-icon>{{category.icon}}</v-icon>
-                <p>{{category.name}}</p>
+                 <div>
+                    <font-awesome-icon :icon="category.icon"/>
+                </div>
+                <div>
+                    <p>{{category.name}}</p>
+                </div>
             </div>
         </div>
         <div class="list">
             <div v-for="product in products.products" :key="product.id" class="productCard" v-if="filterSearch(product.name) && filterCategory(product.category.name)">
                 <div class="info">
                     <div class="thumbnail">
-                        <img :src="`http://localhost:6969/storage/noimage.jpg`" alt="">
+                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                     </div>
                     <div class="name" v-html="highlight(product.name)">
                         {{product.name}}
@@ -26,10 +33,10 @@
                     <nuxt-link :to="`/products/${product.id}`" class="view">
                         View
                     </nuxt-link>
-                    <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="addcart">
+                    <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="addCart gridcenter">
                         <font-awesome-icon icon="cart-plus"/>
                     </div>
-                    <div v-if="cartHas(product.id)" @click="cartedit('removeitem', product.id)" class="addcart">
+                    <div v-if="cartHas(product.id)" @click="cartedit('removeitem', product.id)" class="removeCart gridcenter">
                         <font-awesome-icon icon="shopping-cart"/>
                     </div>
                 </div>
@@ -45,7 +52,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`http://localhost:6969/storage/pages/productlist.png`" alt="">
+                <img :src="`${apiUrl}/storage/pages/productlist.png`" alt="">
             </div>
         </div>
         <div class="preview">
@@ -56,48 +63,15 @@
                 <div class="preview-btn">See More</div>
             </div>
             <div class="preview-content cardgrid">
-                <div class="card">
+                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                     <div class="card-image">
-                        <img src="/img.jpg" alt="">
+                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                     </div>
                     <div class="card-title">
-                        <p>Product Name</p>
+                        <p>{{product.name}}</p>
                     </div>
                     <p class="card-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/img.jpg" alt="">
-                    </div>
-                    <div class="card-title">
-                        <p>Product Name</p>
-                    </div>
-                    <p class="card-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/img.jpg" alt="">
-                    </div>
-                    <div class="card-title">
-                        <p>Product Name</p>
-                    </div>
-                    <p class="card-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/img.jpg" alt="">
-                    </div>
-                    <div class="card-title">
-                        <p>Product Name</p>
-                    </div>
-                    <p class="card-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        {{product.cartDesc}}
                     </p>
                 </div>
             </div>
@@ -106,8 +80,14 @@
 </template>
 
 <style lang="scss" scoped>
+.clearFilters{
+    cursor: pointer;
+    margin: 10px;
+    &:hover{
+        font-weight: 700;
+    }
+}
 .searchBar{
-    height: 20vh;
     display: flex;
     flex-direction: column;
     .title{
@@ -136,6 +116,7 @@
         justify-content: center;
         align-items: center;
         height: 120px;
+        width: 80px;
         text-align: center;
         cursor: pointer;
         margin-right: 5px;
@@ -168,9 +149,12 @@
             display: flex;
             img{
                 height: 60px;
+                max-width: 120px;
             }
             .thumbnail{
+                width: 120px;
                 height: 100%;
+                margin: 4px;
             }
         }
         .btns{
@@ -202,6 +186,20 @@
                 &:hover{
                     background-color: var(--primary);
                     color: white;
+                }
+            }
+            .removeCart{
+                border: 1px var(--primary) solid;
+                transition: 200ms ease-in-out;
+                background-color: var(--primary);
+                justify-self: end;
+                width: 50%;
+                height: 100%;
+                border-radius: 4px;
+                color: white;
+                &:hover{
+                    background-color: unset;
+                    color: var(--primary);
                 }
             }
         }
@@ -255,7 +253,8 @@ export default {
         return{
             searchField: '',
             selectedCategory: '',
-            listProducts: null
+            listProducts: null,
+            apiUrl: process.env.apiUrl
         }
     },
     mounted() {
@@ -298,6 +297,10 @@ export default {
         },
         selectCategory(name){
             this.selectedCategory = name
+        },
+        clearFilters(){
+            this.selectedCategory = ''
+            this.searchField = ''
         }
     },
 }

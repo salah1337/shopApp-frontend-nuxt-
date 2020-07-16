@@ -26,8 +26,12 @@
             </div>
             <div class="preview-content categories">
                 <nuxt-link :to="`/products?c=${category.name}`" v-for="category in products.categories" :key="category.id" class="categoryCard">
-                    <v-icon>{{category.icon}}</v-icon>
-                    <p>{{category.name}}</p>
+                    <div>
+                        <font-awesome-icon :icon="category.icon"/>
+                    </div>
+                    <div>
+                        <p>{{category.name}}</p>
+                    </div>
                 </nuxt-link>
             </div>
         </div>
@@ -44,7 +48,7 @@
                 <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
                     <nuxt-link :to="`/products/${product.id}`">
                         <div class="image">
-                            <img :src="`${apiUrl}/storage/noimage.jpg`" alt="">
+                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
                         <div class="name">
                             <p>{{product.name}}</p>
@@ -164,6 +168,15 @@ export default {
         }
     }
 }
+.categories{
+    a{
+        color: var(--grayTxt);
+        &:hover{
+            color: var(--main);
+            text-decoration: none;
+        }
+    }
+}
 .categoryCard{
     background-color: var(--gray);
     border-radius: 8px;
@@ -185,8 +198,11 @@ export default {
         display: grid;
         align-items: center;
         overflow: hidden;
+        height: 100%;
         img{
             width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
     .name{

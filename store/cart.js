@@ -25,15 +25,15 @@ export const actions = {
         let cart = res.data.data.cart;
         commit('SET_CART', cart)
     },
-    async edit({ commit, dispatch }, {action, id}){
-        let res = await this.$axios.post(`api/customer/cart/${action}/${id}`).catch(err => {
-            console.log(err)
+    async edit({ commit, dispatch }, {action, id, options}){
+        let res = await this.$axios.post(`api/customer/cart/${action}/${id}`, {options: JSON.stringify(options)}).catch(err => {
+            console.log(err.response)
         })
         if (res.data.success) {
             let cart = res.data.data.cart;
             commit('SET_CART', cart)
+            return [res.data.success, res.data.data.message];
         }
-        return [res.data.success, res.data.data.message];
     },
     async clear({ commit }){
         let res = await this.$axios.post(`api/customer/cart/clear`).catch(err => {

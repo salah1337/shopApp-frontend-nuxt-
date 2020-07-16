@@ -11,12 +11,13 @@
                         <div class="price">{{product.price}}$</div>
                     </div>
                     <div class="btns">
-                        <nuxt-link :to="`/user/order?i=${product.id}`">
-                            <div class="order product-bg">
-                                order
-                            </div>
-                        </nuxt-link>
-                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="cart product-bg">
+                        <div @click="validateOptions()" v-if="!optionsSelected()" class="order product-bg">
+                                order1
+                        </div>
+                        <div v-else @click="Order()" class="order product-bg">
+                            order
+                        </div>
+                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id, selectedOptions)" class="cart product-bg">
                             <v-icon>fa fa-shopping-cart</v-icon>
                         </div>
                         <div v-if="cartHas(product.id)" @click="cartedit('remove', product.id)" class="cart product-bg invert">
@@ -34,14 +35,18 @@
                 <div class="options">
                     <div class="optiongroup" v-if="getGroup(group)" v-for="group in products.optiongroups" :key="group">
                         <div>
-                            {{group}}
+                            {{group}} <span class="error" v-if="errors.includes(group)"> -- please select one of the {{group}} </span>
                         </div>
-                        <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" class="option gridcenter product-bg">
+                        <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" @click="selectOption(option)">
+                        <div v-if="selectedOptions.includes(option)" class="selectedImage option gridcenter product-bg">
                             {{option.name}}
+                        </div>
+                        <div v-else class="option gridcenter product-bg">
+                            {{option.name}}
+                        </div>
                         </div>
                     </div>
                 </div>
-            
             </div>
             <!-- <div class="images">
                 <div v-for="image in product.images" class="image product-bg gridcenter">
@@ -58,6 +63,28 @@
                     <div v-else @click="selectImage(image)" class="image product-bg gridcenter">
                         <img :src="`${apiUrl}/storage/${image}`" alt="">
                     </div>
+                </div>
+            </div>
+        </div>
+               <div class="preview">
+            <div class="preview-header">
+                <p class="preview-title">
+                    Featured Products
+                </p>
+                <nuxt-link to="/products" class="preview-btn">
+                    See More
+                </nuxt-link>
+            </div>
+            <div class="preview-content products">
+                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
+                    <nuxt-link :to="`/products/${product.id}`">
+                        <div class="image">
+                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                        </div>
+                        <div class="name">
+                            <p>{{product.name}}</p>
+                        </div>
+                    </nuxt-link>
                 </div>
             </div>
         </div>
@@ -81,13 +108,15 @@ export default {
         return {
             product: '',
             apiUrl: process.env.apiUrl,
-            selectedImage: null
+            selectedImage: null,
+            selectedOptions: [],
+            errors: [],
         }
     },
     computed: {
         ...mapState({
-        cart: state => state.cart.cart,
-        products: state => state.products.liveProducts,
+            cart: state => state.cart.cart,
+            products: state => state.products.liveProducts,
         }),
         async l() {
             await this.load()
@@ -112,6 +141,48 @@ export default {
         },
         selectImage(image){
             this.selectedImage = image
+        },
+        selectOption(option){
+            this.selectedOptions = this.selectedOptions.filter(opt => {
+                return opt.group.name != option.group.name
+            })
+            this.selectedOptions.push(option)
+        },
+        isSelected(option){
+            return this.selectedOptions.filter(opt => {
+                return opt.name == option.name
+            }).length > 0 ? true : false
+        },
+        optionsSelected(){
+            // for each option group there should be one selected option
+            let pass = true;
+            let groups = this.products.optiongroups
+            for (let i = 0; i < groups.length; i++) {
+                const group = groups[i];
+                if (!this.getGroup(group)) break
+                pass = this.selectedOptions.filter(opt => {
+                    return opt.group.name == group
+                }).length > 0 ? true : false
+                if (pass == false) break
+            }
+
+            console.log(pass);
+            return pass
+        },
+        validateOptions(){
+            this.errors = []
+            let pass = true;
+            this.products.optiongroups.forEach(group => {
+                if (!this.getGroup(group)) return
+                pass = this.selectedOptions.filter(opt => {
+                    return opt.group.name == group
+                }).length > 0 ? true : false
+                if (pass == false) this.errors.push(group) 
+            });
+        },
+        async Order(){
+            await this.cartedit('add', this.product.id, this.selectedOptions, true)
+            window.location.href = `/user/order?i=${this.product.id}`
         }
     }
 }
@@ -215,6 +286,10 @@ img {
             overflow: hidden;
             grid-area: image;
             border-color: var(--main);
+            max-height: 50vh;
+            img{
+                height: 100%;
+            }
         }
    
     }

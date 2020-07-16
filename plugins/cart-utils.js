@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
-      async cartedit(action, id, noNotifs, noLoader){
-          let payload = {action, id}
+      async cartedit(action, id, options, noNotifs, noLoader){
+          let payload = {action, id, options}
           let loader;
           if(!noLoader) {loader = this.$loading.show()}
           await this.$store.dispatch('cart/edit', payload)
