@@ -59,6 +59,11 @@
                   <input v-model="product.stock" type="text" class="input input-form input-form2">
                   <span class="error" v-if="errors.stock">{{errors.stock[0]}}</span>
                 </div>
+                <div class="field stock">
+                  <label for="">tax</label>
+                  <input v-model="product.tax" type="text" class="input input-form input-form2">
+                  <span class="error" v-if="errors.tax">{{errors.tax[0]}}</span>
+                </div>
                 <div class="field thumbnail">
                   <label for="">thumbnail</label>
                   <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
@@ -117,6 +122,7 @@ export default {
                 'images': [''],
                 'location': 'location',
                 'stock': '123',
+                'tax': '10',
                 'live': '0',
                 'unlimited': '1',
                 'product_category_id': '1',

@@ -33,11 +33,8 @@
                     <nuxt-link :to="`/products/${product.id}`" class="view">
                         View
                     </nuxt-link>
-                    <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id)" class="addCart gridcenter">
-                        <font-awesome-icon icon="cart-plus"/>
-                    </div>
-                    <div v-if="cartHas(product.id)" @click="cartedit('removeitem', product.id)" class="removeCart gridcenter">
-                        <font-awesome-icon icon="shopping-cart"/>
+                    <div class="addCart gridcenter">
+                        <font-awesome-icon icon="heart"/>
                     </div>
                 </div>
             </div>

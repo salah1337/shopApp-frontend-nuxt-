@@ -21,9 +21,9 @@
                         <p>{{item.price}}</p>
                     </div>
                     <div class="cartItem-count">
-                         <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id)">-</p>    
+                         <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">-</p>    
                          <p class="count">{{item.count}}</p>
-                         <p class="btn" @click="cartedit('add', item.product_id, item.options)">+</p>
+                         <p class="btn" @click="cartedit('add', item.product_id, item.options, true)">+</p>
                     </div>
                     <!-- <div class="btns"> -->
                          <div class="cartItem-select">
@@ -544,7 +544,7 @@ export default {
       let tax = 0
       this.cart.items.forEach(item => {
         if (this.selectedItems.includes(item.id)) {
-          tax += (item.price * item.count) / 100
+          tax += item.tax * item.count
         }
       })
       return Math.ceil(tax)

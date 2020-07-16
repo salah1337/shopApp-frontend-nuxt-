@@ -12,6 +12,7 @@ Vue.mixin({
             if( user ){
                 await RSVP.all([
                     this.$store.dispatch('cart/load'),
+                    this.$store.dispatch('orders/get'),
                 ])
             }
             if( user && user.isStaff){

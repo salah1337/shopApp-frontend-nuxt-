@@ -44,16 +44,19 @@
                     See More
                 </nuxt-link>
             </div>
-            <div class="preview-content products">
-                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
-                    <nuxt-link :to="`/products/${product.id}`">
-                        <div class="image">
-                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+            <div class="preview-content cardgrid">
+                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
+                        <div class="card-image">
+                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
-                        <div class="name">
-                            <p>{{product.name}}</p>
-                        </div>
-                    </nuxt-link>
+                        <p class="card-title">
+                            <nuxt-link :to="`/products/${product.id}`">
+                                {{product.name}}
+                            </nuxt-link>
+                        </p>
+                        <p class="card-description">
+                            {{product.cartDesc}}
+                        </p>
                 </div>
             </div>
         </div>
@@ -142,6 +145,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cardgrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
+    .card-title{
+        text-align: center;
+    }
+   .card{
+        .card-image{
+            height: 100%;
+            overflow: hidden;
+        img{
+            max-height: 100%;
+        }
+    }
+   }
+}
 .hero-cta{
     display: flex;
     flex-direction: column;

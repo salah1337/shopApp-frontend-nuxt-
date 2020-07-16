@@ -66,7 +66,7 @@
                 </div>
             </div>
         </div>
-               <div class="preview">
+           <div class="preview">
             <div class="preview-header">
                 <p class="preview-title">
                     Featured Products
@@ -75,15 +75,18 @@
                     See More
                 </nuxt-link>
             </div>
-            <div class="preview-content products">
-                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="featuredProductCard">
+            <div class="preview-content cardgrid">
+                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                     <nuxt-link :to="`/products/${product.id}`">
-                        <div class="image">
-                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                        <div class="card-image">
+                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
-                        <div class="name">
-                            <p>{{product.name}}</p>
-                        </div>
+                        <p class="card-title">
+                            {{product.name}}
+                        </p>
+                        <p class="card-description">
+                            {{product.cartDesc}}
+                        </p>
                     </nuxt-link>
                 </div>
             </div>
@@ -190,6 +193,13 @@ export default {
 </script>
 
 <style lang="scss">
+.cardgrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
+    .card-title{
+        text-align: center;
+    }
+}
 #productShow{
     .categoryName{
     a{

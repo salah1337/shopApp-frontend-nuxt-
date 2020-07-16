@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="list-items">
-                            <div v-for="order in orders.orders" class="item">
+                            <div v-for="order in orders.orders" :key="order.id" class="item">
                                 <p class="main">
                                     {{order.details.length}} products, total: {{order.amount}}
                                 </p>
@@ -60,7 +60,7 @@
                                 <div>
                                     {{timeSince(new Date(order.created_at))}} ago
                                 </div>
-                            <OrderPanel class="order-info-btn" :key="order.id" :order="order"/>
+                            <OrderPanel class="order-info-btn" :order="order"/>
                             </div>
                         </div>
                     </div>
@@ -92,6 +92,7 @@ export default {
     .order-info-btn{
         width: 100px;
         justify-self: flex-end;
+        cursor: pointer;
     }
 .content{
     padding: 30px;

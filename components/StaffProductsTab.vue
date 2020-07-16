@@ -27,6 +27,7 @@
         </div>
         <div class="actions">
           <ProductForm />
+          <AddFeaturedProduct :products="products.products" />
         </div>
       </div>
       <div class="list">
@@ -58,6 +59,7 @@
                     <div class="line">
                          <div v-if="$auth.user.isAdmin" @click="toggleProductStatus(product.id)">
                              <v-switch
+                            class="status-switch"
                             :value="product.live"
                             ></v-switch>
                          </div>
@@ -79,6 +81,7 @@
 <script>
 import ProductForm from './StaffProductForm'
 import StaffProductPanel from './StaffProductPanel'
+import AddFeaturedProduct from './AddFeaturedProduct'
 
 import { mapState } from 'vuex'
 
@@ -86,6 +89,7 @@ export default {
     components:{
         ProductForm,
         StaffProductPanel,
+        AddFeaturedProduct,
     },
     computed: {
         ...mapState({
@@ -102,6 +106,9 @@ export default {
 </script>
 
 <style lang="scss">
+.status-switch{
+  z-index: 0;
+}
     .product-info-btn{
         width: 100px;
         justify-self: flex-end;
