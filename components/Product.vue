@@ -155,19 +155,20 @@ export default {
         },
         optionsSelected(){
             // for each option group there should be one selected option
-            let pass = true;
-            let groups = this.products.optiongroups
+            let pass = 0;
+            let groups = this.products.optiongroups.filter(group => {
+                return this.getGroup(group)
+            })
             for (let i = 0; i < groups.length; i++) {
                 const group = groups[i];
-                if (!this.getGroup(group)) break
-                pass = this.selectedOptions.filter(opt => {
+                if (this.selectedOptions.filter(opt => {
                     return opt.group.name == group
-                }).length > 0 ? true : false
-                if (pass == false) break
+                }).length > 0) { pass++ }
             }
 
             console.log(pass);
-            return pass
+            console.log(groups.length);
+            return pass == groups.length
         },
         validateOptions(){
             this.errors = []

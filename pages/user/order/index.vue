@@ -23,7 +23,7 @@
                     <div class="cartItem-count">
                          <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id)">-</p>    
                          <p class="count">{{item.count}}</p>
-                         <p class="btn" @click="cartedit('add', item.product_id)">+</p>
+                         <p class="btn" @click="cartedit('add', item.product_id, item.options)">+</p>
                     </div>
                     <!-- <div class="btns"> -->
                          <div class="cartItem-select">
@@ -521,10 +521,10 @@ export default {
     },
     async addQueryItem(){
       if(!this.$route.query.i) return
-      if (!this.cartHas(this.$route.query.i)){
-        this.cartedit('add', this.$route.query.i, true)
-        await this.$store.dispatch('cart/load')
-      }
+      // if (!this.cartHas(this.$route.query.i)){
+      //   this.cartedit('add', this.$route.query.i, true)
+      //   await this.$store.dispatch('cart/load')
+      // }
       this.cart.items.forEach(item => {
         if (item.product_id == this.$route.query.i){
           this.selectedItems.push(item.id)
