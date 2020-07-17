@@ -5,7 +5,7 @@ export const state = () => ({
 })
 
 export const getters = {
-    allProducts: state => {
+    products: state => {
         return state.products
     },
     liveProducts: state => {

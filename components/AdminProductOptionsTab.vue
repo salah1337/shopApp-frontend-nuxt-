@@ -167,7 +167,7 @@ p{
 }
 .optionCard{
     background-color: var(--gray);
-    boption-radius: 8px;
+    border-radius: 8px;
     display: grid;
     grid-template-rows: 1fr 1fr;
     justify-content: center;
