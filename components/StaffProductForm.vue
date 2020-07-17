@@ -127,10 +127,11 @@
                    <div class="option-group" v-if="groupHasOptions(group)" v-for="group in products.optionGroups">
                      <span class="group-name">{{group.name}}</span>
                      <div class="options">
-                       <div v-for="option in products.options" :key="option.id"
-                         v-if="option.group.name == group.name && productHasOption(option.id)">
+                       <div v-for="(option) in product.options" :key="option.id"
+                         v-if="option.group_id == group.id && productHasOption(option.id)">
                          <div class="option">
                            <div class="option-name">{{option.name}}</div>
+                           <div class="option-increment">{{option.increment}}</div>
                            <font-awesome-icon @click="unselectOption(option.id)" class="option-delete" icon="times"/>
                          </div>
                        </div>
@@ -289,7 +290,10 @@ export default {
         'increment': this.optionToAdd.increment,
         'group_id': this.products.options.filter(opt => {
           return opt.id == this.optionToAdd.id
-        })[0].group.id
+        })[0].group.id,
+        'name': this.products.options.filter(opt => {
+          return opt.id == this.optionToAdd.id
+        })[0].name
       })
       this.optionToAdd.id = null
       this.optionToAdd.increment = null
