@@ -2,30 +2,21 @@
     <div>
       <div v-if="show" @click="show = !show" class="bg"></div>
       <div @click="show = !show" class="action">
-        <span>Add option</span> <span class="sign">+</span>
+        <span>Add option group</span> <span class="sign">+</span>
       </div>
       <div v-if="show" id="optionform" class="container gridcenter">
            <div v-if="show" @click="show = !show" class="option-form-bg"></div>
           <div class="panel panel_content panel_submit">
         <div class="panel-header">
-          <div class="panel-title">Create New option</div>
+          <div class="panel-title">Create New option group</div>
         </div>
         <div @click="show = !show" class="panel-close">X</div>
         <div @click="createoption()" class="panel-submit">Confirm</div>
         <div class="panel-content">
           <div class="input-group">
             <label for="">Name:</label>
-            <input v-model="newOption.name" type="text" class="input input-form input-form2">
+            <input v-model="newOptionGroup.name" type="text" class="input input-form input-form2">
           </div>
-          <div class="groupSelect">
-                <h6>Option group:</h6>
-                <select v-model="newOption.group" name="" id="">
-                    <option selected disabled value="">Select group...</option>
-                    <option v-for="group in optionGroups" :value="group.id" :key="group.id">
-                        {{group.name}}
-                    </option>
-                </select>
-            </div>
         </div>
       </div>
       </div>
@@ -38,7 +29,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      newOption: {
+      newOptionGroup: {
         name: '',
         group: ''
       },
@@ -53,7 +44,7 @@ export default {
     },
   methods: {
     async createoption() {
-      await this.dbAction('post', `api/admin/product/option/add`, this.newOption, 'products/loadAll')
+      await this.dbAction('post', `api/admin/product/option/group/add`, this.newOptionGroup, 'products/loadAll')
         .then(res => {this.show = false}).catch(err => console.log('fail'))
     },
   }

@@ -11,7 +11,9 @@ export const getters = {
 export const mutations = {
     SET_CART(state, cart) {
         cart.items.forEach(item => {
-            item.options = JSON.parse(item.options)
+            if(item.options.length > 3){
+                item.options = JSON.parse(item.options)
+            }
         });
         state.cart = cart
     },
