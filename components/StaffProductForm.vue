@@ -67,7 +67,7 @@
 
               <div class="groupSelect">
                 <h6>Product category:</h6>
-                <select v-model="product.category" name="" id="">
+                <select v-model="product.product_category_id" name="" id="">
                   <option selected disabled value="">Select category...</option>
                   <option v-for="category in products.categories" :value="category.id" :key="category.id">
                     {{category.name}}
@@ -205,9 +205,8 @@ export default {
         'tax': '10',
         'live': '0',
         'unlimited': '1',
-        'product_category_id': '1',
+        'product_category_id': null,
         'options': [],
-        'category': null
       },
       errors: {},
       show: false,
@@ -216,7 +215,7 @@ export default {
       showOptionList: false,
       optionToAdd: {
         'id': null,
-        'increment': null
+        'increment': 0
       }
     }
   },
@@ -238,8 +237,9 @@ export default {
           form.append(`images[]`, image)
         }
       });
+      form.set('options', JSON.stringify(this.product.options)) 
       form.set('images', JSON.stringify(images))
-      await this.dbAction('post', `api/product/add`, form, 'products/load')
+      await this.dbAction('post', `api/product/add`, form, 'products/loadAll')
         .then(reply => {
           console.log('success')
           this.show = false
@@ -287,7 +287,7 @@ export default {
     addOption() {
       this.product.options.push({
         'id': this.optionToAdd.id,
-        'increment': this.optionToAdd.increment,
+        'increment': this.optionToAdd.increment || 0,
         'group_id': this.products.options.filter(opt => {
           return opt.id == this.optionToAdd.id
         })[0].group.id,
@@ -296,7 +296,7 @@ export default {
         })[0].name
       })
       this.optionToAdd.id = null
-      this.optionToAdd.increment = null
+      this.optionToAdd.increment = 0
       this.showOptionList = false
     },
     productHasOption(id) {

@@ -11,14 +11,16 @@
       </div>
         <div class="preview">
             <div class="preview-content categories">
-                <nuxt-link :to="`/products?c=${category.name}`" v-for="category in categories" :key="category.id" class="categoryCard">
-                    <div>
-                        <font-awesome-icon :icon="category.icon"/>
-                    </div>
-                    <div>
-                        <p>{{category.name}}</p>
-                    </div>
-                </nuxt-link>
+              <div v-for="category in categories" :key="category.id" class="categoryCard">
+                <div>
+                  <font-awesome-icon :icon="category.icon"/>
+                </div>
+                  <font-awesome-icon @click="deleteCategory(category.id)" class="delete-category" icon="times"/>
+                <div>
+                    <p>{{category.name}}</p>
+                </div>
+                <categoryUpdate :category="{...category}" />
+              </div>
             </div>
         </div>
     </div>
@@ -26,12 +28,14 @@
 
 <script>
 import categoryForm from './categoryForm'
+import categoryUpdate from './categoryUpdate'
 
 import { mapState } from 'vuex'
 
 export default {
     components:{
         categoryForm,
+        categoryUpdate,
     },
     computed: {
         ...mapState({
@@ -39,8 +43,8 @@ export default {
         }),
     },
     methods: {
-      async deletecategory(id){
-       await this.dbAction('get', `api/admin/categories/delete/${id}`, null, 'categories/load')
+      async deleteCategory(id){
+       await this.dbAction('get', `api/admin/product/category/remove/${id}`, null, 'categories/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
     }
@@ -49,15 +53,20 @@ export default {
 
 <style lang="scss">
 .categories{
-    a{
-        color: var(--grayTxt);
-        &:hover{
-            color: var(--main);
-            text-decoration: none;
-        }
-    }
+        
+
+}
+.delete-category{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--dangerHover);
+    cursor: pointer;
 }
 .categoryCard{
+  position: relative;
+
+  padding: 5px;
     background-color: var(--gray);
     border-radius: 8px;
     display: grid;
@@ -66,7 +75,11 @@ export default {
     align-items: center;
     height: 120px;
     text-align: center;
-    cursor: pointer;
+    color: var(--grayTxt);
+        &:hover{
+            color: var(--main);
+            text-decoration: none;
+        }
 }
 #admin-categories-tab {
   &.content {
