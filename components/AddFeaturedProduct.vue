@@ -4,33 +4,35 @@
       <div @click="show = !show" class="action">
         <span>Featured</span> <span class="sign">+</span>
       </div>
-      <div v-if="show" id="productform" class="container gridcenter">
-           <div v-if="show" @click="show = !show" class="product-form-bg"></div>
-          <div class="panel panel_content panel_submit">
-        <div class="panel-header">
-          <div class="panel-title">Featured Products</div>
-        </div>
-        <div @click="show = !show" class="panel-close">X</div>
-        <div class="panel-content">
+      <div v-if="show" id="featuredproductform" class="container gridcenter">
+        <div v-if="show" @click="show = !show" class="product-form-bg"></div>
+        <div class="panel panel_content panel_submit">
+          <div class="panel-header">
+            <div class="panel-title">Featured Products</div>
+          </div>
+          <div @click="show = !show" class="panel-close">X</div>
+          <div class="panel-content">
             <div class="searchBar gridcenter">
-                <input type="text" class="input input-form input-form2" placeholder="product name...">
+              <input type="text" class="input input-form input-form2" placeholder="product name...">
             </div>
             <div class="user-list">
-                <div v-for="product in products" v-if="product.live" :key="product.id"> 
-                    <div  v-if="product.featured" class="user-card clicked">
-                        <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
-                        <h5>{{product.name}}</h5>
-                        <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer" class="status status-primary">Remove</div>
-                    </div>
-                    <div v-else class="user-card">
-                        <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
-                        <h5>{{product.name}}</h5>
-                        <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer" class="status status-success">Add</div>
-                    </div>
+              <div v-for="product in products" v-if="product.live" :key="product.id">
+                <div v-if="product.featured" class="user-card clicked">
+                  <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+                  <h5>{{product.name}}</h5>
+                  <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer"
+                    class="status status-primary">Remove</div>
                 </div>
+                <div v-else class="user-card">
+                  <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+                  <h5>{{product.name}}</h5>
+                  <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer"
+                    class="status status-success">Add</div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-      </div>
       </div>
     </div>
 </template>
@@ -56,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss">
-#productform{
+#featuredproductform{
     color: black;
     position: fixed;
     top: 0;

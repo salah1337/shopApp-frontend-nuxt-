@@ -12,30 +12,45 @@
            </div>
            <div class="panel-list">
                <div class="list-items">
-                <div v-for="item in cart.items" :key="item.id" class="cartItem">
-                    <div class="gridcenter cartItem-thumbnail">
+                <div v-for="(item, index) in cart.items" :key="item.id" class="cartItem">
+                    <div class="top">
+                       <div class="gridcenter cartItem-thumbnail">
                          <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
+                      </div>
+                      <div class="cartItem-info">
+                          <p>{{item.name}}</p>
+                          <p>{{item.price}}</p>
+                      </div>
+                      <div class="cartItem-count">
+                          <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">-</p>    
+                          <p class="count">{{item.count}}</p>
+                          <p class="btn" @click="cartedit('add', item.product_id, item.options, true)">+</p>
+                      </div>
+                      <!-- <div class="btns"> -->
+                      <div class="cartItem-select">
+                          <v-switch 
+                          v-model="selectedItems" 
+                          :value="item.id"
+                          ></v-switch>
+                      </div>
+                      <div @click="cartedit('removeitem', item.product_id)" class="cartItem-delete">
+                        <font-awesome-icon icon="trash"/>
+                      </div>
+                      <!-- </div> -->
                     </div>
-                    <div class="cartItem-info">
-                        <p>{{item.name}}</p>
-                        <p>{{item.price}}</p>
+                    <div v-if="showOptions[index]">
+                      <ul>
+                        <li v-for="productOption in item.options">
+                          {{productOption.option.name}}
+                        </li>
+                      </ul>
                     </div>
-                    <div class="cartItem-count">
-                         <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">-</p>    
-                         <p class="count">{{item.count}}</p>
-                         <p class="btn" @click="cartedit('add', item.product_id, item.options, true)">+</p>
+                    <div class="toggleOptions" v-if="!showOptions[index]" @click="toggleOptions(index)">
+                      <font-awesome-icon icon="chevron-down"/>
                     </div>
-                    <!-- <div class="btns"> -->
-                         <div class="cartItem-select">
-                             <v-switch 
-                             v-model="selectedItems" 
-                             :value="item.id"
-                             ></v-switch>
-                         </div>
-                         <div @click="cartedit('removeitem', item.product_id)" class="cartItem-delete">
-                            <font-awesome-icon icon="trash"/>
-                         </div>
-                    <!-- </div> -->
+                    <div class="toggleOptions" v-else @click="toggleOptions(index)">
+                      <font-awesome-icon icon="chevron-up"/>
+                    </div>
                 </div>
               </div>
            </div>
@@ -189,6 +204,9 @@
 </template>
 
 <style lang="scss" scoped>
+  .toggleOptions{
+    text-align: center;
+  }
 #ordersuccess{
   .panel{
     .panel-header{
@@ -246,19 +264,26 @@
     padding: 5px;
     .panel-list{
       .list-items{
-        grid-template-rows: repeat(auto-fill, 100px);
+        display: flex;
+        flex-direction: column;
       }
     }
 }
 .cartItem{
-    position: relative;
     display: grid;
+    // grid-template-rows: 1fr 1fr;
+    height: fit-content;
+    margin-bottom: 5px;
+  .top{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-column-gap: 5px;
+    height: 100px;
+  }
+    position: relative;
     background: var(--gray);
     border-radius: 4px;
-    height: 100px;
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 
-    grid-column-gap: 5px;
     .cartItem-thumbnail{
       img{
         height: 100%;
@@ -487,7 +512,8 @@ export default {
       },
       errors: {},
       selectedItems: [],
-      step: 1
+      step: 1,
+      showOptions: []
     }
   },
   computed: {
@@ -497,6 +523,10 @@ export default {
   },
   mounted() {
     this.addQueryItem()
+    for (let i = 0; i < this.cart.items.length; i++) {
+      // this.itemOptions[i] = this.cart.items.options
+      this.$set(this.showOptions, i, false)
+    }
   },
   methods: {
     async placeOrder() {
@@ -549,6 +579,9 @@ export default {
       })
       return Math.ceil(tax)
     },
+    toggleOptions(i){
+      this.$set(this.showOptions, i, !this.showOptions[i])
+    }
   }
 }
 </script>

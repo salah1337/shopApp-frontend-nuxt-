@@ -150,6 +150,13 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
     .card-title{
         text-align: center;
+        a{
+            color: var(--main);
+            &:hover{
+                font-weight: 600;
+                text-decoration: none;
+            }
+        }
     }
    .card{
         .card-image{

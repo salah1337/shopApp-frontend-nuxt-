@@ -1,130 +1,130 @@
 <template>
-      <div>
-       <div @click="show = !show" class="status status-primary">
-            <font-awesome-icon icon="info-circle"/>
+  <div>
+    <div @click="show = !show" class="status status-primary">
+      <font-awesome-icon icon="info-circle" />
+    </div>
+    <div v-if="show" class="productinfopanel gridcenter pip-container">
+      <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
+      <div class="panel panel_info product-info-panel">
+        <div @click="show = !show" class="product-panel-close">X</div>
+        <div class="pip-stock">
+          <div class="pip-title">Stock</div>
+          <div class="pip-content">
+            <div class="pip-row">
+              <div class="pip-title">
+                Current Stock
+              </div>
+              <div class="pip-value">
+                154
+              </div>
+            </div>
+            <div class="pip-row">
+              <div class="pip-title">
+                Shipped
+              </div>
+              <div class="pip-value">
+                32
+              </div>
+            </div>
+            <div class="pip-row">
+              <div class="pip-title">
+                Ordered
+              </div>
+              <div class="pip-value">
+                14
+              </div>
+            </div>
+            <div class="pip-row">
+              <div class="pip-title">
+                Total sales
+              </div>
+              <div class="pip-value">
+                3124$
+              </div>
+            </div>
+          </div>
         </div>
-     <div v-if="show" class="productinfopanel gridcenter pip-container">
-        <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
-        <div class="panel panel_info product-info-panel">
-            <div @click="show = !show" class="product-panel-close">X</div>
-            <div class="pip-stock">
-                <div class="pip-title">Stock</div>
-                <div class="pip-content">
-                    <div class="pip-row">
-                        <div class="pip-title">
-                            Current Stock
-                        </div>
-                        <div class="pip-value">
-                            154
-                        </div>
-                    </div>
-                    <div class="pip-row">
-                        <div class="pip-title">
-                            Shipped
-                        </div>
-                        <div class="pip-value">
-                            32
-                        </div>
-                    </div>
-                    <div class="pip-row">
-                        <div class="pip-title">
-                            Ordered
-                        </div>
-                        <div class="pip-value">
-                            14
-                        </div>
-                    </div>
-                    <div class="pip-row">
-                        <div class="pip-title">
-                            Total sales
-                        </div>
-                        <div class="pip-value">
-                            3124$
-                        </div>
-                    </div>
-                </div>
+        <div class="pip-details">
+          <div class="pip-title">Details</div>
+          <div class="pip-content">
+            <div>
+              <div class="pip-detail">
+                <label for="">category</label>
+                <p>{{product.category.name}}</p>
+              </div>
+              <div class="pip-detail">
+                <label for="">name</label>
+                <p>{{product.name}}</p>
+              </div>
+              <div class="pip-detail">
+                <label for="">price</label>
+                <p>{{product.price}}</p>
+              </div>
+              <div class="pip-detail">
+                <label for="">weight</label>
+                <p>{{product.weight}}</p>
+              </div>
+              <div class="pip-detail description">
+                <label for="">Cart Description</label>
+                <p>{{product.cartDesc}}</p>
+              </div>
             </div>
-            <div class="pip-details">
-                <div class="pip-title">Details</div>
-               <div class="pip-content">
-                    <div>
-                        <div class="pip-detail">
-                            <label for="">category</label>
-                            <p>{{product.category.name}}</p>
-                        </div>
-                        <div class="pip-detail">
-                            <label for="">name</label>
-                            <p>{{product.name}}</p>
-                        </div>
-                        <div class="pip-detail">
-                            <label for="">price</label>
-                            <p>{{product.price}}</p>
-                        </div>
-                        <div class="pip-detail">
-                            <label for="">weight</label>
-                            <p>{{product.weight}}</p>
-                        </div>
-                        <div class="pip-detail description">
-                            <label for="">Cart Description</label>
-                            <p>{{product.cartDesc}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="pip-detail description">
-                            <label for="">Short Description</label>
-                            <p>{{product.shortDesc}}</p>
-                        </div>
-                        <div class="pip-detail description">
-                            <label for="">Long Description</label>
-                            <p>{{product.longDesc}}</p>
-                        </div>
-                    </div>
-                </div>
+            <div>
+              <div class="pip-detail description">
+                <label for="">Short Description</label>
+                <p>{{product.shortDesc}}</p>
+              </div>
+              <div class="pip-detail description">
+                <label for="">Long Description</label>
+                <p>{{product.longDesc}}</p>
+              </div>
             </div>
-            <div class="pip-options">
-                <div class="pip-title">Options</div>
-                <div class="pip-content">
-                    <div class="pip-header">
-                        <div class="pip-main">
-                            <p>Name</p>
-                        </div>
-                        <div class="pip-others">
-                            <div class="pip-row">
-                                <p>group</p>
-                            </div>
-                            <div class="pip-row">
-                                <p>ammount ordered</p>
-                            </div>
-                            <div class="pip-row">
-                                <p>price increment</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pip-items">
-                        <div v-for="option in product.options" :key="option.id" class="pip-item">
-                        <div class="pip-main">
-                            <p>{{option.name}}</p>
-                        </div>
-                        <div class="pip-others">
-                            <div class="pip-row">
-                                <p>{{option.group.name}}</p>
-                            </div>
-                            <div class="pip-row">
-                                <p>3</p>
-                            </div>
-                            <div class="pip-row">
-                                <p>3 $</p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pip-btns">
-                <StaffProductUpdate :id="product.id" />
-                <div @click="deleteProduct()" class="gridcenter pip-btn pip-delete">Delete</div>
-            </div>
+          </div>
         </div>
+        <div class="pip-options">
+          <div class="pip-title">Options</div>
+          <div class="pip-content">
+            <div class="pip-header">
+              <div class="pip-main">
+                <p>Name</p>
+              </div>
+              <div class="pip-others">
+                <div class="pip-row">
+                  <p>group</p>
+                </div>
+                <div class="pip-row">
+                  <p>ammount ordered</p>
+                </div>
+                <div class="pip-row">
+                  <p>price increment</p>
+                </div>
+              </div>
+            </div>
+            <div class="pip-items">
+              <div v-for="option in product.options" :key="option.id" class="pip-item">
+                <div class="pip-main">
+                  <p>{{option.name}}</p>
+                </div>
+                <div class="pip-others">
+                  <div class="pip-row">
+                    <p>{{option.group.name}}</p>
+                  </div>
+                  <div class="pip-row">
+                    <p>3</p>
+                  </div>
+                  <div class="pip-row">
+                    <p>3 $</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pip-btns">
+          <StaffProductUpdate :id="product.id" />
+          <div @click="deleteProduct()" class="gridcenter pip-btn pip-delete">Delete</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -11,7 +11,10 @@
             </div>
             <ul class="nav-btns">
                 <searchBar class="nav-btn"/>
-                <CartDropdown class="nav-btn"/>
+                <CartDropdown v-if="this.$auth.loggedIn" class="nav-btn"/>
+                <nuxt-link v-else to="/register">
+                    <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>
+                </nuxt-link>
                 <sideBar v-if="this.$auth.loggedIn" class="nav-btn"/>
                 <LoginModal v-else class="nav-btn"/>
             </ul>

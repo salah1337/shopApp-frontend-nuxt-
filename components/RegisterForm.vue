@@ -132,8 +132,6 @@ export default {
     async submitForm() {
       let loader = this.$loading.show()
       let res = await this.$axios.post('api/register', this.userInfo).then(async res => {
-        console.log('suck ma dick ----' + res.response);
-
         if (res.data.success) {
           await this.$auth.loginWith('local', {
             data: {
@@ -144,9 +142,8 @@ export default {
             await this.load(this.$auth.user, this.$store)
             this.notify([true, "Welcome to chopshop."])
             this.step = 2
-          }).catch(err => console.log('t' + err.response))
+          }).catch(err => console.log(err))
         } else {
-          console.log('lil bitch----' + res.data)
         }
       }).catch(err => {
         const errCodes = [404, 422, 403]
@@ -162,7 +159,7 @@ export default {
           this.notify([false, message])
           this.errors = errors
         } else {
-          console.log('keeeeeeeekkkkee----' + err.response.data);
+          console.log(err);
 
           this.notify([false, "Something went wrong :O, contact us"])
         }

@@ -33,6 +33,11 @@
                 <div class="btn gridcenter">Overview</div>
                 <div @click="show('staff')" class="btn gridcenter">Staff</div>
                 <div @click="show('products')" class="btn gridcenter">Products</div>
+                <div class="sub-btns" v-if="showProducts || showProductCategories || showProductOptions">
+                    <div @click="show('products')" class="sub-btn gridcenter">Products</div>
+                    <div @click="show('product-categories')" class="sub-btn gridcenter">Categories</div>
+                    <div @click="show('product-options')" class="sub-btn gridcenter">Options</div>
+                </div>
                 <div @click="show('orders')" class="btn gridcenter">Orders</div>
                 <div @click="show('roles')" class="btn gridcenter">Roles</div>
             </div>
@@ -41,6 +46,8 @@
         <OrdersTab v-if="showOrders" />
         <RolesTab v-if="showRoles" />
         <StaffTab v-if="showStaff" />
+        <ProductCategoriesTab v-if="showProductCategories" />
+        <ProductOptionsTab v-if="showProductOptions" />
     </div>
 </template>
 
@@ -49,6 +56,8 @@ import ProductsTab from '../../components/StaffProductsTab'
 import OrdersTab from '../../components/StaffOrdersTab'
 import RolesTab from '../../components/AdminRolesTab'
 import StaffTab from '../../components/AdminStaffTab'
+import ProductCategoriesTab from '../../components/AdminProductCategoriesTab'
+import ProductOptionsTab from '../../components/AdminProductOptionsTab'
 import { mapState } from 'vuex'
 
 export default {
@@ -57,6 +66,8 @@ export default {
         ProductsTab,
         RolesTab,
         StaffTab,
+        ProductOptionsTab,
+        ProductCategoriesTab
     },
    data(){
      return{
@@ -73,6 +84,8 @@ export default {
         showProductForm: false,
         showRoles: false,
         showStaff: false,
+        showProductCategories: false,
+        showProductOptions: false,
      }
    },
    methods: {
@@ -102,7 +115,14 @@ export default {
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
      show(tab) {
-            this.showProducts = this.showOrders = this.showRoles = this.showStaff = this.showSideMenu = false;
+            this.showProducts 
+            = this.showOrders 
+            = this.showRoles 
+            = this.showStaff 
+            = this.showSideMenu 
+            = this.showProductCategories
+            = this.showProductOptions
+            = false;
             switch (tab) {
                 case 'products':
                     this.showProducts = true
@@ -115,6 +135,12 @@ export default {
                     break;
                 case 'staff':
                     this.showStaff = true
+                    break;
+                case 'product-options':
+                    this.showProductOptions = true
+                    break;
+                case 'product-categories':
+                    this.showProductCategories = true
                     break;
             
                 default:
@@ -182,6 +208,14 @@ img{
                 box-shadow: inset 0px 0px 12px var(--main);
                 border: 1px solid var(--main);
             }
+        }
+    }
+    .sub-btns{
+        display: grid;
+        grid-row-gap: 5px;
+        .sub-btn{
+            color: var(--main);
+     
         }
     }
 }

@@ -10,7 +10,7 @@
                         <div class="name">{{product.name}}</div>
                         <div class="price">{{product.price}}$</div>
                     </div>
-                    <div class="btns">
+                    <div v-if="this.$auth.loggedIn" class="btns">
                         <div @click="validateOptions()" v-if="!optionsSelected()" class="order product-bg">
                                 order1
                         </div>
@@ -26,6 +26,9 @@
                         <div class="wishlist product-bg">
                             <v-icon>fa fa-heart</v-icon>
                         </div>
+                    </div>
+                    <div v-else>
+                        you need to <nuxt-link to="/login">login</nuxt-link> or <nuxt-link to="/signup">signup</nuxt-link> before you can order.
                     </div>
             </div>
             <div class="details">
@@ -77,17 +80,17 @@
             </div>
             <div class="preview-content cardgrid">
                 <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
-                    <nuxt-link :to="`/products/${product.id}`">
-                        <div class="card-image">
+                     <div class="card-image">
                         <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
                         <p class="card-title">
-                            {{product.name}}
+                            <nuxt-link :to="`/products/${product.id}`">
+                                {{product.name}}
+                            </nuxt-link>
                         </p>
                         <p class="card-description">
                             {{product.cartDesc}}
                         </p>
-                    </nuxt-link>
                 </div>
             </div>
         </div>
@@ -168,9 +171,6 @@ export default {
                     return opt.group.name == group
                 }).length > 0) { pass++ }
             }
-
-            console.log(pass);
-            console.log(groups.length);
             return pass == groups.length
         },
         validateOptions(){
@@ -198,7 +198,23 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
     .card-title{
         text-align: center;
+        a{
+            color: var(--main);
+            &:hover{
+                font-weight: 600;
+                text-decoration: none;
+            }
+        }
     }
+   .card{
+        .card-image{
+            height: 100%;
+            overflow: hidden;
+        img{
+            max-height: 100%;
+        }
+    }
+   }
 }
 #productShow{
     .categoryName{
