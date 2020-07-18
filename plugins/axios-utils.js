@@ -42,7 +42,7 @@ Vue.mixin({
             if(!noLoader) loader.hide()
             return JSON.stringify(res);
         },
-        async loadOne(item, id, scope) {
+        async loadOne(item, id, scope, noLoader) {
           let prefix = `api/customer`
           switch (scope) {
             case 'admin':
@@ -55,7 +55,7 @@ Vue.mixin({
               break;
           }
           // let res = JSON.parse(await this.dbAction('get', `${url}/${id}`, null, null, true))
-          let res = JSON.parse(await this.dbAction('get', `${prefix}/${item}/show/${id}`, null, null, true))
+          let res = JSON.parse(await this.dbAction('get', `${prefix}/${item}/show/${id}`, null, null, noLoader || true))
           if (res.success){
             return res.data 
           }else{
