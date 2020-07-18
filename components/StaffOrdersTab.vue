@@ -166,6 +166,8 @@ export default {
             .list-items{
                 max-height: 50vh;
                 .item{
+                    display: grid;
+                    grid-row-gap: 5px;
                     height: 100%;
                 }
             }

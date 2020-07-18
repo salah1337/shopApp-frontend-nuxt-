@@ -239,7 +239,7 @@ export default {
       });
       form.set('options', JSON.stringify(this.product.options)) 
       form.set('images', JSON.stringify(images))
-      await this.dbAction('post', `api/product/add`, form, 'products/loadAll')
+      await this.dbAction('post', `api/product/add`, form, 'products/load')
         .then(reply => {
           console.log('success')
           this.show = false

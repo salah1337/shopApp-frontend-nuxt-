@@ -213,6 +213,7 @@ img{
     .sub-btns{
         display: grid;
         grid-row-gap: 5px;
+        cursor: pointer;
         .sub-btn{
             color: var(--main);
      

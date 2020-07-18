@@ -52,13 +52,92 @@
                 id=""></textarea>
                 <span class="error" v-if="errors.longDesc">{{errors.longDesc[0]}}</span>
             </div>
+            <div class="field stock">
+              <label for="">stock</label>
+              <input v-model="product.stock" type="text" class="input input-form input-form2">
+              <span class="error" v-if="errors.stock">{{errors.stock[0]}}</span>
+            </div>
+            <div class="field stock">
+              <label for="">tax</label>
+              <input v-model="product.tax" type="text" class="input input-form input-form2">
+              <span class="error" v-if="errors.tax">{{errors.tax[0]}}</span>
+            </div>
             </div>
             <div class="right">
-            <div class="field stock">
-                <label for="">stock</label>
-                <input v-model="product.stock" type="text" class="input input-form input-form2">
-                <span class="error" v-if="errors.stock">{{errors.stock[0]}}</span>
-            </div>
+                          <div class="groupSelect">
+                <h6>Product category:</h6>
+                <select v-model="product.product_category_id" name="" id="">
+                  <option selected disabled value="">Select category...</option>
+                  <option v-for="category in products.categories" :value="category.id" :key="category.id">
+                    {{category.name}}
+                  </option>
+                </select>
+              </div>
+              <div v-if="showOptionList" class="addOptionList">
+                <div class="list">
+                  <div class="panel panel_content panel_submit">
+                    <div @click="showOptionList = !showOptionList" class="panel-close">X</div>
+                    <div @click="addOption()" class="panel-submit">Add</div>
+                    <div class="panel-header">
+                      <div class="panel-title">Option List</div>
+                      <div class="panel-description">Select the option to add and the price increment</div>
+                    </div>
+                   <div class="panel-content">
+                     <div class="searchBar gridcenter">
+                       <input type="text" class="input input-form input-form2" placeholder="option name...">
+                     </div>
+                     <div class="option-list">
+                       <div class="optionGroups">
+                         <div class="option-group" v-for="group in products.optionGroups">
+                          <span class="group-name">{{group.name}}</span>
+                          <div class="options">
+                            <div v-for="option in products.options" :key="option.id"
+                              v-if="option.group.name == group.name && !productHasOption(option.id)">
+                              <div v-if="optionToAdd.id == option.id" class="option selected">
+                                {{option.name}}
+                              </div>
+                              <div @click="optionToAdd.id = option.id" v-else class="option">
+                                {{option.name}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                       </div>
+                     </div>
+                     <!-- <span v-if="errors[0]" class="error">{{errors[0].username}}</span> -->
+                     <div class="price-increment gridcenter">
+                        <h6>price increment:</h6>
+                        <input v-model="optionToAdd.increment" type="number" class="input input-form input-form2" placeholder="e.g. 1$">
+                     </div>
+                     <!-- <span v-if="errors[1]" class="error">{{errors[1].role}}</span> -->
+                   </div>
+                   </div>
+                </div>
+              </div>
+              <div class="addOptionList-bg" v-if="showOptionList" @click="showOptionList = !showOptionList">
+              </div>
+              <div class="actions">
+                <div @click="showOptionList = !showOptionList" class="action">
+                  <span>Add Option</span> <span class="sign">+</span>
+                </div>
+              </div>
+               <div class="option-list">
+                 <div class="optionGroups">
+                   <div class="option-group" v-if="groupHasOptions(group)" v-for="group in products.optionGroups">
+                     <span class="group-name">{{group.name}}</span>
+                     <div class="options">
+                       <div v-for="(option) in product.options" :key="option.id"
+                         v-if="option.option_group_id == group.id && productHasOption(option.id)">
+                         <div class="option">
+                           <div class="option-name">{{option.name}}</div>
+                           <div class="option-increment">{{option.increment}}</div>
+                           <font-awesome-icon @click="unselectOption(option.id)" class="option-delete" icon="times"/>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
             <div class="field thumbnail">
                 <label for="">thumbnail</label>
                 <input style="display: none" @change="getThumb($event)" ref="thumbInput" type="file">
@@ -104,6 +183,9 @@
 </template>
 
 <script>
+import {
+  mapState
+} from 'vuex'
 export default {
   props: ['id'],
   data() {
@@ -114,15 +196,26 @@ export default {
       show: false,
       imagePreviews: [],
       thumbPreview: '',
-      apiUrl: process.env.apiUrl
+      apiUrl: process.env.apiUrl,
+      showOptionList: false,
+      optionToAdd: {
+        'id': null,
+        'increment': 0
+      }
     }
   },
   async created() {
     await this.load()
   },
+    computed: {
+    ...mapState({
+      products: state => state.products.allProducts,
+    }),
+  },
   methods: {
-    async load(){
-        let data = await this.loadOne('product', this.id, 'staff')
+    async load(noLoader){
+
+        let data = await this.loadOne('product', this.id, 'staff', noLoader || true)
         this.product = {...data.product}
         this.initialProduct = {...data.product}
         let parsedImages = JSON.parse(this.product.image)
@@ -153,12 +246,14 @@ export default {
           form.append(`images[]`, image)
         }
       });
+      form.set('options', JSON.stringify(this.product.options)) 
       form.set('images', JSON.stringify(images))
       form.set('image', this.product.image)
       await this.dbAction('post', `api/product/update/${this.product.id}`, form, 'products/load')
         .then(reply => {
           console.log('success')
-          this.show = false  
+          this.show = false
+          this.load(null)
           this.errors = {}
         }).catch(err => console.log('fail'))
     },
@@ -207,7 +302,38 @@ export default {
     //   this.$delete(this.product.imagePreviews, index - 1)
     this.product.images.splice(index, 1)
     this.imagePreviews.splice(index, 1)
-    }
+    },
+        addOption() {
+      this.product.options.push({
+        'id': this.optionToAdd.id,
+        'increment': this.optionToAdd.increment || 0,
+        'option_group_id': this.products.options.filter(opt => {
+          return opt.id == this.optionToAdd.id
+        })[0].group.id,
+        'name': this.products.options.filter(opt => {
+          return opt.id == this.optionToAdd.id
+        })[0].name
+      })
+      this.optionToAdd.id = null
+      this.optionToAdd.increment = 0
+      this.showOptionList = false
+    },
+    productHasOption(id) {
+      return this.product.options.filter(opt => {
+          return opt.id == id
+      }).length > 0 ? true : false
+    },
+    groupHasOptions(group){
+      return this.product.options.filter(opt => {
+        return opt.option_group_id == group.id
+      }).length > 0 ? true : false
+    },
+    unselectOption(id){
+      let option = this.product.options.filter(opt => {
+        return opt.id == id
+      })[0]
+      this.product.options.splice(this.product.options.indexOf(option), 1)
+    },
   }
 }
 </script>
