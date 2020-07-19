@@ -86,17 +86,29 @@
                     <OrderFormProductPanel :product="item.product" />
                   </div>
                   <div @click="removeFromDetails(item)" class="cartItem-delete">
-                    <font-awesome-icon icon="trash" />
+                    <font-awesome-icon class="remove" icon="trash" />
                   </div>
                   <!-- </div> -->
                 </div>
                 <div class="bottom">
                   <div class="options">
-                    <h5 class="options-title">Select product options</h5>
-                    <ul v-if="groupHasSelectedOptions(index, group)" v-for="group in allProducts.optionGroups" >
-                        <li>{{group.name}}</li>
-                      <li v-for="opt in item.options"  v-if="opt.group_id == group.id">{{opt.name}} {{opt.increment}}+ <span @click="unselectOption(index, opt.id)">[remove]</span></li>
-                    </ul>
+                    <h5 class="options-title">Options</h5>
+                    <div class="options-list">
+                      <div 
+                      v-if="groupHasSelectedOptions(index, group)" 
+                      v-for="group in allProducts.optionGroups" 
+                      :key="group.id">
+                      <div class="groupName">{{group.name}}</div>
+                      <div 
+                      class="option"
+                      v-for="opt in item.options"  
+                      v-if="opt.group_id == group.id"
+                      :key="opt.id">
+                          {{opt.name}} 
+                          <span class="increment">(+{{opt.increment}}$)</span> 
+                          <font-awesome-icon class="remove" @click="unselectOption(index, opt.id)" icon="times" /></div>
+                      </div>
+                    </div>
                     <select name="" ref="optionSelect" v-model="optionSelect" @change="addOption(index)">
                         <option selected disabled value="0">Select options...</option>
                       <optgroup v-if="groupHasOptions(index, group)" :label="group.name" v-for="group in allProducts.optionGroups" :key="group.id">
@@ -450,6 +462,19 @@ export default {
         .options-title{
             font-size: calc(0.7rem + 0.5vh);
         }    
+        .options-list{
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+          .groupName{
+            color: var(--grayTxt);
+            font-size: calc(0.6rem + 0.3vw);
+          }
+          .increment{
+            color: var(--primary);
+            font-size: calc(0.6rem + 0.3vw);
+          }
+ 
+        }
         select{
             background: white;
             color: black;
@@ -463,10 +488,16 @@ export default {
             }
         }
     }
+    .remove{
+      color: var(--danger);
+      cursor: pointer;
+    }
     .top{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     grid-column-gap: 5px;
+    min-height: 100px;
+
     .cartItem-info{
         display: flex;
         flex-direction: column;

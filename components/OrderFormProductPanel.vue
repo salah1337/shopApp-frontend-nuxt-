@@ -1,7 +1,7 @@
 <template>
   <div>
        <div @click="show = !show" class="">
-            <font-awesome-icon icon="info-circle"/>
+            <font-awesome-icon class="toggle-btn" icon="info-circle"/>
         </div>
      <div v-if="show" class="productinfopanel gridcenter pip-container">
         <div v-if="show" @click="show = !show" class="product-info-panel-bg"></div>
@@ -156,6 +156,9 @@ export default {
 //     right: 0;
 //     background: rgba(0, 0, 0, 0.2);
 // }
+.toggle-btn{
+    cursor: pointer;
+}
 .productinfopanel{
     color: black;
     position: fixed;
