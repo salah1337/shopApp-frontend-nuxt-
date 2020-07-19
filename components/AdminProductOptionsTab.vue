@@ -66,7 +66,7 @@ export default {
         .then(res => console.log('success')).catch(err => console.log('fail'))
      },
       async deleteOption(id){
-       await this.dbAction('get', `api/admin/product/option/remove/${id}`, null, 'products/load')
+       await this.dbAction('get', `api/admin/product/option/remove/${id}`, null, 'products/loadAll')
         .then(res => console.log('success')).catch(err => console.log('fail'))
      },
       toggleOptions(i){

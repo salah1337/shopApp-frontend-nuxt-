@@ -74,7 +74,10 @@
                   </div>
                   <div class="cartItem-info">
                     <p>{{item.name}}</p>
-                    <p>{{item.price}}$</p>
+                    <p>
+                      {{item.price}}$ 
+                      <span v-if="item.options.length > 0" class="increment">({{priceWithOptions(index)}}$)</span>
+                    </p>
                   </div>
                   <div class="cartItem-count">
                     <p v-if="item.quantity > 1" @click="item.quantity--" class="btn">-</p>
@@ -276,7 +279,7 @@ export default {
             this.orderinfo.details[itemIndex].options.push({
                 // 'id': this.optionSelect.id,
                 'id': option.id,
-                'increment': option.increment || 0,
+                'increment': option.priceIncrement || 0,
                 'name': option.name,
                 'group_id': option.group.id
             })
@@ -312,6 +315,13 @@ export default {
             return this.orderinfo.details[itemIndex].options.filter(opt => {
                 return opt.group_id == option.group.id
             }).length > 0 ? true : false
+        },
+        priceWithOptions(itemIndex) {
+          let price = this.orderinfo.details[itemIndex].price 
+          this.orderinfo.details[itemIndex].options.forEach(option => {
+            price += option.increment
+          });
+          return price
         }
     }
 }
@@ -469,10 +479,7 @@ export default {
             color: var(--grayTxt);
             font-size: calc(0.6rem + 0.3vw);
           }
-          .increment{
-            color: var(--primary);
-            font-size: calc(0.6rem + 0.3vw);
-          }
+     
  
         }
         select{
@@ -487,6 +494,10 @@ export default {
                 -moz-outline-radius: 4px;
             }
         }
+    }
+    .increment{
+      color: var(--primary);
+      font-size: calc(0.6rem + 0.3vw);
     }
     .remove{
       color: var(--danger);
