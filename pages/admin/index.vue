@@ -226,6 +226,10 @@ img{
         }
         .sub-btn-active{
             text-shadow: 1px 0px 4px var(--main);
+            display: flex;
+            &::before{
+                content: '>';
+            }
         }
     }
 }
