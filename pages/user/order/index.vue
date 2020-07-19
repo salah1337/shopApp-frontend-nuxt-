@@ -19,7 +19,10 @@
                       </div>
                       <div class="cartItem-info">
                           <p>{{item.name}}</p>
-                          <p>{{item.price}}</p>
+                          <p>
+                            {{item.price}}$
+                            <span v-if="item.options.length > 0" class="increment">({{priceWithOptions(index)}}$)</span>
+                          </p>
                       </div>
                       <div class="cartItem-count">
                           <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">-</p>    
@@ -38,12 +41,23 @@
                       </div>
                       <!-- </div> -->
                     </div>
-                    <div v-if="showOptions[index]">
-                      <ul>
-                        <li v-for="productOption in item.options">
-                          {{productOption.option.name}}
-                        </li>
-                      </ul>
+                    <div class="options" v-if="showOptions[index]">
+                      <div class="options-list">
+                      <div 
+                      v-if="groupHasOptions(index, group)" 
+                      v-for="group in allProducts.optionGroups" 
+                      :key="group.id">
+                      <div class="groupName">{{group.name}}</div>
+                      <div 
+                      class="option"
+                      v-for="opt in item.options"  
+                      v-if="opt.group.id == group.id"
+                      :key="opt.id">
+                          {{opt.name}} 
+                          <span class="increment">(+{{opt.priceIncrement}}$)</span> 
+                      </div>
+                      </div>
+                    </div>
                     </div>
                     <div class="toggleOptions" v-if="!showOptions[index]" @click="toggleOptions(index)">
                       <font-awesome-icon icon="chevron-down"/>
@@ -182,7 +196,7 @@
             <div class="panel-content">
                 <div class="items">
                     <div v-for="item in cart.items" :key="item.id"  class="item">
-                        <div v-if="selectedItems.includes(item.id)">{{item.name}} || {{item.count}}</div>
+                        <div v-if="selectedItems.includes(item.id)">{{item.name}} <span class="increment">(x{{item.count}})</span></div>
                     </div>
                 </div>
                 <hr>
@@ -206,6 +220,7 @@
 <style lang="scss" scoped>
   .toggleOptions{
     text-align: center;
+    cursor: pointer;
   }
 #ordersuccess{
   .panel{
@@ -238,6 +253,10 @@
       }
     }
   }
+}
+.increment{
+  color: var(--primary);
+  font-size: calc(0.6rem + 0.3vw);
 }
 @media (max-width: 450px) {
   #ordersuccess{
@@ -318,6 +337,38 @@
         max-width: 100px;
         .count{
             color: var(--main);
+        }
+    }
+    .remove{
+      color: var(--danger);
+      cursor: pointer;
+    }
+        .options{
+          padding: 5px;
+        .options-title{
+            font-size: calc(0.7rem + 0.5vh);
+        }    
+        .options-list{
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+          .groupName{
+            color: var(--grayTxt);
+            font-size: calc(0.6rem + 0.3vw);
+          }
+     
+ 
+        }
+        select{
+            background: white;
+            color: black;
+            width: 60%;
+            border-radius: 4px;
+            padding: 3px;
+            position: relative;
+            &:focus{
+                outline: var(--main) 2px solid;
+                -moz-outline-radius: 4px;
+            }
         }
     }
 }
@@ -519,6 +570,7 @@ export default {
   computed: {
     ...mapState({
       cart: state => state.cart.cart,
+      allProducts: state => state.products.allProducts,
     }),
   },
   mounted() {
@@ -565,7 +617,7 @@ export default {
       let total = 0
       this.cart.items.forEach(item => {
         if (this.selectedItems.includes(item.id)) {
-          total += item.price * item.count
+          total += this.priceWithOptions(this.cart.items.indexOf(item)) * item.count
         }
       })
       return Math.ceil(total)
@@ -581,6 +633,18 @@ export default {
     },
     toggleOptions(i){
       this.$set(this.showOptions, i, !this.showOptions[i])
+    },
+    groupHasOptions(itemIndex, group){
+      return  this.cart.items[itemIndex].options.filter(opt => {
+          return opt.group.id == group.id
+      }).length > 0 ? true : false
+    },
+    priceWithOptions(itemIndex) {
+      let price = this.cart.items[itemIndex].price 
+      this.cart.items[itemIndex].options.forEach(option => {
+        price += option.priceIncrement
+      });
+      return price
     }
   }
 }
