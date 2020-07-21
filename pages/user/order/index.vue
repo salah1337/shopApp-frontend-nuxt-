@@ -584,7 +584,9 @@ export default {
     async placeOrder() {
       this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
       await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
-      .then(reply => console.log('success')).catch(err => console.log('fail'))
+      .then(reply => {
+        this.$store.dispatch('cart/load')
+      }).catch(err => console.log('fail'))
       this.step++
     },
     async addDetails() {

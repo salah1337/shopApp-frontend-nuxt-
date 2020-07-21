@@ -1,116 +1,116 @@
 <template>
   <div>
-        <div @click="show = !show" class="status status-primary">
-            <font-awesome-icon icon="info-circle"/>
-        </div>
-        <div v-if="show" class="orderinfopanel gridcenter oip-container">
-            <div v-if="show" @click="show = !show" class="order-info-panel-bg"></div>
-            <div class="panel panel_info order-info-panel">
-                <div @click="show = !show" class="order-panel-close">X</div>
-                <div class="oip-details">
-                    <div class="oip-title">Details</div>
-                    <div class="oip-content">
-                        <div>
-                            <div class="oip-detail">
-                                <label for="">full name</label>
-                                <p>{{order.shipName}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">country</label>
-                                <p>{{order.country}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">state</label>
-                                <p>{{order.state}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">city</label>
-                                <p>{{order.city}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">phone</label>
-                                <p>{{order.phone}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">zip code</label>
-                                <p>{{order.zip}}</p>
-                            </div>
-                            <div class="oip-detail">
-                                <label for="">fax</label>
-                                <p>{{order.fax}}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="oip-detail description">
-                                <label for="">first address</label>
-                                <p>{{order.shipAddress}}</p>
-                            </div>
-                            <div class="oip-detail description">
-                                <label for="">second address</label>
-                                <p>{{order.shipAddress2}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="oip-orders">
-                    <div class="oip-title">orders</div>
-                    <div class="oip-content">
-                        <div class="oip-header">
-                            <div class="oip-main">
-                                <p>Name</p>
-                            </div>
-                            <div class="oip-others">
-                                <div class="oip-row">
-                                    <p>unit price</p>
-                                </div>
-                                <div class="oip-row">
-                                    <p>ammount ordered</p>
-                                </div>
-                                <div class="oip-row">
-                                    <p>order total</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="oip-items">
-                            <div v-for="detail in order.details" :key="detail.id" class="oip-item">
-                                <div class="oip-main">
-                                    <p>{{detail.SKU}}</p>
-                                </div>
-                                <div class="oip-others">
-                                    <div class="oip-row">
-                                        <p>{{detail.price / detail.quantity}}</p>
-                                    </div>
-                                    <div class="oip-row">
-                                        <p>{{detail.quantity}}</p>
-                                    </div>
-                                    <div class="oip-row">
-                                        <p>{{detail.price}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="oip-prices">
-                    <div class="oip-price subtotal">
-                        <div class="oip-title">Subtotal</div>
-                        <div class="oip-value">35 $</div>
-                    </div>
-                    <div class="oip-price tax">
-                        <div class="oip-title">Tax</div>
-                        <div class="oip-value">1.7 $</div>
-                    </div>
-                    <div class="oip-price total">
-                        <div class="oip-title">Total</div>
-                        <div class="oip-value">{{order.amount}}</div>
-                    </div>
-                </div>
-                <div class="oip-btns">
-                    <div @click="cancel()" class="gridcenter oip-btn oip-cancel">Cancel</div>
-                    <div v-if="!order.shipped" @click="markShipped()" class="gridcenter oip-btn oip-ship">Mark Shipped</div>
-                </div>
+    <div @click="show = !show" class="status status-primary">
+      <font-awesome-icon icon="info-circle" />
+    </div>
+    <div v-if="show" class="orderinfopanel gridcenter oip-container">
+      <div v-if="show" @click="show = !show" class="order-info-panel-bg"></div>
+      <div class="panel panel_info order-info-panel">
+        <div @click="show = !show" class="order-panel-close">X</div>
+        <div class="oip-details">
+          <div class="oip-title">Details</div>
+          <div class="oip-content">
+            <div>
+              <div class="oip-detail">
+                <label for="">full name</label>
+                <p>{{order.shipName}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">country</label>
+                <p>{{order.country}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">state</label>
+                <p>{{order.state}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">city</label>
+                <p>{{order.city}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">phone</label>
+                <p>{{order.phone}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">zip code</label>
+                <p>{{order.zip}}</p>
+              </div>
+              <div class="oip-detail">
+                <label for="">fax</label>
+                <p>{{order.fax}}</p>
+              </div>
             </div>
+            <div>
+              <div class="oip-detail description">
+                <label for="">first address</label>
+                <p>{{order.shipAddress}}</p>
+              </div>
+              <div class="oip-detail description">
+                <label for="">second address</label>
+                <p>{{order.shipAddress2}}</p>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="oip-orders">
+          <div class="oip-title">orders</div>
+          <div class="oip-content">
+            <div class="oip-header">
+              <div class="oip-main">
+                <p>Name</p>
+              </div>
+              <div class="oip-others">
+                <div class="oip-row">
+                  <p>unit price</p>
+                </div>
+                <div class="oip-row">
+                  <p>ammount ordered</p>
+                </div>
+                <div class="oip-row">
+                  <p>order total</p>
+                </div>
+              </div>
+            </div>
+            <div class="oip-items">
+              <div v-for="detail in order.details" :key="detail.id" class="oip-item">
+                <div class="oip-main">
+                  <p>{{detail.SKU}}</p>
+                </div>
+                <div class="oip-others">
+                  <div class="oip-row">
+                    <p>{{detail.price / detail.quantity}}</p>
+                  </div>
+                  <div class="oip-row">
+                    <p>{{detail.quantity}}</p>
+                  </div>
+                  <div class="oip-row">
+                    <p>{{detail.price}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="oip-prices">
+          <div class="oip-price subtotal">
+            <div class="oip-title">Subtotal</div>
+            <div class="oip-value">35 $</div>
+          </div>
+          <div class="oip-price tax">
+            <div class="oip-title">Tax</div>
+            <div class="oip-value">1.7 $</div>
+          </div>
+          <div class="oip-price total">
+            <div class="oip-title">Total</div>
+            <div class="oip-value">{{order.amount}}</div>
+          </div>
+        </div>
+        <div class="oip-btns">
+          <div @click="cancel()" class="gridcenter oip-btn oip-cancel">Cancel</div>
+          <div v-if="!order.shipped" @click="markShipped()" class="gridcenter oip-btn oip-ship">Mark Shipped</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
