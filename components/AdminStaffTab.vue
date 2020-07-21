@@ -39,6 +39,10 @@
             <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
+            <div @click="refresh()" class="refresh">
+              refresh
+              <font-awesome-icon icon="sync" />
+            </div>
             <div class="list-head">
               <div class="main">
                 <p>name</p>
@@ -100,6 +104,11 @@ export default {
        await this.dbAction('get', `api/admin/staff/fire/${id}`, null, 'staff/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
+      async refresh(){
+        let loader = this.$loading.show()
+        await this.$store.dispatch('staff/load')
+        loader.hide()
+      }
     }
 }
 </script>

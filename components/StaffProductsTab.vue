@@ -41,6 +41,10 @@
             <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
+            <div @click="refresh()" class="refresh">
+              refresh
+              <font-awesome-icon icon="sync"/>
+            </div>
             <div class="list-head">
               <div class="main">
                 <p>name</p>
@@ -107,6 +111,12 @@ export default {
             await this.dbAction('get', `api/product/togglestatus/${id}`, null, 'products/load')
             .then(reply => console.log('success')).catch(err => console.log('fail'))
         },
+        async refresh(){
+          let loader = this.$loading.show()
+          await this.$store.dispatch('products/load')
+          if (this.$auth.user.isAdmin) await this.$store.dispatch('products/loadAll')
+          loader.hide()
+        }
     }
 }
 </script>
@@ -115,10 +125,14 @@ export default {
 .product-form {
   z-index: 2;
 }
-.clearSearch{
+.clearSearch, .refresh{
   color: var(--grayTxt);
   margin: auto;
   cursor: pointer;
+}
+.refresh{
+  text-align: right;
+  margin-bottom: 5px;
 }
 .product-info-btn {
   width: 100px;

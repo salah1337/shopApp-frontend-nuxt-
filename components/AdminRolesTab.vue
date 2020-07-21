@@ -39,6 +39,10 @@
             <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
+            <div @click="refresh()" class="refresh">
+              refresh
+              <font-awesome-icon icon="sync" />
+            </div>
             <div class="list-head">
               <div class="main">
                 <p>name</p>
@@ -100,6 +104,12 @@ export default {
        await this.dbAction('get', `api/admin/roles/delete/${id}`, null, 'roles/load')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
+           async refresh(){
+          let loader = this.$loading.show()
+          await this.$store.dispatch('roles/load')
+          await this.$store.dispatch('roles/loadAbilities')
+          loader.hide()
+        }
     }
 }
 </script>

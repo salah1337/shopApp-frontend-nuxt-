@@ -39,6 +39,10 @@
                         <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
                     </div>
                     <div class="panel-list">
+                        <div @click="refresh()" class="refresh">
+                          refresh
+                          <font-awesome-icon icon="sync" />
+                        </div>
                         <div class="list-head">
                             <div class="main">
                                 <p>orders</p>
@@ -91,6 +95,14 @@ export default {
             orders: state => state.orders.orders,
         })
     },
+    methods: {
+         async refresh(){
+          let loader = this.$loading.show()
+          await this.$store.dispatch('orders/load')
+          if (this.$auth.user.isAdmin) await this.$store.dispatch('orders/loadAll')
+          loader.hide()
+        }
+    }
 }
 </script>
 
