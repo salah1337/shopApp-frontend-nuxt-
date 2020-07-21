@@ -7,6 +7,9 @@
     <div v-if="show" @click="show = !show" class="popup-bg"></div>
     <div v-if="show" class="popup-content register">
       <div class="panel register">
+        <div class="close-btn error" @click="show = !show">
+          <font-awesome-icon icon="times"/>
+        </div>
         <div class="title">
           <h3>register</h3>
         </div>
@@ -39,6 +42,12 @@
 </template>
 
 <style lang="scss">
+.close-btn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
 .error{
   color: var(--danger);
   font-weight: 500;

@@ -6,6 +6,9 @@
       </div>
       <div v-if="show" @click="show = !show" class="popup-bg"></div>
       <div v-if="show" class="popup-content login">
+        <div class="close-btn error" @click="show = !show">
+          <font-awesome-icon icon="times"/>
+        </div>
         <div class="panel login-panel login">
             <div v-if="step == 1">
                 <div class="title">
@@ -27,6 +30,10 @@
                     <p @click="show = !show" class="submit gridcenter">close</p>
                 </div>
             </div>
+            <div>
+              <div @click="show = !show"><p>Back to login</p></div>
+              <div><RegisterModal /></div>
+            </div>
         </div>
       </div>
   </div>
@@ -34,6 +41,17 @@
 </template>
 
 <style lang="scss">
+.close-btn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.error{
+  color: var(--danger);
+  font-weight: 500;
+  font-size: calc(0.8rem + 0.3vw);
+}
 #forgot-password{
     .success2{
         max-height: 200px;
@@ -115,8 +133,13 @@
 
 <script>
 import RegisterModal from '../components/RegisterModal'
+import LoginModal from '../components/LoginModal'
 
 export default {
+  components: {
+    RegisterModal,
+    LoginModal
+  },
   data() {
     return {
       userInfo: {
