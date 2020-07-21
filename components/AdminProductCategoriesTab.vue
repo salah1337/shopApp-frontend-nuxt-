@@ -2,7 +2,10 @@
     <div id="admin-categories-tab" class="content">
       <div class="header">
         <div class="searchBar gridcenter">
-          <input type="text" placeholder="category name..." class="input input-form input-form2">
+          <div>
+            <input v-model="searchField" type="text" placeholder="category name..." class="input input-form input-form2">
+            <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
+          </div>
         </div>
     
         <div class="actions">
@@ -11,12 +14,12 @@
       </div>
         <div class="preview">
             <div class="preview-content categories">
-              <div v-for="category in categories" :key="category.id" class="categoryCard">
+              <div v-for="category in categories" v-if="filterSearch(searchField, category.name)" :key="category.id" class="categoryCard">
                 <div>
                   <font-awesome-icon :icon="category.icon"/>
                 </div>
                   <font-awesome-icon @click="deleteCategory(category.id)" class="delete-category" icon="times"/>
-                <div>
+                <div class="category-name" v-html="highlight(searchField, category.name)">
                     <p>{{category.name}}</p>
                 </div>
                 <categoryUpdate :category="{...category}" />
@@ -33,6 +36,11 @@ import categoryUpdate from './categoryUpdate'
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+      return{
+        searchField:''
+      }
+    },
     components:{
         categoryForm,
         categoryUpdate,
@@ -52,10 +60,12 @@ export default {
 </script>
 
 <style lang="scss">
-.categories{
-        
-
+.clearSearch{
+  color: var(--grayTxt);
+  margin: auto;
+  cursor: pointer;
 }
+
 .delete-category{
   position: absolute;
   top: 5px;

@@ -35,7 +35,8 @@
                         <div class="panel-description">Click the cards to see more information</div>
                     </div>
                     <div class="panel-search">
-                        <input type="text" class="input input-form input-form2">
+                        <input v-model="searchField" placeholder="search by order name..." type="text" class="input input-form input-form2">
+                        <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
                     </div>
                     <div class="panel-list">
                         <div class="list-head">
@@ -48,12 +49,12 @@
                             </div>
                         </div>
                         <div class="list-items">
-                            <div v-for="order in orders.orders" :key="order.id" class="item">
+                            <div v-for="order in orders.orders" v-if="filterSearch(searchField, order.shipName)" :key="order.id" class="item">
                                 <p class="main">
                                     {{order.details.length}} products, total: {{order.amount}}
                                 </p>
                                 <div class="others">
-                                    <p class="line">{{order.shipName}}</p>
+                                    <p v-html="highlight(searchField, order.shipName)" class="line">{{order.shipName}}</p>
                                     <p v-if="order.shipped" class="line status status-success">shipped</p>
                                     <p v-else class="line status status-primary">not shipped</p>
                                 </div>
@@ -76,6 +77,11 @@ import OrderPanel from './StaffOrderPanel'
 import { mapState } from 'vuex'
 
 export default {
+    data() {
+        return {
+            searchField: ''
+        }
+    },
     components:{
         OrderForm,
         OrderPanel
@@ -164,11 +170,11 @@ export default {
                 }
             }
             .list-items{
-                max-height: 50vh;
+                height: 50vh;
                 .item{
                     display: grid;
                     grid-row-gap: 5px;
-                    height: 100%;
+                    height: fit-content;
                 }
             }
         }

@@ -35,7 +35,8 @@
             <div class="panel-description">You can grant and revoke roles to staff members here.</div>
           </div>
           <div class="panel-search">
-            <input type="text" class="input input-form input-form2">
+            <input v-model="searchField" placeholder="search by product name..." type="text" class="input input-form input-form2">
+            <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
             <div class="list-head">
@@ -47,8 +48,8 @@
               </div>
             </div>
             <div class="list-items">
-              <div v-for="role in roles.roles" class="item">
-                <p class="main">{{role.label}}</p>
+              <div v-for="role in roles.roles" v-if="filterSearch(searchField, role.label)" class="item">
+                <p v-html="highlight(searchField, role.label)" class="main">{{role.label}}</p>
                 <div class="others">
                   <div class="line list-item-abilities">
                     <div v-for="ability in role.abilities">
@@ -77,6 +78,11 @@ import AbilityMenu from './AbilityMenu'
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      searchField: ''
+    }
+  },
     components:{
         RoleForm,
         RoleInfoPanel,
@@ -188,7 +194,7 @@ export default {
         // direction: rtl;
     }
         .list-items {
-          max-height: 50vh;
+          height: 50vh;
 
           .item {
             position: relative;
@@ -198,7 +204,7 @@ export default {
             // }
 
             height: fit-content;
-
+            min-height: 75px;
             .ability-add-btn {
               text-align: right;
 

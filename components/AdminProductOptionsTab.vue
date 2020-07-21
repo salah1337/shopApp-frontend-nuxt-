@@ -2,7 +2,10 @@
     <div id="admin-options-tab" class="content">
       <div class="header">
         <div class="searchBar gridcenter">
-          <input type="text" placeholder="option name..." class="input input-form input-form2">
+            <div>
+            <input v-model="searchField" type="text" placeholder="option name..." class="input input-form input-form2">
+            <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
+          </div>
         </div>
     
         <div class="actions">
@@ -17,8 +20,8 @@
               <font-awesome-icon @click="deleteOptionGroup(group.id)" class="group-delete" icon="trash"/>
             </div>
             <div v-if="showOptions[index]" class="options">
-              <div class="option" v-for="option in products.options" v-if="option.group.name == group.name">
-                <p class="option-name">{{option.name}}</p>
+              <div class="option" v-for="option in products.options" v-if="option.group.name == group.name && filterSearch(searchField, option.name)">
+                <p v-html="highlight(searchField, option.name)" class="option-name">{{option.name}}</p>
                 <font-awesome-icon @click="deleteOption(option.id)" class="option-delete" icon="times"/>
               </div>
             </div>
@@ -42,7 +45,8 @@ import { mapState } from 'vuex'
 export default {
     data(){
       return{
-        showOptions: []
+        showOptions: [],
+        searchField: ''
       }
     },
     components:{
@@ -71,7 +75,19 @@ export default {
      },
       toggleOptions(i){
       this.$set(this.showOptions, i, !this.showOptions[i])
+    },
+      openAllOptions(){
+        for (let i = 0; i < this.showOptions.length; i++) {
+          this.$set(this.showOptions, i, true)          
+        }
     }
+    },
+    watch: {
+      searchField: function() {
+        for (let i = 0; i < this.showOptions.length; i++) {
+          this.$set(this.showOptions, i, true)          
+        }
+      }
     }
 }
 </script>

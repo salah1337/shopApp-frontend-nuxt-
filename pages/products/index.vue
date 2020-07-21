@@ -20,12 +20,12 @@
             </div>
         </div>
         <div class="list">
-            <div v-for="product in products.products" :key="product.id" class="productCard" v-if="filterSearch(product.name) && filterCategory(product.category.name)">
+            <div v-for="product in products.products" :key="product.id" class="productCard" v-if="filterSearch(searchField, product.name) && filterCategory(product.category.name)">
                 <div class="info">
                     <div class="thumbnail">
                         <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                     </div>
-                    <div class="name" v-html="highlight(product.name)">
+                    <div class="name" v-html="highlight(searchField, product.name)">
                         {{product.name}}
                     </div>
                 </div>
@@ -264,28 +264,11 @@ export default {
         }),
     },
     methods:{
-        filterSearch(name){
-            if (!this.searchField == "")  {
-                let regex = RegExp(`${this.searchField}+`, 'ig')
-                // console.log(`${str} / ${this.searchField}  = ` + regex.test(str));
-                return regex.test(name)}
-            else{
-                return true
-            }
-        },
         filterCategory(category){
             if (this.selectedCategory != '') {
                 return this.selectedCategory == category ? true : false
             }else{
                 return true
-            }
-        },
-        highlight(str){
-            if (this.searchField) {
-                let regex = RegExp(`${this.searchField}+`, 'ig')
-                return str.replace(regex, `<span class='highlited' style='color:var(--main)'>${this.searchField}</span>`)
-            }else{
-                return str
             }
         },
         async addQueryItem(){

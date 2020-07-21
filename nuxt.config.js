@@ -39,7 +39,8 @@ export default {
     '~/plugins/roles-utils',
     '~/plugins/loading-overlay',
     '~/plugins/preloader',
-    '~/plugins/timeSince'
+    '~/plugins/timeSince',
+    '~/plugins/searchBar'
   ],
   /*
   ** Nuxt.js dev-modules

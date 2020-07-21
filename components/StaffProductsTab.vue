@@ -37,7 +37,8 @@
             <div class="panel-description">Click the <font-awesome-icon icon="info-circle"/> to see more information</div>
           </div>
           <div class="panel-search">
-            <input type="text" class="input input-form input-form2">
+            <input v-model="searchField" placeholder="search by product name..." type="text" class="input input-form input-form2">
+            <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
             <div class="list-head">
@@ -51,8 +52,8 @@
               </div>
             </div>
             <div class="list-items">
-              <div v-for="product in products.products" :key="product.id" class="item">
-                <p class="main">{{product.name}}</p>
+              <div v-for="product in products.products" v-if="filterSearch(searchField, product.name)" :key="product.id" class="item">
+                <p class="main" v-html="highlight(searchField, product.name)">{{product.name}}</p>
                 <div class="others">
                     <p class="line">{{product.price}}</p>
                     <p class="line">{{product.stock}}</p>
@@ -86,6 +87,11 @@ import AddFeaturedProduct from './AddFeaturedProduct'
 import { mapState } from 'vuex'
 
 export default {
+    data() {
+      return{
+        searchField:''
+      }
+    },
     components:{
         ProductForm,
         StaffProductPanel,
@@ -100,7 +106,7 @@ export default {
         async toggleProductStatus(id){
             await this.dbAction('get', `api/product/togglestatus/${id}`, null, 'products/load')
             .then(reply => console.log('success')).catch(err => console.log('fail'))
-        }
+        },
     }
 }
 </script>
@@ -109,7 +115,11 @@ export default {
 .product-form {
   z-index: 2;
 }
-
+.clearSearch{
+  color: var(--grayTxt);
+  margin: auto;
+  cursor: pointer;
+}
 .product-info-btn {
   width: 100px;
   justify-self: flex-end;
@@ -183,26 +193,21 @@ export default {
       }
     }
   }
-
   .list {
     .staff-products-tab-panel {
       height: 100%;
-
       .panel-header {
         grid-column: auto / span 2;
       }
-
       .panel-search {
         input {
           width: 90%;
         }
       }
-
       .list-items {
-        max-height: 50vh;
-
+        height: 50vh;
         .item {
-          height: 100%;
+          height: fit-content;
         }
       }
     }

@@ -34,8 +34,9 @@
             <div class="panel-title">staff List</div>
             <div class="panel-description">Click the cards for more info.</div>
           </div>
-          <div class="panel-search">
-            <input type="text" class="input input-form input-form2">
+            <div class="panel-search">
+            <input v-model="searchField" placeholder="search by product name..." type="text" class="input input-form input-form2">
+            <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
             <div class="list-head">
@@ -47,8 +48,8 @@
               </div>
             </div>
             <div class="list-items">
-              <div v-for="member in staff.staffMembers" :key="member.id" class="item">
-                <p class="main">{{member.username}}</p>
+              <div v-for="member in staff.staffMembers" v-if="filterSearch(searchField, member.username)" :key="member.id" class="item">
+                <p v-html="highlight(searchField, member.username)" class="main">{{member.username}}</p>
                 <div class="others">
                   <div class="line list-item-abilities">
                     <div v-for="role in member.roles" :key="role.id">
@@ -77,6 +78,11 @@ import AddstaffForm from './AddstaffForm'
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return{
+      searchField: ''
+    }
+  },
     components:{
         StaffInfoPanel,
         AssignRoleMenu,
@@ -189,7 +195,7 @@ export default {
         // direction: rtl;
     }
         .list-items {
-          max-height: 50vh;
+          height: 50vh;
 
           .item {
             position: relative;
@@ -198,6 +204,7 @@ export default {
               justify-content: end;
             }
             height: fit-content;
+            min-height: 75px;
 
             .ability-add-btn {
               text-align: right;
