@@ -63,9 +63,14 @@
                     <p class="line">{{product.stock}}</p>
                     <div class="line">
                          <div class="status-switch" v-if="$auth.user.isAdmin" @click="toggleProductStatus(product.id)">
+                           <!-- this is like this because when ":value="product.live"" doesn't work on first load -->
                              <v-switch
-                            
-                            :value="product.live"
+                             v-if="product.live"
+                            :value="true"
+                            ></v-switch>
+                             <v-switch
+                             v-else
+                            :value="false"
                             ></v-switch>
                          </div>
                         <p v-if="product.live"  class="status status-success">Live</p>

@@ -14,10 +14,17 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <div class="btn gridcenter">Overview</div>
-                    <div @click="show('products')" class="btn gridcenter">Products</div>
-                    <div @click="show('orders')" class="btn gridcenter">Orders</div>
+                <div :class="{'btn-active':showOverview }" class="btn gridcenter">Overview</div>
+                <div @click="show('staff')" :class="{'btn-active':showStaff }" class="btn gridcenter">Staff</div>
+                <div @click="show('products')" :class="{'btn-active':showProducts || showProductCategories || showProductOptions }" class="btn gridcenter">Products</div>
+                <div class="sub-btns" v-if="showProducts || showProductCategories || showProductOptions">
+                    <div @click="show('products')" :class="{'sub-btn-active': showProducts}" class="sub-btn gridcenter">Products</div>
+                    <div @click="show('product-categories')" :class="{'sub-btn-active': showProductCategories}" class="sub-btn gridcenter">Categories</div>
+                    <div @click="show('product-options')" :class="{'sub-btn-active': showProductOptions}" class="sub-btn gridcenter">Options</div>
                 </div>
+                <div @click="show('orders')" :class="{'btn-active':showOrders }" class="btn gridcenter">Orders</div>
+                <div @click="show('roles')" :class="{'btn-active':showRoles }" class="btn gridcenter">Roles</div>
+            </div>
             </div>
         </div>
         <div class="sidebar">
