@@ -11,17 +11,8 @@
                         <div class="price">{{product.price}}$</div>
                     </div>
                     <div v-if="this.$auth.loggedIn" class="btns">
-                        <div @click="validateOptions()" v-if="!optionsSelected()" class="order product-bg">
-                                order1
-                        </div>
-                        <div v-else @click="Order()" class="order product-bg">
-                            order
-                        </div>
-                        <div v-if="!cartHas(product.id)" @click="cartedit('add', product.id, selectedOptions)" class="cart product-bg">
-                            <v-icon>fa fa-shopping-cart</v-icon>
-                        </div>
-                        <div v-if="cartHas(product.id)" @click="cartedit('remove', product.id)" class="cart product-bg invert">
-                            <v-icon>fa fa-shopping-cart</v-icon>
+                        <div @click="addToCart(product.id)" class="order product-bg">
+                                Add to cart
                         </div>
                         <div class="wishlist product-bg">
                             <v-icon>fa fa-heart</v-icon>
@@ -95,6 +86,27 @@
             </div>
         </div>
     </div>
+    <div class="successPanel gridcenter" v-if="showSuccessPopup">
+        <div class="successPanel-bg" @click="showSuccessPopup = false"></div>
+         <div class="panel panel_content">
+            <div class="panel-header">
+              <div class="panel-title">Item Added To Cart</div>
+            </div>
+            <div class="panel-content">
+              <div class="successimg gridcenter">
+                <img :src="`${apiUrl}/storage/pages/success.png`" alt="">
+              </div>
+              <div class="order-success-btns">
+                <span class="btn backbtn" @click="showSuccessPopup = false">
+                  Continue shopping
+                </span>
+                <nuxt-link class="btn backbtn" to="/order">
+                  Go to checkout
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
+    </div>
 </div>
 </template>
 
@@ -117,6 +129,7 @@ export default {
             selectedImage: null,
             selectedOptions: [],
             errors: [],
+            showSuccessPopup: false
         }
     },
     computed: {
@@ -183,16 +196,83 @@ export default {
                 }).length > 0 ? true : false
                 if (pass == false) this.errors.push(group) 
             });
+            return this.errors.length > 0 ? false : true
         },
         async Order(){
             await this.cartedit('add', this.product.id, this.selectedOptions, true)
             window.location.href = `/user/order?i=${this.product.id}`
+        },
+        async addToCart(id) {
+            // check if options chosen
+            if (!this.validateOptions()) {
+                console.log("kek");
+                return} 
+            // add item to cart
+            await this.cartedit('add', this.product.id, this.selectedOptions, true)
+            // open success popup
+            this.showSuccessPopup = true
+            this.selectedOptions = []
         }
     }
 }
 </script>
 
 <style lang="scss">
+.successPanel{
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    height: 100vh;
+    width: 100vw;
+
+    .successPanel-bg{
+        position: fixed;
+        height: 100vh;
+        z-index: 998;
+        width: 100vw;
+        background: rgba(0, 0, 0, 0.25);
+    }
+  .panel{
+      z-index: 999;
+    .panel-header{
+      grid-column: auto / span 2;
+    }
+    height: 95%;
+    width: 95%;
+    max-height: 550px;
+    max-width: 650px;
+    .panel-content{
+      display: grid;
+     .successimg{
+       height: 100%;
+        img{
+            height: 300px;
+            max-width: 100%;
+          }
+     }
+      .order-success-btns{
+        max-width: 100%;
+        margin: 0;
+        display: grid;
+        grid-column-gap: 10px;
+        grid-template-columns: 1fr 1fr;
+        justify-content: space-between;
+        .btn{
+          padding: 0.5rem 1rem;
+          background: var(--main);
+          color: white;
+          max-height: unset !important;
+          a{
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
 .cardgrid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));

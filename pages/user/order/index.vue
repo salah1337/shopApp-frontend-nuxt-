@@ -643,6 +643,9 @@ export default {
     },
     priceWithOptions(itemIndex) {
       let price = this.cart.items[itemIndex].price 
+      if (typeof(this.cart.items[itemIndex]) == "string") {
+        this.cart.items[itemIndex] = JSON.parse(this.cart.items[itemIndex]) 
+      }
       this.cart.items[itemIndex].options.forEach(option => {
         price += option.priceIncrement
       });
