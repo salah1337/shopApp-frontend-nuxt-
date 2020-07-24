@@ -100,7 +100,7 @@
                 <span class="btn backbtn" @click="showSuccessPopup = false">
                   Continue shopping
                 </span>
-                <nuxt-link class="btn backbtn" to="/order">
+                <nuxt-link class="btn backbtn" to="/user/order">
                   Go to checkout
                 </nuxt-link>
               </div>

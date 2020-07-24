@@ -15,7 +15,7 @@
                 Current Stock
               </div>
               <div class="pip-value">
-                154
+                {{product.stock}}
               </div>
             </div>
             <div class="pip-row">
@@ -23,7 +23,7 @@
                 Shipped
               </div>
               <div class="pip-value">
-                32
+                {{product.shipped}}
               </div>
             </div>
             <div class="pip-row">
@@ -31,7 +31,7 @@
                 Ordered
               </div>
               <div class="pip-value">
-                14
+                {{product.ordered}}
               </div>
             </div>
             <div class="pip-row">
@@ -39,7 +39,7 @@
                 Total sales
               </div>
               <div class="pip-value">
-                3124$
+                {{product.totalSales}}$
               </div>
             </div>
           </div>
@@ -110,10 +110,10 @@
                     <p>{{option.group.name}}</p>
                   </div>
                   <div class="pip-row">
-                    <p>3</p>
+                    <p>{{option.sold}}</p>
                   </div>
                   <div class="pip-row">
-                    <p>3 $</p>
+                    <p>{{option.priceIncrement}} $</p>
                   </div>
                 </div>
               </div>
@@ -241,6 +241,9 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 max-width: 280px;
+                &.description{
+                  display: grid;
+                }
                 label{
                     font-size: calc(0.7rem + 0.7vw);
                     color: var(--grayTxt);
