@@ -2,7 +2,7 @@
 <div>
    <div id="productShow" v-if="product" class="container">
         <div class="categoryName">
-            <a href="#"><p>{{product.category.name}}</p></a>
+            <a :href="`/products?c=${product.category.name}`"><p>{{product.category.name}}</p></a>
         </div>
         <div class="product">
             <div class="header">

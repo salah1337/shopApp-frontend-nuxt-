@@ -2,7 +2,7 @@
     <div class="container">
         <div class="searchBar">
             <h3 class="title">Find Anything You need!</h3>
-            <input v-model="searchField" placeholder="search products by name..." @change="filterSearch()" type="text" class="input search">
+            <input v-model="searchField" placeholder="search products by name..." type="text" class="input search">
         </div>
         <div @click="clearFilters()">
             <p class="clearFilters">X Clear Filters</p>
@@ -272,7 +272,7 @@ export default {
             }
         },
         async addQueryItem(){
-          this.searchField = this.$route.query.s
+          this.searchField = this.$route.query.s ? this.$route.query.s : '' 
           this.selectedCategory = this.$route.query.c ? this.$route.query.c : '' 
         },
         selectCategory(name){

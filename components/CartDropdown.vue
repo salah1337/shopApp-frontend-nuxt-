@@ -112,6 +112,5 @@ export default {
     user-select: none;
     cursor: pointer;
   }
-  
 }
 </style>
