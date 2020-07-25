@@ -582,6 +582,7 @@ export default {
   },
   methods: {
     async placeOrder() {
+      this.orderinfo.amount = this.addTotal()
       this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
       await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
       .then(reply => {
@@ -622,7 +623,7 @@ export default {
           total += this.priceWithOptions(this.cart.items.indexOf(item)) * item.count
         }
       })
-      return Math.ceil(total)
+      return Math.round(Math.ceil(total))
     },
     addTax() {
       let tax = 0

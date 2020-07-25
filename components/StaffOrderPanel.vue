@@ -78,13 +78,13 @@
                 </div>
                 <div class="oip-others">
                   <div class="oip-row">
-                    <p>{{detail.price / detail.quantity}}</p>
+                    <p>{{detail.price}}</p>
                   </div>
                   <div class="oip-row">
                     <p>{{detail.quantity}}</p>
                   </div>
                   <div class="oip-row">
-                    <p>{{detail.price}}</p>
+                    <p>{{detail.price  * detail.quantity}}</p>
                   </div>
                 </div>
               </div>
@@ -130,6 +130,10 @@ export default {
         },
         markShipped() {
             this.dbAction('get', `api/order/ship/${this.order.id}`, null, 'orders/load')
+        },
+        total(){
+          let total = 0;
+
         }
     }
 }
@@ -214,6 +218,9 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 max-width: 300px;
+                &.description{
+                  display: grid;
+                }
                 label{
                     font-size: calc(0.7rem + 0.7vw);
                     color: var(--grayTxt);

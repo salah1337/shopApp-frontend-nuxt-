@@ -70,7 +70,7 @@
               <div v-for="(item, index) in orderinfo.details" class="order-item" :key="item.id">
                 <div class="top">
                   <div class="gridcenter cartItem-thumbnail">
-                    <img src="/landingImg.png" alt="">
+                    <img :src="`${apiUrl}/storage/${item.image}`" alt="">
                   </div>
                   <div class="cartItem-info">
                     <p>{{item.name}}</p>
@@ -233,7 +233,8 @@ export default {
             errors: {},
             show: false,
             showProductList: false,
-            optionSelect: 0
+            optionSelect: 0,
+            apiUrl: process.env.apiUrl
         }
     },
     computed: {
@@ -244,6 +245,8 @@ export default {
     },
     methods: {
         async placeOrder() {
+          this.orderinfo.amount = this.addTotal()
+          console.log(this.orderinfo.amount);
             this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
             await this.dbAction('post', `api/order/add`, this.orderinfo, 'orders/load')
             .then(reply => this.show = false).catch(err => console.log('fail'))
@@ -322,7 +325,24 @@ export default {
             price += option.increment
           });
           return price
-        }
+        },
+        addTotal() {
+          let total = 0
+          this.orderinfo.details.forEach(item => {
+            total += this.priceWithOptions(this.orderinfo.details.indexOf(item)) * item.quantity
+          })
+          return Math.round(Math.ceil(total))
+        },
+        // priceWithOptions(itemIndex) {
+        //   let price = this.orderinfo.details[itemIndex].price 
+        //   if (typeof(this.orderinfo.details[itemIndex]) == "string") {
+        //     this.orderinfo.details[itemIndex] = JSON.parse(this.orderinfo.details[itemIndex]) 
+        //   }
+        //   this.orderinfo.details[itemIndex].options.forEach(option => {
+        //     price += option.priceIncrement
+        //   });
+        //   return price
+        // }
     }
 }
 </script>
@@ -468,6 +488,13 @@ export default {
     display: grid;
     grid-column-gap: 10px;
     position: relative;
+    .cartItem-thumbnail{
+      img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
     .options{
         .options-title{
             font-size: calc(0.7rem + 0.5vh);
