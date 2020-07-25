@@ -33,10 +33,14 @@
                         </div>
                         <div v-for="option in product.options" :key="option.id" v-if="option.group.name == group" @click="selectOption(option)">
                         <div v-if="selectedOptions.includes(option)" class="selectedImage option gridcenter product-bg">
-                            {{option.name}}
+                            <div>
+                                {{option.name}} <span class="increment">(+${{option.priceIncrement}})</span>
+                            </div>
                         </div>
                         <div v-else class="option gridcenter product-bg">
-                            {{option.name}}
+                            <div>
+                                {{option.name}} <span class="increment">(+${{option.priceIncrement}})</span>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -218,6 +222,10 @@ export default {
 </script>
 
 <style lang="scss">
+.increment{
+      color: var(--primary);
+      font-size: calc(0.6rem + 0.3vw);
+    }
 .successPanel{
     z-index: 999;
     position: fixed;

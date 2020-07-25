@@ -279,13 +279,7 @@ export default {
                 console.log('cunt');
                 return
             }
-            this.orderinfo.details[itemIndex].options.push({
-                // 'id': this.optionSelect.id,
-                'id': option.id,
-                'increment': option.priceIncrement || 0,
-                'name': option.name,
-                'group_id': option.group.id
-            })
+            this.orderinfo.details[itemIndex].options.push(option)
             this.optionSelect = 0
         },
         productHasOption(itemIndex, id) {
