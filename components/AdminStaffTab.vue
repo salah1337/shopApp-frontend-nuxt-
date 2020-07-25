@@ -35,7 +35,7 @@
             <div class="panel-description">Click the cards for more info.</div>
           </div>
             <div class="panel-search">
-            <input v-model="searchField" placeholder="search by product name..." type="text" class="input input-form input-form2">
+            <input v-model="searchField" placeholder="search by member's name..." type="text" class="input input-form input-form2">
             <font-awesome-icon icon="times" class="clearSearch" @click="searchField = ''"/>
           </div>
           <div class="panel-list">
