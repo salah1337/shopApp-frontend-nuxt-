@@ -3,19 +3,23 @@
      <template v-slot:button-content>
      <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>
     </template>
-    <b-dropdown-item v-for="item in cart.items" :key="item.id">
+    <b-dropdown-item class="cartItems cartdropdown-container" v-for="item in cart.items" :key="item.id">
         <div class="cartdropdown-item">
           <div class="image">
             <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
           </div>
           <div class="info"> 
-          <nuxt-link :to="`/products/${item.product_id}`">
-            <div class="name">{{item.name}}</div>
-          </nuxt-link>
+          <div class="name">
+            <div>{{item.count}} x <nuxt-link :to="`/products/${item.product_id}`">{{item.name}}</nuxt-link> </div>
+          </div>
             <div @click="cartedit('removeitem', item.product_id)" class="delete gridcenter">X</div>
             </div>
             <!-- <div class="description">{{item.description}}</div> -->
         </div>
+        <hr>
+    </b-dropdown-item>
+    <b-dropdown-item class="gridcenter checkout cartdropdown-container">
+        <nuxt-link to="/user/order" class="backbtn">go to checkout</nuxt-link>
     </b-dropdown-item>
   </b-dropdown>
 </template>
@@ -48,7 +52,31 @@ export default {
   background-color: unset !important;
   color: var(--grayTxt) !important;
   border-color: unset !important;
+  &> ul{
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+  }
 }
+.checkout{
+  padding: 5px;
+}
+.backbtn{
+  
+  &:hover{
+    color: white;
+    text-decoration: none;
+  }
+}
+.cartdropdown-container{
+    width: 95vw;
+    max-width: 400px;
+    cursor: auto;
+    &> a{
+      &:active{
+        background-color: unset;
+      }
+    }
+}
+
 .cartdropdown-item{
   width: 100%;
   height: 50px;
@@ -56,9 +84,19 @@ export default {
   grid-template-columns: 1fr 1.2fr;
   justify-content: space-between;
   grid-column-gap: 5px;
+  cursor: auto;
   .image{
     img{
       height: 40px;
+    }
+  }
+  .name{
+      a{
+        color: black;
+      &:hover{
+        color: var(--grayTxt);
+        text-decoration: none;
+      }
     }
   }
   .info{
@@ -71,6 +109,9 @@ export default {
     border-radius: 3px;
     box-shadow: 0px 1px 0px var(--dangerDark);
     justify-self: end;
+    user-select: none;
+    cursor: pointer;
   }
+  
 }
 </style>
