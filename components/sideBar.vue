@@ -8,7 +8,7 @@
             <li @click="(loginshow = !loginshow) && hide" v-if="!this.$auth.loggedIn" class="col-12 nav-btn">login</li>
             <li @click="(registershow = !registershow) && hide" v-if="!this.$auth.loggedIn" class="col-12 nav-btn">register</li>
             <li class="col-12" v-if="this.$auth.loggedIn">
-                <b-img src="https://picsum.photos/100/100/?image=54" fluid thumbnail></b-img>
+                <b-img :src="`${apiUrl}/storage/${$auth.user.info.image}`" fluid thumbnail></b-img>
                 <h2>{{this.$auth.user.info.username}}</h2>
             </li>
             <li class="col-12">
@@ -55,7 +55,8 @@ export default {
     data () {
         return {
             loginshow: false,
-            registershow:false
+            registershow:false,
+            apiUrl: process.env.apiUrl,
         }
     },
     methods: {

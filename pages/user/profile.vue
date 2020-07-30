@@ -10,7 +10,7 @@
         <font-awesome-icon icon="edit" />
       </div>
       <div class="updatebtns" v-else>
-        <div @click="showInfo = !showInfo" class="cancelbtn">
+        <div @click="cancel()" class="cancelbtn">
           Cancel
           <font-awesome-icon icon="times" />
         </div>
@@ -28,6 +28,18 @@
             </div>
             <div class="panel-content">
               <div class="panel-row">
+                <div class="user-image">
+                  <img v-if="showInfo" :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
+                  <div v-else>
+                    <img v-if="!imagePreview" :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
+                    <img v-else :src="imagePreview" alt="">
+                    <font-awesome-icon @click="$refs.imageInput.click()" class="imgBtn" icon="edit" />
+                  </div>
+                <input style="display: none" @change="getImg($event)" ref="imageInput" type="file">
+                    <span class="error" v-if="errors.image">{{errors.image[0]}}</span>
+                </div>
+              </div>
+              <div class="panel-row">
                 <div v-if="showInfo">
                   <label for="">username</label>
                   <div class="info">
@@ -37,7 +49,8 @@
                 <div v-else>
                   <label for="">username</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.username" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.username">{{errors.username[0]}}</span>
                   </div>
                 </div>
               </div>
@@ -51,7 +64,8 @@
                 <div v-else>
                   <label for="">email</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.email" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.email">{{errors.email[0]}}</span>
                   </div>
                 </div>
               </div>
@@ -65,7 +79,8 @@
                 <div v-else>
                   <label for="">first name</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.firstName" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.firstName">{{errors.firstName[0]}}</span>
                   </div>
                 </div>
               </div>
@@ -79,7 +94,8 @@
                 <div v-else>
                   <label for="">last name</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.lastName" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.lastName">{{errors.lastName[0]}}</span>
                   </div>
                 </div>
               </div>
@@ -90,7 +106,7 @@
               <div class="panel-title">Payment Method</div>
             </div>
             <div class="panel-content">
-              <img src="http://localhost:6969/storage/creditcard.png" alt="">
+              <img :src="`${apiUrl}/storage/creditcard.png`" alt="">
             </div>
           </div>
           <div class="address panel panel_content">
@@ -108,7 +124,8 @@
                 <div v-else>
                   <label for="">city</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.city" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.city">{{errors.city[0]}}</span>
                   </div>
                 </div>
 
@@ -124,7 +141,8 @@
                 <div v-else>
                   <label for="">state</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.state" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.state">{{errors.state[0]}}</span>
                   </div>
                 </div>
 
@@ -140,7 +158,8 @@
                 <div v-else>
                   <label for="">country</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.country" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.country">{{errors.country[0]}}</span>
                   </div>
                 </div>
 
@@ -156,7 +175,8 @@
                 <div v-else>
                   <label for="">phone</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.phone" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.phone">{{errors.phone[0]}}</span>
                   </div>
                 </div>
 
@@ -172,7 +192,8 @@
                 <div v-else>
                   <label for="">fax</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.fax" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.fax">{{errors.fax[0]}}</span>
                   </div>
                 </div>
 
@@ -188,7 +209,8 @@
                 <div v-else>
                   <label for="">address</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.adress" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.adress">{{errors.adress[0]}}</span>
                   </div>
                 </div>
 
@@ -204,7 +226,8 @@
                 <div v-else>
                   <label for="">second address</label>
                   <div>
-                    <input type="text" class="input input-form input-form2">
+                    <input v-model="user.adress2" type="text" class="input input-form input-form2">
+                    <span class="error" v-if="errors.adress2">{{errors.adress2[0]}}</span>
                   </div>
                 </div>
 
@@ -220,6 +243,18 @@
 </template>
 
 <style lang="scss" scoped>
+.user-image{
+  img{
+    width: 150px;
+    max-height: 150px;
+    overflow: hidden;
+    border-radius: 250px;
+  }
+  .img-btn{
+    color: var(--main);
+    cursor: pointer;
+  }
+}
 .header-btns{
     display: flex;
     justify-content: space-between;
@@ -382,15 +417,51 @@ export default {
   },
     data(){
       return{
-        user: this.$auth.user.info,
+        user: {...this.$auth.user.info},
+        initialuser: {...this.$auth.user.info},
         showInfo: true,
-        showForm: false
+        showForm: false,
+        apiUrl: process.env.apiUrl,
+        imagePreview: '',
+        errors: {}
       }
     },
     methods: {
-        Update() {
-
-        }
+        async Update() {
+          let form = new FormData()
+          for (let key in this.user) {
+            //   if (key == 'image' || key == 'images') return
+            if (this.user[key] != this.initialuser[key]){
+              console.log(key);
+                form.set(key, this.user[key])
+            }
+          }
+          await this.dbAction('post', `api/customer/user/update/${this.user.id}`, form, 'products/load') 
+          .then(async reply => {
+            console.log('success')
+            this.errors = {}
+            await this.$auth.fetchUser()
+            this.user = {...this.$auth.user.info}
+            this.initialuser = {...this.$auth.user.info}
+            this.showInfo = true
+          }).catch(err => console.log('fail'))
+        },
+        cancel() {
+           this.user = {...this.$auth.user.info}
+           this.imagePreview = ''
+           this.showInfo = !this.showInfo
+        },
+        getImg(e) {
+          let file = this.$refs.imageInput.files[0] 
+          if (file) {
+            let reader = new FileReader;
+            reader.onload = (e) => {
+              this.imagePreview = e.target.result
+            }
+            reader.readAsDataURL(file)
+            this.user.image = file
+          }
+        },
     }
 }
 </script>
