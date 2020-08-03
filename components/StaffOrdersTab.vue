@@ -10,15 +10,15 @@
                             <div class="stat-rows">
                                 <div class="stat-row">
                                     <div class="name">All</div>
-                                    <div class="name">100</div>
+                                    <div class="name">{{orders.count}}</div>
                                 </div>
                                 <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
+                                    <div class="name">Shipped</div>
+                                    <div class="name">{{shipped(1)}}</div>
                                 </div>
                                 <div class="stat-row">
-                                    <div class="name">All</div>
-                                    <div class="name">100</div>
+                                    <div class="name">Not Shipped</div>
+                                    <div class="name">{{shipped(0)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -101,6 +101,11 @@ export default {
           await this.$store.dispatch('orders/load')
           if (this.$auth.user.isAdmin) await this.$store.dispatch('orders/loadAll')
           loader.hide()
+        },
+        shipped(n){
+            return this.orders.orders.filter(order => {
+                return order.shipped == n
+            }).length
         }
     }
 }

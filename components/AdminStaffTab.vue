@@ -9,16 +9,12 @@
             <div class="panel-content">
               <div class="stat-rows">
                 <div class="stat-row">
-                  <div class="name">All</div>
-                  <div class="name">100</div>
+                  <div class="name">Staff</div>
+                  <div class="name">{{staff.count}}</div>
                 </div>
                 <div class="stat-row">
-                  <div class="name">All</div>
-                  <div class="name">100</div>
-                </div>
-                <div class="stat-row">
-                  <div class="name">All</div>
-                  <div class="name">100</div>
+                  <div class="name">Roles</div>
+                  <div class="name">{{roles.count}}</div>
                 </div>
               </div>
             </div>

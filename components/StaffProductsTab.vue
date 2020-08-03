@@ -11,15 +11,15 @@
               <div class="stat-rows">
                 <div class="stat-row">
                   <div class="name">All</div>
-                  <div class="name">100</div>
+                  <div class="name">{{products.count}}</div>
                 </div>
                 <div class="stat-row">
-                  <div class="name">All</div>
-                  <div class="name">100</div>
+                  <div class="name">Live</div>
+                  <div class="name">{{live()}}</div>
                 </div>
                 <div class="stat-row">
-                  <div class="name">All</div>
-                  <div class="name">100</div>
+                  <div class="name">Out Of Stock</div>
+                  <div class="name">{{outOfStock()}}</div>
                 </div>
               </div>
             </div>
@@ -121,7 +121,17 @@ export default {
           await this.$store.dispatch('products/load')
           if (this.$auth.user.isAdmin) await this.$store.dispatch('products/loadAll')
           loader.hide()
-        }
+        },
+        outOfStock() {
+          return this.products.products.filter(prod => {
+            return prod.stock == 0
+          }).length
+        },
+        live() {
+          return this.products.products.filter(prod => {
+            return prod.live == 1
+          }).length
+        },
     }
 }
 </script>
