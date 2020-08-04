@@ -1,6 +1,11 @@
 <template>
 <div>
     <div id="orderlist" class="gridcenter">
+            <div class="header-btns">
+                <nuxt-link to="/" class="backbtn">
+                    back to store
+                </nuxt-link>
+            </div>
                 <div class="orderlist panel panel_list">
                     <div class="panel-header">
                         <div class="panel-title">Orders</div>
@@ -40,6 +45,9 @@
 </template>
 
 <style lang="scss">
+#orderlist{
+    grid-row-gap: 20px;
+}
  .order-info-btn{
         width: 100px;
         justify-self: flex-end;
@@ -61,7 +69,8 @@
     .list-items{
         max-height: 50vh;
         .item{
-            height: 80px !important;
+            height: fit-content !important;
+            min-height: 80px;
         }
     }
 }

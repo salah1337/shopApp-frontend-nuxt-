@@ -15,11 +15,11 @@
                 </div>
                 <div class="stat-row">
                   <div class="name">Live</div>
-                  <div class="name">{{live()}}</div>
+                  <div v-if="products.products" class="name">{{live()}}</div>
                 </div>
                 <div class="stat-row">
                   <div class="name">Out Of Stock</div>
-                  <div class="name">{{outOfStock()}}</div>
+                  <div v-if="products.products" class="name">{{outOfStock()}}</div>
                 </div>
               </div>
             </div>

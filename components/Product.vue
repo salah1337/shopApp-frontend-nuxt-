@@ -133,7 +133,7 @@ export default {
             selectedImage: null,
             selectedOptions: [],
             errors: [],
-            showSuccessPopup: false
+            showSuccessPopup: false,
         }
     },
     computed: {
