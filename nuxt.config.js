@@ -9,6 +9,10 @@ export default {
   ** Headers of the page
   */
   head: {
+    script: [
+      { src: 'https://js.stripe.com/v3/' }
+      // { src: 'https://js.stripe.com', type: 'text/javascript', body: true }
+    ],
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
@@ -73,7 +77,7 @@ export default {
     '@nuxtjs/auth',
     'nuxt-i18n',
     'bootstrap-vue/nuxt',
-    'moment'
+    // ['stripe-nuxt', 'pk_test_51HHY7iC209mGcTriS8H6PP4xevgOtvZYzqUTQmqjTRUAQDZkecKo9TstcxqLojzKngnC51Z1SrQ88vnRT3uBoXJc007AVKMcBb'],
   ],
 
   i18n: {
@@ -102,7 +106,7 @@ export default {
     },
   },
   axios:{
-    baseURL: 'http://localhost:6969/'
+    baseURL: process.env.API_URL || 'http://localhost:6969'
   },
   /*
   ** vuetify module configuration

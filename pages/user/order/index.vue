@@ -139,21 +139,20 @@
                   <img src="http://localhost:6969/storage/creditcard.png" alt="">
                 </div>
                 <div class="paymentForm">
-                  <div class="cardnumber">
-                    <label for="cardnumber">Card number</label>
-                    <input id="cardnumber" type="text" class="input input-form input-form1">
+                  <div class="cardNumber">
+                    <label for="cardNumber">Card number</label>
+                    <div id="cardNumber" ref="cardNumber" type="text" class="input input-form input-form1">
+                    </div>
                   </div>
-                  <div class="cardholder">
-                    <label for="cardholder">Card holder name</label>
-                    <input id="cardholder" type="text" class="input input-form input-form1">
-                  </div>
-                  <div class="enddate">
-                    <label for="enddate">End date</label>
-                    <input id="enddate" type="text" class="input input-form input-form1">
+                  <div class="expiryDate">
+                    <label for="expiryDate">Expiry date</label>
+                    <div id="expiryDate" ref="expiryDate" type="text" class="input input-form input-form1">
+                    </div>
                   </div>
                   <div class="cvc">
                     <label for="cvc">CVC</label>
-                    <input id="cvc" type="text" class="input input-form input-form1">
+                    <div id="cvc" ref="cvc" type="text" class="input input-form input-form1">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,7 +185,8 @@
             <div class="summary-submit panel-submit">
             <div v-if="step > 1" @click="step--" class="summary-submit-btn gridcenter last-step">go back</div>
               <div v-if="step == 1" @click="addDetails()" class="summary-submit-btn gridcenter next-step">Procced</div>
-              <div v-if="step == 2" @click="step++" class="summary-submit-btn gridcenter next-step">go to payment</div>
+              <!-- <div v-if="step == 2" @click="step++ && addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div> -->
+              <div v-if="step == 2" @click="addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div>
               <div v-if="step == 3" @click="placeOrder()" class="summary-submit-btn gridcenter next-step">Confirm order</div>
             </div>
             <div class="panel-head">
@@ -556,7 +556,7 @@ export default {
         'fax': '3', 
         'shipping': '3', 
         'tax': '3', 
-        'email': 'email', 
+        'email': 'email@mmm.com', 
         'shipped': '0', 
         'trackingNumber': '1',
         'details': []
@@ -575,20 +575,56 @@ export default {
   },
   mounted() {
     this.addQueryItem()
-    for (let i = 0; i < this.cart.items.length; i++) {
-      // this.itemOptions[i] = this.cart.items.options
-      this.$set(this.showOptions, i, false)
+    if (this.cart.items.length > 0) {
+      for (let i = 0; i < this.cart.items.length; i++) {
+        // this.itemOptions[i] = this.cart.items.options
+        this.$set(this.showOptions, i, false)
+      }  
     }
   },
   methods: {
-    async placeOrder() {
-      this.orderinfo.amount = this.addTotal()
-      this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
-      await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
-      .then(reply => {
-        this.$store.dispatch('cart/load')
-      }).catch(err => console.log('fail'))
+    nextStep() {
       this.step++
+    },
+    loadStrip(){
+      if (this.step == 3) {
+        this.stripe = Stripe(`pk_test_51HHY7iC209mGcTriS8H6PP4xevgOtvZYzqUTQmqjTRUAQDZkecKo9TstcxqLojzKngnC51Z1SrQ88vnRT3uBoXJc007AVKMcBb`),
+        this.elements = this.stripe.elements(),
+
+        this.cardNumber = this.elements.create("cardNumber");
+        this.cardNumber.mount(this.$refs.cardNumber);
+
+        this.cardExpiry = this.elements.create("cardExpiry");
+        this.cardExpiry.mount(this.$refs.expiryDate);
+
+        this.cardCvc = this.elements.create("cardCvc");
+        this.cardCvc.mount(this.$refs.cvc);
+      }   else{
+        console.log('gaay');
+      }
+    },
+    async addStripeToken() {
+      let result = await this.stripe.createToken(this.cardNumber);
+      if ( result.error ) {
+
+      } else{
+        this.orderinfo.stripeToken = result.token
+      }
+    },
+    async placeOrder() {
+      let result = await this.stripe.createToken(this.cardNumber);
+      if ( result.error ) {
+
+      } else{
+        this.orderinfo.stripeToken = result.token
+        this.orderinfo.amount = this.addTotal()
+        this.orderinfo.shipName = `${this.orderinfo.firstName} ${this.orderinfo.lastName}`
+        await this.dbAction('post', `api/customer/order`, this.orderinfo, 'orders/get')
+        .then(reply => {
+          this.$store.dispatch('cart/load')
+        }).catch(err => console.log('fail'))
+        this.step++
+      }
     },
     async addDetails() {
         this.orderinfo.details = []
@@ -601,8 +637,13 @@ export default {
         })
         this.step++
     },
-    async AddAddress() {
+    async addAddress() {
+      this.step = 3
 
+      console.log(this.step);
+      
+      await this.sleep(5000)
+      this.loadStrip()
     },
     async addQueryItem(){
       if(!this.$route.query.i) return
@@ -651,7 +692,13 @@ export default {
         price += option.priceIncrement
       });
       return price
+    },
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
-  }
+  },
 }
+
+
+
 </script>

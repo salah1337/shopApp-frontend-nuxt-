@@ -129,7 +129,7 @@ export default {
   computed: {
     ...mapState({
       products: state => state.products.liveProducts,
-    })
+    }),
   },
   mounted(){
     this.getProds()
@@ -140,7 +140,7 @@ export default {
     },
     search() {
 
-    }
+    },
   }
 }
 </script>
