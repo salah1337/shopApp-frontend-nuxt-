@@ -52,7 +52,7 @@ export default {
     },
     methods: {
       async deleteCategory(id){
-       await this.dbAction('get', `api/admin/product/category/remove/${id}`, null, 'categories/load')
+       await this.dbAction('get', `api/admin/product/category/remove/${id}`, null, 'products/loadAll')
         .then(reply => console.log('success')).catch(err => console.log('fail'))
      },
     }

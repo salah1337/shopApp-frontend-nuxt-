@@ -78,17 +78,19 @@ export default {
     bottom: 0;
     right: 0;
     z-index: 999;
+
     .panel-submit{
       margin-bottom: 5%;
     }
     .panel-close{
-        position: absolute;
+      position: absolute;
         top: 10px;
         right: 10px;
         height: 35px;
         width: 35px;
     }
     .role-form-bg{
+    backdrop-filter: blur(4px);
         position: fixed;
         top: 0;
         left: 0;

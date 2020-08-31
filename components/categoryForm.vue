@@ -1,7 +1,7 @@
 <template>
     <div>
       <div v-if="show" @click="show = !show" class="bg"></div>
-      <div @click="show = !show" class="action">
+      <div @click="show = !show" @click.once="getIcons()" class="action">
         <span>Add category</span> <span class="sign">+</span>
       </div>
       <div v-if="show" id="categoryform" class="container gridcenter">
@@ -13,13 +13,24 @@
         <div @click="show = !show" class="panel-close">X</div>
         <div @click="createcategory()" class="panel-submit">Confirm</div>
         <div class="panel-content">
-          <div class="input-group">
-            <label for="">Name:</label>
-            <input v-model="category.name" type="text" class="input input-form input-form2">
+          <div class="input-group icon-name gridcenter">
+            <font-awesome-icon class="icon-preview" :icon="category.icon"/>
+            <br>
+            <input placeholder="category name..." v-model="category.name" type="text" class="input input-form input-form2">
           </div>
           <div class="input-group">
             <label for="">icon:</label>
-            <input v-model="category.icon" type="text" class="input input-form input-form2">
+            <div class="icon-search">
+              <input v-model="iconSearch" placeholder="icon name..." type="text" class="input input-form input-form2">
+              <font-awesome-icon class="icons-search-button" @click="searchIcons()" icon="search"/>
+              <font-awesome-icon class="icons-search-button" @click="clearIcons()" icon="times"/>
+            </div>
+            <div class="icons-select">
+                <!-- <font-awesome-icon v-if="icon == category.icon" :title="icon" class="icon selectedIcon" v-for="icon in icons" :icon="icon"/> -->
+                <font-awesome-icon :title="icon" @click="selectIcon(icon)" class="icon" v-for="icon in icons" :icon="icon"/>
+                <div v-if="iconsCount > icons.length" @click="getIcons()" class="more-icons gridcenter">more icons</div>
+                <div v-else class="nomore-icons gridcenter">no more icons left</div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,14 +47,44 @@ export default {
         icon: ''
       },
       show: false,
-      errors: {}
+      errors: {},
+      iconsPage: 0,
+      icons: [],
+      iconsCount: 0,
+      iconSearch: '',
     }
+  },
+  mounted() {
+    this.getIcons()
   },
   methods: {
     async createcategory() {
       await this.dbAction('post', `api/admin/product/category/add`, this.category, 'products/loadAll')
         .then(res => {this.show = false}).catch(err => console.log('fail'))
     },
+    async getIcons() {
+      this.iconsPage++
+      let loader =  this.$loading.show()
+      let res = (await this.$axios.get(`api/admin/product/category/icons/${this.iconsPage}`))
+      this.icons = res.data.data.icons
+      this.iconsCount = res.data.data.count
+      loader.hide()
+    },
+    selectIcon(icon){
+      this.category.icon = icon
+    },
+    async searchIcons() {
+      let loader =  this.$loading.show()
+      let res = (await this.$axios.get(`api/admin/product/category/iconsbyname/${this.iconSearch}`))
+      this.icons = res.data.data.icons
+      this.iconsCount = res.data.data.count
+      loader.hide()
+    },
+    clearIcons() {
+      this.iconSearch = ""
+      this.iconsPage = 0
+      this.getIcons()
+    }
   }
 }
 </script>
@@ -89,6 +130,7 @@ export default {
             .panel-content{
                 .input-group{
                     max-width: 250px;
+                    align-self: center;
                     .input-description{
                         color: var(--grayTxt);
                         font-size: calc(0.65rem + 0.1vw);
@@ -136,5 +178,45 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+}
+.icons-select{
+  margin-top: 5px;
+  height: 100px;
+  overflow-y: scroll;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fill, 35px);
+  .icon{
+    height: 20px;
+    width: 20px;
+    color: var(--grayTxt);
+    cursor: pointer;
+    &:hover{
+      color: var(--main);
+    }
+  }
+}
+.selectedIcon{
+  color: var(--main) !important;
+}
+.more-icons{
+  grid-column: auto / span 6;
+  color: var(--grayTxt);
+  cursor: pointer;
+  &:hover{
+    color: var(--main);
+  }
+}
+.nomore-icons{
+  grid-column: auto / span 6;
+  color: var(--grayTxt);
+}
+.icons-search-button{
+  cursor: pointer;
+}
+.icon-preview{
+  height: 20px;
+  width: 20px;
+  font-size: calc(1rem + 1vw);
 }
 </style>
