@@ -48,7 +48,6 @@
         grid-area: close;
         font-size: calc(1vw + 1rem);
         font-weight: 700;
-        height: 65%;
         width: 30%;
         background-color: var(--danger);
         box-shadow: 0px 3px 0px var(--dangerDark);
@@ -96,6 +95,10 @@
         .list-head, .list-items .item{
             display: grid;
             grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
+            .main, .others{
+                overflow: hidden;
+            }
             .others{
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));

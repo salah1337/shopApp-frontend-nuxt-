@@ -3,14 +3,14 @@
      <div v-if="show" @click="show = !show" class="bg"></div>
      <div class="ability-add-btn" >
        <span @click="show = !show" class="status status-primary addabilitymenu-text">
-         Manage Abilities
+          <font-awesome-icon icon="cog"/>
         </span>
       </div>
      <div v-if="show" id="addAbilityMenu" class="container gridcenter">
        <div v-if="show" @click="show = !show" class="ability-form-bg"></div>
        <div class="panel panel_list">
          <div class="panel-header">
-           <div class="panel-title">Grant ability</div>
+           <div class="panel-title">{{role.name}}'s abilities</div>
          </div>
          <div class="panel-search">
             <input type="text" class="input input-form input-form2">

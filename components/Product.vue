@@ -101,10 +101,10 @@
                 <img :src="`${apiUrl}/storage/pages/success.png`" alt="">
               </div>
               <div class="order-success-btns">
-                <span class="btn backbtn" @click="showSuccessPopup = false">
+                <span class="btn backbtn gridcenter" @click="showSuccessPopup = false">
                   Continue shopping
                 </span>
-                <nuxt-link class="btn backbtn" to="/user/order">
+                <nuxt-link class="btn backbtn gridcenter" to="/user/order">
                   Go to checkout
                 </nuxt-link>
               </div>
@@ -222,58 +222,69 @@ export default {
 </script>
 
 <style lang="scss">
-.increment{
-      color: var(--primary);
-      font-size: calc(0.6rem + 0.3vw);
-    }
-.successPanel{
-    z-index: 999;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    height: 100vh;
-    width: 100vw;
+.increment {
+  color: var(--primary);
+  font-size: calc(0.6rem + 0.3vw);
+}
 
-    .successPanel-bg{
-        position: fixed;
-        height: 100vh;
-        z-index: 998;
-        width: 100vw;
-        background: rgba(0, 0, 0, 0.25);
-    }
-  .panel{
-      z-index: 999;
-    .panel-header{
+.successPanel {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  height: 100vh;
+  width: 100vw;
+
+  .successPanel-bg {
+    position: fixed;
+    height: 100vh;
+    z-index: 998;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .panel {
+    z-index: 999;
+
+    .panel-header {
       grid-column: auto / span 2;
     }
+
     height: 95%;
     width: 95%;
     max-height: 550px;
     max-width: 650px;
-    .panel-content{
+    margin: 0 auto;
+
+    .panel-content {
       display: grid;
-     .successimg{
-       height: 100%;
-        img{
-            height: 300px;
-            max-width: 100%;
-          }
-     }
-      .order-success-btns{
+
+      .successimg {
+        height: 100%;
+
+        img {
+          height: 300px;
+          max-width: 100%;
+        }
+      }
+
+      .order-success-btns {
         max-width: 100%;
         margin: 0;
         display: grid;
         grid-column-gap: 10px;
         grid-template-columns: 1fr 1fr;
         justify-content: space-between;
-        .btn{
+
+        .btn {
           padding: 0.5rem 1rem;
           background: var(--main);
           color: white;
           max-height: unset !important;
-          a{
+
+          a {
             text-decoration: none;
           }
         }
@@ -281,144 +292,174 @@ export default {
     }
   }
 }
-.cardgrid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
-    .card-title{
-        text-align: center;
-        a{
-            color: var(--main);
-            &:hover{
-                font-weight: 600;
-                text-decoration: none;
-            }
-        }
+
+.cardgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1FR));
+
+  .card-title {
+    text-align: center;
+
+    a {
+      color: var(--main);
+
+      &:hover {
+        font-weight: 600;
+        text-decoration: none;
+      }
     }
-   .card{
-        .card-image{
-            height: 100%;
-            overflow: hidden;
-        img{
-            max-height: 100%;
-        }
+  }
+
+  .card {
+    .card-image {
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        max-height: 100%;
+      }
     }
-   }
+  }
 }
-#productShow{
-    .categoryName{
-    a{
-        color: var(--grayTxt);
+
+#productShow {
+  .categoryName {
+    a {
+      color: var(--grayTxt);
     }
-}
-img {
+  }
+
+  img {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
-}
-.product-bg{
+  }
+
+  .product-bg {
     border-radius: 8px;
     border: 1px solid var(--gray);
     background-color: var(--gray);
-    &:hover{
-        border-color: var(--main);
+
+    &:hover {
+      border-color: var(--main);
     }
+
     cursor: pointer;
-}
-.selectedImage{
+  }
+
+  .selectedImage {
     border: 1px solid var(--main);
-}
-@media(max-width: 700px){
-    .header{
-        grid-template-columns: 1fr !important;
-        .btns{
-          width: 100% !important;
-        }
+  }
+
+  @media(max-width: 700px) {
+    .header {
+      grid-template-columns: 1fr !important;
+
+      .btns {
+        width: 100% !important;
+      }
     }
-}
-.product{
-    .header{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        .name{
-            font-size: calc(1rem + 1vw);
-        }
-        .price{
-            font-size: calc(0.7rem + 0.7vw);
-        }
+  }
+
+  .product {
+    .header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .name {
+        font-size: calc(1rem + 1vw);
+      }
+
+      .price {
+        font-size: calc(0.7rem + 0.7vw);
+      }
     }
-    .btns{
-        justify-self: end;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        height: fit-content;
-        max-width: 220px;
-        a{
-            text-decoration: none;
+
+    .btns {
+      justify-self: end;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      height: fit-content;
+      max-width: 220px;
+
+      a {
+        text-decoration: none;
+      }
+
+      .order {
+        background-color: var(--main);
+        border-radius: 4px;
+        padding: 0.6rem 1.3rem;
+        color: white;
+        cursor: pointer;
+      }
+
+      .cart,
+      .wishlist {
+        background-color: var(--gray);
+        border-radius: 4px;
+        padding: 0.6rem 0.6rem;
+        color: var(--main);
+        cursor: pointer;
+
+        &.invert {
+          background: var(--main);
         }
-        .order{
-            background-color: var(--main);
-            border-radius: 4px;
-            padding: 0.6rem 1.3rem;
-            color: white;
-            cursor: pointer;
-        }
-        .cart, .wishlist{
-            background-color: var(--gray);
-            border-radius: 4px;
-            padding: 0.6rem 0.6rem;
-            color: var(--main);
-            cursor: pointer;
-            &.invert{
-                background: var(--main);
-            }
-        }
+      }
     }
-    .details{
-        margin: 5% 0;
-        min-height: 50vh;
-        display: grid;
-        grid-template-areas: 
+
+    .details {
+      margin: 5% 0;
+      min-height: 50vh;
+      display: grid;
+      grid-template-areas:
         "image options"
-        ;
-        grid-template-columns: 1fr 0.45fr;
-        grid-gap: 10px;
-        .options{
-            .optiongroup{
-                grid-area: options;
-                display: grid;
-                grid-template-rows: repeat(auto-fill, 35px);
-                grid-row-gap: 10px;
-                // max-height: 50vh;
-                overflow-y: scroll;
-                overflow: overlay;
-            }
-            .option{
-                height: 35px;
-            }
+      ;
+      grid-template-columns: 1fr 0.45fr;
+      grid-gap: 10px;
+
+      .options {
+        .optiongroup {
+          grid-area: options;
+          display: grid;
+          grid-template-rows: repeat(auto-fill, 35px);
+          grid-row-gap: 10px;
+          // max-height: 50vh;
+          overflow-y: scroll;
+          overflow: overlay;
         }
-        .selectedImage{
-            overflow: hidden;
-            grid-area: image;
-            border-color: var(--main);
-            max-height: 50vh;
-            img{
-                height: 100%;
-            }
+
+        .option {
+          height: 35px;
         }
-   
+      }
+
+      .selectedImage {
+        overflow: hidden;
+        grid-area: image;
+        border-color: var(--main);
+        max-height: 50vh;
+
+        img {
+          height: 100%;
+        }
+      }
+
     }
-    .images{
-        grid-area: images;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        
-        grid-gap: 30px;
-        .image{
-            overflow: hidden;   
-            height: 90px;
-        }
+
+    .images {
+      grid-area: images;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+
+      grid-gap: 30px;
+
+      .image {
+        overflow: hidden;
+        height: 90px;
+      }
     }
-}
+  }
 }
 </style>

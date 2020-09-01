@@ -1,5 +1,5 @@
 <template>
-<v-app class="content">
+<v-app id="staffProductTab" class="content">
         <!-- <div id="adminProductTab" class="content"> -->
       <div class="header">
         <div class="stats">
@@ -165,8 +165,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 0.7fr;
     column-gap: 15px;
-    height: 150px;
-    margin-bottom: 8%;
+    margin-bottom: 5%;
 
     .stats {
       .panel {

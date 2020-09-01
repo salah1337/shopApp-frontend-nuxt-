@@ -3,17 +3,17 @@
      <div v-if="show" @click="show = !show" class="bg"></div>
      <div class="role-add-btn" >
        <span @click="show = !show" class="status status-primary addrolemenu-text">
-         Manage roles
+          <font-awesome-icon icon="cog"/>
         </span>
       </div>
      <div v-if="show" id="addroleMenu" class="container gridcenter">
        <div v-if="show" @click="show = !show" class="role-form-bg"></div>
        <div class="panel panel_list">
          <div class="panel-header">
-           <div class="panel-title">Grant role</div>
+           <div class="panel-title">{{member.username}}'s roles</div>
          </div>
          <div class="panel-search">
-            <input type="text" class="input input-form input-form2">
+            <input type="text" placeholder="role name..." class="input input-form input-form2">
         </div>
          <div @click="show = !show" class="panel-close">X</div>
          <div class="panel-list">

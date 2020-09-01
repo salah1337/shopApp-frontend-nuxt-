@@ -1,5 +1,5 @@
 <template>
-  <div id="orders" class="content">
+  <div id="staffOrdersTab" class="content">
             <div class="header">
                 <div class="stats">
                     <div class="panel panel_content">
@@ -127,8 +127,7 @@ export default {
         display: grid;
         grid-template-columns: 1fr 0.7fr;
         column-gap: 15px;
-        height: 150px;
-        margin-bottom: 8%;
+        margin-bottom: 5%;
         .stats{
             .panel{
                 height: 100%;

@@ -74,19 +74,19 @@
                 </nuxt-link>
             </div>
             <div class="preview-content cardgrid">
-                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
-                     <div class="card-image">
-                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                <nuxt-link :to="`/products/${product.id}`" v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
+                    <!-- <nuxt-link :to="`/products/${product.id}`"> -->
+                        <div class="card-image">
+                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
                         <p class="card-title">
-                            <nuxt-link :to="`/products/${product.id}`">
                                 {{product.name}}
-                            </nuxt-link>
                         </p>
                         <p class="card-description">
                             {{product.cartDesc}}
                         </p>
-                </div>
+                    </nuxt-link>
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -101,10 +101,10 @@
                 <img :src="`${apiUrl}/storage/pages/success.png`" alt="">
               </div>
               <div class="order-success-btns">
-                <span class="btn backbtn" @click="showSuccessPopup = false">
+                <span class="btn backbtn gridcenter" @click="showSuccessPopup = false">
                   Continue shopping
                 </span>
-                <nuxt-link class="btn backbtn" to="/user/order">
+                <nuxt-link class="btn backbtn gridcenter" to="/user/order">
                   Go to checkout
                 </nuxt-link>
               </div>
@@ -247,6 +247,7 @@ export default {
     width: 95%;
     max-height: 550px;
     max-width: 650px;
+    margin: 0 auto;
     .panel-content{
       display: grid;
      .successimg{

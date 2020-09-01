@@ -28,7 +28,7 @@
         <div class="staff-products-tab-panel panel panel_list">
           <div class="panel-header">
             <div class="panel-title">staff List</div>
-            <div class="panel-description">Click the cards for more info.</div>
+            <div class="panel-description">Click the <font-awesome-icon icon="cog"/> to edit roles.</div>
           </div>
             <div class="panel-search">
             <input v-model="searchField" placeholder="search by member's name..." type="text" class="input input-form input-form2">
@@ -214,7 +214,7 @@ export default {
             .ability-add-btn {
               text-align: right;
 
-              .addabilitymenu-text,{
+              .addabilitymenu-text{
                 cursor: pointer;
                 padding: 1px;
                 font-size: calc(0.7rem + 0.4vw);
@@ -227,12 +227,17 @@ export default {
     }
   }
 
-  .delete-staff {
+  .delete-staff, .roleManageMenu {
     position: absolute;
     right: 10px;
-    top: 10px;
     color: var(--danger);
     cursor: pointer;
+  }
+  .delete-staff{
+    top: 10px;
+  }
+  .roleManageMenu{
+    bottom: 10px;
   }
 
   @media (max-width: 700px) {

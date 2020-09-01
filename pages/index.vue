@@ -45,19 +45,19 @@
                 </nuxt-link>
             </div>
             <div class="preview-content cardgrid">
-                <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
+                <nuxt-link :to="`/products/${product.id}`" v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                         <div class="card-image">
                         <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
                         </div>
                         <p class="card-title">
-                            <nuxt-link :to="`/products/${product.id}`">
+                            <!-- <nuxt-link :to="`/products/${product.id}`"> -->
                                 {{product.name}}
-                            </nuxt-link>
                         </p>
                         <p class="card-description">
                             {{product.cartDesc}}
                         </p>
-                </div>
+                </nuxt-link>
+                <!-- </div> -->
             </div>
         </div>
         <div class="infoCards">

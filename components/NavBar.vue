@@ -10,7 +10,7 @@
                 </h3>
             </div>
             <ul class="nav-btns">
-                <searchBar class="nav-btn"/>
+                <searchBar class="nav-btn gridcenter"/>
                 <CartDropdown v-if="this.$auth.loggedIn" class="nav-btn"/>
                 <nuxt-link v-else to="/register">
                     <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>

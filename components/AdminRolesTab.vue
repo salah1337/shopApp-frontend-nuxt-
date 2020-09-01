@@ -228,15 +228,18 @@ export default {
       }
     }
   }
-
-  .delete-role {
+  .delete-role, .ability-add-btn {
     position: absolute;
     right: 10px;
-    top: 10px;
     color: var(--danger);
     cursor: pointer;
   }
-
+  .delete-role{
+    top: 10px;
+  }
+  .ability-add-btn{
+    bottom: 10px;
+  }
   @media (max-width: 700px) {
     #wrapper {
       // grid-template-columns: unset;
