@@ -80,9 +80,15 @@
               </div>
             <div class="panel-content">
               <div class="email">
+              <ValidationProvider rules="min" v-slot="{ errors }">
+                <input id="email" type="text" class="input input-form input-form2" v-model="orderinfo.email">
+                <span class="errormsg">{{ errors[0] }}</span>
+              </ValidationProvider>
+              </div>
+              <!-- <div class="email">
                   <label for="email">email</label>
                   <input v-model="orderinfo.email" id="email" type="text" class="input input-form input-form2">
-              </div>
+              </div> -->
               <div class="firstName">
                   <label for="firstName">firstName</label>
                   <input v-model="orderinfo.firstName" id="firstName" type="text" class="input input-form input-form2">
@@ -154,6 +160,9 @@
                     <div id="cvc" ref="cvc" type="text" class="input input-form input-form1">
                     </div>
                   </div>
+                  <div class="errormsg">
+                    {{cardError}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -184,7 +193,8 @@
         <div v-if="step != 4" class="summary panel panel_content panel_submit">
             <div class="summary-submit panel-submit">
             <div v-if="step > 1" @click="step--" class="summary-submit-btn gridcenter last-step">go back</div>
-              <div v-if="step == 1" @click="addDetails()" class="summary-submit-btn gridcenter next-step">Procced</div>
+              <div v-if="step == 1 && selectedItems > 0" @click="addDetails()" class="summary-submit-btn gridcenter next-step">Procced</div>
+              <div v-if="step == 1 && selectedItems == 0" class="gridcenter next-step">Please select at least one item to procced</div>
               <!-- <div v-if="step == 2" @click="step++ && addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div> -->
               <div v-if="step == 2" @click="addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div>
               <div v-if="step == 3" @click="placeOrder()" class="summary-submit-btn gridcenter next-step">Confirm order</div>
@@ -327,7 +337,9 @@
         top: 0px;
         color: var(--primary);
         margin: 0;
-
+        div{
+          margin: 0;
+        }
     }
     .cartItem-count{
         display: flex;
@@ -337,6 +349,9 @@
         max-width: 100px;
         .count{
             color: var(--main);
+        }
+        p{
+          margin: 0;
         }
     }
     .remove{
@@ -538,8 +553,12 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { ValidationProvider } from 'vee-validate';
 
 export default {
+  components: {
+    ValidationProvider
+  },
   data(){    
     return{
       orderinfo: {
@@ -559,12 +578,13 @@ export default {
         'email': 'email@mmm.com', 
         'shipped': '0', 
         'trackingNumber': '1',
-        'details': []
+        'details': [],
       },
       errors: {},
       selectedItems: [],
-      step: 1,
-      showOptions: []
+      step: 2,
+      showOptions: [],
+      cardError: ''
     }
   },
   computed: {
@@ -583,11 +603,9 @@ export default {
     }
   },
   methods: {
-    nextStep() {
-      this.step++
-    },
     loadStrip(){
       if (this.step == 3) {
+        let loader = this.$loading.show()
         this.stripe = Stripe(`pk_test_51HHY7iC209mGcTriS8H6PP4xevgOtvZYzqUTQmqjTRUAQDZkecKo9TstcxqLojzKngnC51Z1SrQ88vnRT3uBoXJc007AVKMcBb`),
         this.elements = this.stripe.elements(),
 
@@ -599,22 +617,15 @@ export default {
 
         this.cardCvc = this.elements.create("cardCvc");
         this.cardCvc.mount(this.$refs.cvc);
+        loader.hide()
       }   else{
         console.log('gaay');
-      }
-    },
-    async addStripeToken() {
-      let result = await this.stripe.createToken(this.cardNumber);
-      if ( result.error ) {
-
-      } else{
-        this.orderinfo.stripeToken = result.token
       }
     },
     async placeOrder() {
       let result = await this.stripe.createToken(this.cardNumber);
       if ( result.error ) {
-
+        this.cardError = result.error.message
       } else{
         this.orderinfo.stripeToken = result.token
         this.orderinfo.amount = this.addTotal()
@@ -623,7 +634,8 @@ export default {
         .then(reply => {
           this.$store.dispatch('cart/load')
         }).catch(err => console.log('fail'))
-        this.step++
+        this.step++;
+        window.scrollTo(0,0)
       }
     },
     async addDetails() {
@@ -636,13 +648,15 @@ export default {
           }
         })
         this.step++
+        window.scrollTo(0,0)
     },
     async addAddress() {
       this.step = 3
 
       console.log(this.step);
-      
-      await this.sleep(5000)
+      let loader = this.$loading.show()
+      await this.sleep(4000)
+      loader.hide()
       this.loadStrip()
     },
     async addQueryItem(){

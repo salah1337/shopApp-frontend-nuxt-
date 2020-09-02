@@ -38,13 +38,14 @@ export default {
   */
   plugins: [
     {src:'~/plugins/vue-notifications', ssr:false},
+    {src: '~/plugins/validation', ssr:false},
     '~/plugins/cart-utils',
     '~/plugins/axios-utils',
     '~/plugins/roles-utils',
     '~/plugins/loading-overlay',
     '~/plugins/preloader',
     '~/plugins/timeSince',
-    '~/plugins/searchBar'
+    '~/plugins/searchBar',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -75,6 +76,7 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    // 'nuxt-validate',
     'nuxt-i18n',
     'bootstrap-vue/nuxt',
     // ['stripe-nuxt', 'pk_test_51HHY7iC209mGcTriS8H6PP4xevgOtvZYzqUTQmqjTRUAQDZkecKo9TstcxqLojzKngnC51Z1SrQ88vnRT3uBoXJc007AVKMcBb'],
@@ -146,6 +148,7 @@ export default {
    vendor: [
     //...
     'moment',
+    'vee-validate'
     //...
     ],
     extend (config, ctx) {

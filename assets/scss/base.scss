@@ -10,6 +10,9 @@ background: var(--gray);
 *::-webkit-scrollbar-thumb {
 background: var(--main); 
 }
+html{
+    scroll-behavior: smooth;
+}
 :root{
     --main: #F09376;
     --mainHover: #e78e72;
