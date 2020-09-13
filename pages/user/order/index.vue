@@ -1,228 +1,194 @@
 <template>
   <v-app>
-        <div class="container">
-        <div v-if="step == 1" class="cart panel panel_list">
-           <div class="panel-head">
-                <div class="panel-title">
-                    Cart Items
-                </div>
-                <div class="panel-description">
-                    Select which items you want to order
-                </div>
-           </div>
-           <div class="panel-list">
-               <div class="list-items">
-                <div v-for="(item, index) in cart.items" :key="item.id" class="cartItem">
-                    <div class="top">
-                       <div class="gridcenter cartItem-thumbnail">
-                         <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
-                      </div>
-                      <div class="cartItem-info">
-                          <p>{{item.name}}</p>
-                          <p>
-                            {{item.price}}$
-                            <span v-if="item.options.length > 0" class="increment">({{priceWithOptions(index)}}$)</span>
-                          </p>
-                      </div>
-                      <div class="cartItem-count">
-                          <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">-</p>    
-                          <p class="count">{{item.count}}</p>
-                          <p class="btn" @click="cartedit('add', item.product_id, item.options, true)">+</p>
-                      </div>
-                      <!-- <div class="btns"> -->
-                      <div class="cartItem-select">
-                          <v-switch 
-                          v-model="selectedItems" 
-                          :value="item.id"
-                          ></v-switch>
-                      </div>
-                      <div @click="cartedit('removeitem', item.product_id)" class="cartItem-delete">
-                        <font-awesome-icon icon="trash"/>
-                      </div>
-                      <!-- </div> -->
-                    </div>
-                    <div class="options" v-if="showOptions[index]">
-                      <div class="options-list">
-                      <div 
-                      v-if="groupHasOptions(index, group)" 
-                      v-for="group in allProducts.optionGroups" 
-                      :key="group.id">
-                      <div class="groupName">{{group.name}}</div>
-                      <div 
-                      class="option"
-                      v-for="opt in item.options"  
-                      v-if="opt.group.id == group.id"
-                      :key="opt.id">
-                          {{opt.name}} 
-                          <span class="increment">(+{{opt.priceIncrement}}$)</span> 
-                      </div>
-                      </div>
-                    </div>
-                    </div>
-                    <div class="toggleOptions" v-if="!showOptions[index]" @click="toggleOptions(index)">
-                      <font-awesome-icon icon="chevron-down"/>
-                    </div>
-                    <div class="toggleOptions" v-else @click="toggleOptions(index)">
-                      <font-awesome-icon icon="chevron-up"/>
-                    </div>
-                </div>
-              </div>
-           </div>
+    <div class="container">
+      <div v-if="step == 1" class="cart panel panel_list">
+        <div class="panel-head">
+          <div class="panel-title">
+            Cart Items
+          </div>
+          <div class="panel-description">
+            Select which items you want to order
+          </div>
         </div>
-
-        <div v-if="step == 2"  id="orderForm">
-          <div class="orderForm panel panel_content">
-              <div class="panel-header">
-                  <div class="panel-title">Order Information</div>
-                  <div class="panel-description">
-                      Please fill in your order details
+        <div class="panel-list">
+          <div class="list-items">
+            <div v-for="(item, index) in cart.items" :key="item.id" class="cartItem">
+              <div class="top">
+                <div class="gridcenter cartItem-thumbnail">
+                  <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
+                </div>
+                <div class="cartItem-info">
+                  <p>{{item.name}}</p>
+                  <p>
+                    {{item.price}}$
+                    <span v-if="item.options.length > 0" class="increment">({{priceWithOptions(index)}}$)</span>
+                  </p>
+                </div>
+                <div class="cartItem-count">
+                  <p class="btn" v-if="item.count > 1" @click="cartedit('remove', item.product_id, item.options, true)">
+                    -</p>
+                  <p class="count">{{item.count}}</p>
+                  <p class="btn" @click="cartedit('add', item.product_id, item.options, true)">+</p>
+                </div>
+                <!-- <div class="btns"> -->
+                <div class="cartItem-select">
+                  <v-switch v-model="selectedItems" :value="item.id"></v-switch>
+                </div>
+                <div @click="cartedit('removeitem', item.product_id)" class="cartItem-delete">
+                  <font-awesome-icon icon="trash" />
+                </div>
+                <!-- </div> -->
+              </div>
+              <div class="options" v-if="showOptions[index]">
+                <div class="options-list">
+                  <div v-if="groupHasOptions(index, group)" v-for="group in allProducts.optionGroups" :key="group.id">
+                    <div class="groupName">{{group.name}}</div>
+                    <div class="option" v-for="opt in item.options" v-if="opt.group.id == group.id" :key="opt.id">
+                      {{opt.name}}
+                      <span class="increment">(+{{opt.priceIncrement}}$)</span>
+                    </div>
                   </div>
+                </div>
               </div>
-            <div class="panel-content">
-              <div class="email">
-              <ValidationProvider rules="min" v-slot="{ errors }">
-                <input id="email" type="text" class="input input-form input-form2" v-model="orderinfo.email">
-                <span class="errormsg">{{ errors[0] }}</span>
-              </ValidationProvider>
+              <div class="toggleOptions" v-if="!showOptions[index]" @click="toggleOptions(index)">
+                <font-awesome-icon icon="chevron-down" />
               </div>
-              <!-- <div class="email">
-                  <label for="email">email</label>
-                  <input v-model="orderinfo.email" id="email" type="text" class="input input-form input-form2">
-              </div> -->
-              <div class="firstName">
-                  <label for="firstName">firstName</label>
-                  <input v-model="orderinfo.firstName" id="firstName" type="text" class="input input-form input-form2">
-              </div>
-              <div class="lastName">
-                  <label for="lastName">lastName</label>
-                  <input v-model="orderinfo.lastName" id="lastName" type="text" class="input input-form input-form2">
-              </div>
-              <div class="country">
-                  <label for="country">country</label>
-                  <input v-model="orderinfo.country" id="country" type="text" class="input input-form input-form2">
-              </div>
-              <div class="state">
-                  <label for="state">state</label>
-                  <input v-model="orderinfo.state" id="state" type="text" class="input input-form input-form2">
-              </div>
-              <div class="city">
-                  <label for="city">city</label>
-                  <input v-model="orderinfo.city" id="city" type="text" class="input input-form input-form2">
-              </div>
-              <div class="phone">
-                  <label for="phone">phone</label>
-                  <input v-model="orderinfo.phone" id="phone" type="text" class="input input-form input-form2">
-              </div>
-              <div class="zip">
-                  <label for="zip">zip</label>
-                  <input v-model="orderinfo.zip" id="zip" type="text" class="input input-form input-form2">
-              </div>
-              <div class="fax">
-                  <label for="fax">fax</label>
-                  <input v-model="orderinfo.fax" id="fax" type="text" class="input input-form input-form2">
-              </div>
-              <div class="address">
-                  <label for="address">address</label>
-                  <textarea v-model="orderinfo.shipAddress" id="address1" class="input input-form input-form2"></textarea>
-              </div>
-              <div class="address2">
-                  <label for="address2">address2</label>
-                  <!-- <input id="address2" type="text" class="input input-form input-form2"> -->
-                  <textarea v-model="orderinfo.shipAddress2" id="address2" class="input input-form input-form2"></textarea>
+              <div class="toggleOptions" v-else @click="toggleOptions(index)">
+                <font-awesome-icon icon="chevron-up" />
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div v-if="step == 3" id="paymentpanel">
-            <div class="panel panel_content">
-              <div class="panel-header">
-                <div class="panel-title">Payment</div>
-                <div class="panel-description">Chose your payment method</div>
-              </div>
-              <div class="panel-content">
-                <div class="credit-card gridcenter">
-                  <img src="http://localhost:6969/storage/creditcard.png" alt="">
-                </div>
-                <div class="paymentForm">
-                  <div class="cardNumber">
-                    <label for="cardNumber">Card number</label>
-                    <div id="cardNumber" ref="cardNumber" type="text" class="input input-form input-form1">
-                    </div>
-                  </div>
-                  <div class="expiryDate">
-                    <label for="expiryDate">Expiry date</label>
-                    <div id="expiryDate" ref="expiryDate" type="text" class="input input-form input-form1">
-                    </div>
-                  </div>
-                  <div class="cvc">
-                    <label for="cvc">CVC</label>
-                    <div id="cvc" ref="cvc" type="text" class="input input-form input-form1">
-                    </div>
-                  </div>
-                  <div class="errormsg">
-                    {{cardError}}
-                  </div>
-                </div>
-              </div>
+      <div v-if="step == 2" id="orderForm">
+        <div class="orderForm panel panel_content">
+          <div class="panel-header">
+            <div class="panel-title">Order Information</div>
+            <div class="panel-description">
+              Please fill in your order details
             </div>
-        </div>
-
-        <div v-if="step == 4" id="ordersuccess">
-          <div class="panel panel_content">
-            <div class="panel-header">
-              <div class="panel-title">Order has been placed</div>
-              <div class="panel-description">Order has been place and will be delivered to you as soon as possible</div>
+          </div>
+          <div class="panel-content">
+            <div>
+              <AddressForm :address="orderinfo"/>
             </div>
-            <div class="panel-content">
-              <div class="successimg gridcenter">
-                <img src="http://localhost:6969/storage/order-success.png" alt="">
+            <div v-for="(address, index) in $auth.user.info.addresses" @click="$refs.address[index].click()" class="choseAddress">
+              <div class="addressRadio">
+                <span v-if="orderinfo.addressId != address.id">{{address.address.substr(0, 20)}}</span> 
+                <span class="addressRadio-btns" v-else> 
+                  <AddressForm :address="address"/> 
+                  <font-awesome-icon @click="deleteAddress(address.id)" class="delete-btn" icon="trash" title="delete address"/>
+                </span>
+                <input ref="address" :value="address.id" v-model="orderinfo.addressId"
+                  name="addressChoice" type="radio">
               </div>
-              <div class="order-success-btns">
-                <nuxt-link class="btn backbtn" to="/">
-                  Back to store
-                </nuxt-link>
-                <nuxt-link class="btn backbtn" to="/user/order/list">
-                  My orders
-                </nuxt-link>
+              <div v-if="orderinfo.addressId == address.id">
+                <Address :address="address"/>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div v-if="step != 4" class="summary panel panel_content panel_submit">
-            <div class="summary-submit panel-submit">
+      <div v-if="step == 3" id="paymentpanel">
+        <div class="panel panel_content">
+          <div class="panel-header">
+            <div class="panel-title">Payment</div>
+            <div class="panel-description">Chose your payment method</div>
+          </div>
+          <div class="panel-content">
+            <div class="credit-card gridcenter">
+              <img src="http://localhost:6969/storage/creditcard.png" alt="">
+            </div>
+            <div class="paymentForm">
+              <div class="cardNumber">
+                <label for="cardNumber">Card number</label>
+                <div id="cardNumber" ref="cardNumber" type="text" class="input input-form input-form1">
+                </div>
+              </div>
+              <div class="expiryDate">
+                <label for="expiryDate">Expiry date</label>
+                <div id="expiryDate" ref="expiryDate" type="text" class="input input-form input-form1">
+                </div>
+              </div>
+              <div class="cvc">
+                <label for="cvc">CVC</label>
+                <div id="cvc" ref="cvc" type="text" class="input input-form input-form1">
+                </div>
+              </div>
+              <div class="errormsg">
+                {{cardError}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="step == 4" id="ordersuccess">
+        <div class="panel panel_content">
+          <div class="panel-header">
+            <div class="panel-title">Order has been placed</div>
+            <div class="panel-description">Order has been place and will be delivered to you as soon as possible</div>
+          </div>
+          <div class="panel-content">
+            <div class="successimg gridcenter">
+              <img src="http://localhost:6969/storage/order-success.png" alt="">
+            </div>
+            <div class="order-success-btns">
+              <nuxt-link class="btn backbtn" to="/">
+                Back to store
+              </nuxt-link>
+              <nuxt-link class="btn backbtn" to="/user/order/list">
+                My orders
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="step != 4" class="summary panel panel_content panel_submit">
+        <div class="summary-submit panel-submit">
+          <div class="panel-submit-btns">
             <div v-if="step > 1" @click="step--" class="summary-submit-btn gridcenter last-step">go back</div>
-              <div v-if="step == 1 && selectedItems > 0" @click="addDetails()" class="summary-submit-btn gridcenter next-step">Procced</div>
-              <div v-if="step == 1 && selectedItems == 0" class="gridcenter next-step">Please select at least one item to procced</div>
-              <!-- <div v-if="step == 2" @click="step++ && addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div> -->
-              <div v-if="step == 2" @click="addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div>
-              <div v-if="step == 3" @click="placeOrder()" class="summary-submit-btn gridcenter next-step">Confirm order</div>
+            <div v-if="step == 1 && selectedItems.length > 0" @click="addDetails()"
+              class="summary-submit-btn gridcenter next-step">Procced</div>
+           
+            <!-- <div v-if="step == 2" @click="step++ && addAddress()" class="summary-submit-btn gridcenter next-step">go to payment</div> -->
+            <div v-if="step == 2 && typeof(orderinfo.addressId) == 'number'" @click="addAddress()" class="summary-submit-btn gridcenter next-step">go
+              to payment</div>
+            <div v-if="step == 3" @click="placeOrder()" class="summary-submit-btn gridcenter next-step">Confirm order
             </div>
-            <div class="panel-head">
-                <div class="panel-title">summary</div>
-                <div class="panel-description">Here's your order summary for today</div>
-            </div>
-            <div class="panel-content">
-                <div class="items">
-                    <div v-for="item in cart.items" :key="item.id"  class="item">
-                        <div v-if="selectedItems.includes(item.id)">{{item.name}} <span class="increment">(x{{item.count}})</span></div>
-                    </div>
-                </div>
-                <hr>
-                <div class="prices">
-                    <div class="price">
-                        Subtotal: <span>{{addTotal()}}</span>$
-                    </div>
-                    <div class="price">
-                        Tax: <span>{{addTax()}}</span>$
-                    </div>
-                    <div class="price total">
-                        Total: <span>{{addTotal() + addTax()}}</span>$
-                    </div>
-                </div>
-            </div>
+          </div>
+           <div v-if="step == 1 && selectedItems == 0" class="panel-submit-error">Please select at least one item to procced.</div>
+           <div v-if="step == 2 && orderinfo.addressId == null" class="panel-submit-error">Please select an address for your order.</div>
+          <!-- <div class="panel-submit-error">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, debitis.</div> -->
         </div>
+        <div class="panel-head">
+          <div class="panel-title">summary</div>
+          <div class="panel-description">Here's your order summary for today</div>
+        </div>
+        <div class="panel-content">
+          <div class="items">
+            <div v-for="item in cart.items" :key="item.id" class="item">
+              <div v-if="selectedItems.includes(item.id)">{{item.name}} <span class="increment">(x{{item.count}})</span>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="prices">
+            <div class="price">
+              Subtotal: <span>{{addTotal()}}</span>$
+            </div>
+            <div class="price">
+              Tax: <span>{{addTax()}}</span>$
+            </div>
+            <div class="price total">
+              Total: <span>{{addTotal() + addTax()}}</span>$
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </v-app>
 </template>
@@ -232,6 +198,8 @@
     text-align: center;
     cursor: pointer;
   }
+
+ 
 #ordersuccess{
   .panel{
     .panel-header{
@@ -390,6 +358,7 @@
 .summary{
   margin: 0;
   max-height: 70vh;
+  height: 100%;
     .panel-submit{
         all: unset;
         &:hover{background-color: unset;}
@@ -400,12 +369,18 @@
         }
         grid-area: submit;
         align-self: flex-end;
-        height: 50%;
+        // height: 50%;
         // width: 100%;
         max-width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 15px;
+        .panel-submit-btns{
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-column-gap: 15px;
+        }
+        .panel-submit-error{
+          color: var(--grayTxt);
+          font-size: calc(0.6rem + 0.5vw);
+        }
     }
     .summary-submit-btn{
       text-align: center;
@@ -441,20 +416,66 @@
 
 
  #orderForm {
+      .choseAddress{
+        position: relative;
+        padding: 10px;
+        background: var(--gray);
+        border-radius: 4px;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        transition: 150ms ease-in-out;
+          &:hover{
+            background: rgb(197, 197, 197);
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+          }
+      }
+      .addressRadio{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0;
+        cursor: pointer;
+        input{
+          width: 25px;
+          color: var(--main)
+        }
+        span{
+          width: 100%;
+          margin-bottom: 0;
+        }
+        .addressRadio-btns{
+            .delete-btn{
+              color: var(--danger);
+              position: absolute;
+              bottom: 10px;
+              right: 10px;
+            }
+        }
+      }
       .panel-submit {
         justify-self: center !important;
       }
-
-      .panel-content {
+      .panel-content{
+        display: grid;
+        grid-row-gap: 10px;
+      }
+      .form{
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-gap: 10px;
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
+        .address-submit-btn{
+          grid-column: auto / span 4;
+          background: var(--success);
+          max-width: unset;
+        }
       }
 
       .orderForm {
-        min-height: 90vh;
-        grid-template-rows: 0.25fr 1fr 0.15fr !important;
-        max-width: 600px;
+        // min-height: 90vh;
+        grid-template-rows: unset !important;
+        // max-width: 600px;
       }
 
       input {
@@ -463,7 +484,7 @@
       }
 
       label {
-        font-weight: 800;
+        font-weight: 600;
         text-transform: capitalize;
       }
 
@@ -473,7 +494,6 @@
 
       .address textarea,
       .address2 textarea {
-        height: 100%;
         width: 100%;
         resize: none;
       }
@@ -553,11 +573,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { ValidationProvider } from 'vee-validate';
-
+import { ValidationProvider, ValidationObserver  } from 'vee-validate';
+import AddressForm from '../../../components/AddressForm';
+import Address from '../../../components/Address';
 export default {
   components: {
-    ValidationProvider
+    ValidationProvider,
+    ValidationObserver ,
+    Address,
+    AddressForm,
   },
   data(){    
     return{
@@ -565,12 +589,12 @@ export default {
         'amount': '3',
         'firstName': 'first name',
         'lastName': 'last name', 
-        'shipAddress': 'shipAddress', 
-        'shipAddress2': 'shipAddress2', 
-        'city': 'city', 
-        'state': 'state', 
+        'address': 'shipAddress', 
+        'address2': 'shipAddress2', 
+        'city': null, 
+        'state': null, 
         'zip': '3', 
-        'country': 'country', 
+        'country': null, 
         'phone': '3', 
         'fax': '3', 
         'shipping': '3', 
@@ -579,12 +603,13 @@ export default {
         'shipped': '0', 
         'trackingNumber': '1',
         'details': [],
+        'addressId': null
       },
       errors: {},
       selectedItems: [],
-      step: 2,
+      step: 1,
       showOptions: [],
-      cardError: ''
+      cardError: '',
     }
   },
   computed: {
@@ -592,6 +617,10 @@ export default {
       cart: state => state.cart.cart,
       allProducts: state => state.products.allProducts,
     }),
+    formValid() {
+      // return this.$refs.formValid ? this.$refs.formValid.disabled : false
+      this.formIsValid = this.$refs.formValid ? this.$refs.formValid.disabled : false
+    },
   },
   mounted() {
     this.addQueryItem()
@@ -619,7 +648,7 @@ export default {
         this.cardCvc.mount(this.$refs.cvc);
         loader.hide()
       }   else{
-        console.log('gaay');
+        console.log('strip error');
       }
     },
     async placeOrder() {
@@ -709,7 +738,20 @@ export default {
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    },
+    async addNewAddress() {
+      await this.dbAction('post', `api/customer/address/add`, this.orderinfo)
+        .then(async reply => {
+          await this.$auth.fetchUser()
+        }).catch(err => console.log('fail'))
+    },
+    async deleteAddress(id) {
+      await this.dbAction('get', `api/customer/address/delete/${id}`)
+        .then(async reply => {
+          await this.$auth.fetchUser()
+          this.orderinfo.addressId = null
+        }).catch(err => console.log('fail'))
+    },
   },
 }
 
