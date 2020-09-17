@@ -32,55 +32,72 @@
           <label for="lastName">lastName</label>
           <input v-model="address.lastName" id="lastName" type="text" class="input input-form input-form2">
         </div>
-        <div class="country">
-          <label for="country">country</label>
+        <div ref="countrySelect" class="country">
           <!-- <input v-model="address.country" id="country" type="text" class="input input-form input-form2"> -->
-          <select @change="getStates()" class="input input-form input-form2" id="country" v-model="address.country" name="">
-            <option disabled value="placeholder" selected>chose country...</option>
-            <option v-for="name in countryNames" :key="name" :value="name">{{name}}</option>
-          </select>
+          <ValidationProvider rules="required" v-slot="{ errors }">
+            <label for="country">country</label>
+            <span class="errormsg">{{ errors[0] }}</span>
+            <select @change="getStates()" class="input input-form input-form2" id="country" v-model="address.country" name="">
+              <option disabled value="placeholder" selected>chose country...</option>
+              <option v-for="name in countryNames" :key="name" :value="name">{{name}}</option>
+            </select>
+          </ValidationProvider>
         </div>
         <div class="state">
-          <label v-if="stateNames.length > 0" for="state">state</label>
-          <!-- <input v-model="address.state" id="state" type="text" class="input input-form input-form2"> -->
-          <select v-if="stateNames.length > 0" @change="getCities()" class="input input-form input-form2" id="state" v-model="address.state" name="">
-            <option disabled value="placeholder" selected>chose state...</option>
-            <option v-for="name in stateNames" :key="name" :value="name">{{name}}</option>
-          </select>
+          <ValidationProvider v-if="stateNames.length > 0" rules="required" v-slot="{ errors }">
+            <label for="state">state</label>
+            <!-- <input v-model="address.state" id="state" type="text" class="input input-form input-form2"> -->
+            <select @change="getCities()" class="input input-form input-form2" id="state" v-model="address.state" name="">
+              <option disabled value="placeholder" selected>chose state...</option>
+              <option v-for="name in stateNames" :key="name" :value="name">{{name}}</option>
+            </select>
+          </ValidationProvider>
         </div>
         <div class="city">
-          <label v-if="cityNames.length > 0" for="city">city</label>
-          <!-- <input v-model="address.city" id="city" type="text" class="input input-form input-form2"> -->
-          <select v-if="cityNames.length > 0" class="input input-form input-form2" id="city" v-model="address.city" name="">
-            <option disabled value="placeholder" selected>chose city...</option>
-            <option v-for="name in cityNames" :key="name" :value="name">{{name}}</option>
-          </select>
+          <ValidationProvider v-if="cityNames.length > 0" rules="required" v-slot="{ errors }">
+            <label for="city">city</label>
+            <!-- <input v-model="address.city" id="city" type="text" class="input input-form input-form2"> -->
+            <select class="input input-form input-form2" id="city" v-model="address.city" name="">
+              <option disabled value="placeholder" selected>chose city...</option>
+              <option v-for="name in cityNames" :key="name" :value="name">{{name}}</option>
+            </select>
+          </ValidationProvider>
         </div>
         <div class="phone">
-          <label for="phone">phone</label>
-          <div id="phone">
-            <select class="input input-form input-form2" v-model="address.phonecode" id="">
-              <option disabled value="placeholder" selected>chose area code...</option>
-              <option v-if="code" v-for="code in phoneCodes" :value="code">{{addPlusSign(code)}}{{code}}</option>
-            </select>
-            <input v-model="address.phone" type="text" class="input input-form input-form2">
-          </div>
+          <ValidationProvider rules="required" v-slot="{ errors }">
+            <label for="phone">phone</label>
+            <div id="phone">
+              <select class="input input-form input-form2" v-model="address.phonecode" id="">
+                <option disabled value="placeholder" selected>chose area code...</option>
+                <option v-if="code" v-for="code in phoneCodes" :value="code">{{addPlusSign(code)}}{{code}}</option>
+              </select>
+              <input v-model="address.phone" type="text" class="input input-form input-form2">
+            </div>
+          </ValidationProvider>
         </div>
         <div class="zip">
-          <label for="zip">zip</label>
-          <input v-model="address.zip" id="zip" type="text" class="input input-form input-form2">
+          <ValidationProvider rules="required" v-slot="{ errors }">
+            <label for="zip">zip</label>
+            <input v-model="address.zip" id="zip" type="text" class="input input-form input-form2">
+          </ValidationProvider>
         </div>
         <div class="fax">
-          <label for="fax">fax</label>
-          <input v-model="address.fax" id="fax" type="text" class="input input-form input-form2">
+          <ValidationProvider rules="required" v-slot="{ errors }">
+            <label for="fax">fax</label>
+            <input v-model="address.fax" id="fax" type="text" class="input input-form input-form2">
+          </ValidationProvider>
         </div>
         <div class="address">
+          <ValidationProvider rules="required" v-slot="{ errors }">
           <label for="address">address</label>
           <textarea v-model="address.address" id="address1" class="input input-form input-form2"></textarea>
+          </ValidationProvider>
         </div>
         <div class="address2">
+          <ValidationProvider rules="required" v-slot="{ errors }">
           <label for="address2">address2</label>
           <textarea v-model="address.address2" id="address2" class="input input-form input-form2"></textarea>
+          </ValidationProvider>
         </div>
         <div class="address-submit-btn gridcenter">
           <button 
@@ -165,9 +182,9 @@ export default {
       })
     },
     async getStates() {
-      this.address.phonecode = this.phoneCodes[this.address.country]
+      if (!this.address.phonecode) {this.address.phonecode = this.phoneCodes[this.address.country]}
       let loader = this.$loading.show({
-        container: this.$refs.addressFormContainer
+        container: this.$refs.countrySelect
       })
       await this.$axios.get('api/customer/address/states/' + this.address.country).then(res => {
         this.stateNames = res.data.states.names

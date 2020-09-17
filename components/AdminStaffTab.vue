@@ -73,7 +73,7 @@
 <script>
 import StaffInfoPanel from './StaffInfoPanel'
 import AssignRoleMenu from './AssignRoleMenu'
-import AddstaffForm from './AddstaffForm'
+import AddstaffForm from './AddStaffForm'
 
 import { mapState } from 'vuex'
 
