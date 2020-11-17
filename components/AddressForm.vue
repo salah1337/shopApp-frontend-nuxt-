@@ -175,7 +175,7 @@ export default {
       let loader = this.$loading.show({
         container: this.$refs.addressFormContainer
       })
-      await this.$axios.get('api/customer/address/countries').then(res => {
+    await this.$axios({ method: 'get', url:'api/customer/address/countries' }).then(res => {
         this.countryNames = res.data.countries.names
         this.phoneCodes = res.data.countries.phone
         loader.hide()

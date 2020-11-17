@@ -3,6 +3,16 @@
      <template v-slot:button-content>
      <v-icon class="nav-btn">fa fa-shopping-cart</v-icon>
     </template>
+    <b-dropdown-item v-if="cart.items.length <= 0">
+        <div class="cartdropdown-item">
+          <div class="info"> 
+          <div class="name">
+            <div>You don't have any products in your cart.</div>
+          </div>
+            </div>
+            <!-- <div class="description">{{item.description}}</div> -->
+        </div>
+    </b-dropdown-item>
     <b-dropdown-item class="cartItems cartdropdown-container" v-for="item in cart.items" :key="item.id">
         <div class="cartdropdown-item">
           <div class="image">
@@ -18,7 +28,7 @@
         </div>
         <hr>
     </b-dropdown-item>
-    <b-dropdown-item class="gridcenter checkout cartdropdown-container">
+    <b-dropdown-item v-if="cart.items.length > 0" class="gridcenter checkout cartdropdown-container">
         <nuxt-link to="/user/order" class="backbtn">go to checkout</nuxt-link>
     </b-dropdown-item>
   </b-dropdown>

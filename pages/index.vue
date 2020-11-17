@@ -120,7 +120,8 @@ export default {
     return{
      'featuredProducts': '',
      'searchField': '',
-      apiUrl: process.env.apiUrl
+      apiUrl: process.env.apiUrl,
+      products: ""
     }
   },
   async fetch({store}) {
