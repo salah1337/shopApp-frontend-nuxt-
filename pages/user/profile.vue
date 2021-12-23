@@ -29,9 +29,9 @@
             <div class="panel-content">
               <div class="panel-row">
                 <div class="user-image">
-                  <img v-if="showInfo" :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
+                  <img v-if="showInfo" :src="`${$auth.user.info.image}`" alt="">
                   <div v-else>
-                    <img v-if="!imagePreview" :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
+                    <img v-if="!imagePreview" :src="`${$auth.user.info.image}`" alt="">
                     <img v-else :src="imagePreview" alt="">
                     <font-awesome-icon @click="$refs.imageInput.click()" class="imgBtn" icon="edit" />
                   </div>
