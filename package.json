@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.10.3",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "izitoast": "^1.4.0",
     "moment": "^2.27.0",

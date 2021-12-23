@@ -54,7 +54,8 @@ export default {
   buildModules: [
     '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
-    'nuxt-fontawesome'
+    'nuxt-fontawesome',
+    '@nuxtjs/dotenv'
   ],
 
   fontawesome: {
