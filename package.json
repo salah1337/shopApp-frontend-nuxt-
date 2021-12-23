@@ -26,7 +26,7 @@
     "nuxt-validate": "^1.0.1",
     "rsvp": "^4.8.5",
     "sass": "^1.45.1",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^10.1.1",
     "stripe-nuxt": "^1.0.2",
     "vee-validate": "^3.3.9",
     "vue-izitoast": "^1.2.1",

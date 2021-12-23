@@ -6,7 +6,6 @@ export default {
   env: {
     apiUrl: process.env.API_URL || 'http://localhost:6969',
   },
-  mode: 'universal',
   /*
   ** Headers of the page
   */
