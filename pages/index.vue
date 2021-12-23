@@ -121,7 +121,6 @@ export default {
      'featuredProducts': '',
      'searchField': '',
       apiUrl: process.env.apiUrl,
-      products: ""
     }
   },
   async fetch({store}) {
