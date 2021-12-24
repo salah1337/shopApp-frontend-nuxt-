@@ -12,7 +12,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640322188/undraw_shopping_re_3wst_gq9c5r.svgg`" alt="">
+                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640322188/undraw_shopping_re_3wst_gq9c5r.svg`" alt="">
             </div>
         </div>
         <div class="preview">
