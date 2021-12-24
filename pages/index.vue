@@ -162,6 +162,7 @@ export default {
         .card-image{
             height: 100%;
             overflow: hidden;
+            text-align: center;
         img{
             max-height: 100%;
         }
