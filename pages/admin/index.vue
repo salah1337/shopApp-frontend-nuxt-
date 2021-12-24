@@ -340,7 +340,6 @@ img{
     }
     .trigger{
         display: none;
-        position: fixed;
         width: 30px;
         height: 30px;
         border-radius: 2px;
