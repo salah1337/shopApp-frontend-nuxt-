@@ -49,7 +49,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`pages/productlist.png`" alt="">
+                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640322096/undraw_online_organizer_re_156n_emxia4.svg`" alt="">
             </div>
         </div>
         <div class="preview">

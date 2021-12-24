@@ -12,7 +12,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640321076/undraw_Placeholders_re_pvr4_fqgfri.png`" alt="">
+                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640322188/undraw_shopping_re_3wst_gq9c5r.svgg`" alt="">
             </div>
         </div>
         <div class="preview">
@@ -47,7 +47,7 @@
             <div class="preview-content cardgrid">
                 <nuxt-link :to="`/products/${product.id}`" v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                         <div class="card-image">
-                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                        <img :src="`${product.thumb}`" alt="">
                         </div>
                         <p class="card-title">
                             <!-- <nuxt-link :to="`/products/${product.id}`"> -->
