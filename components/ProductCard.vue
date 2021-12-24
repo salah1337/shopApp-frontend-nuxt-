@@ -2,7 +2,7 @@
 <div class="container">
 
     <div class="image">
-        <img style="width:200px;height:200px;" :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+        <img style="width:200px;height:200px;" :src="`${product.thumb}`" alt="">
     </div>
     <div class="info">
         <div class="title">

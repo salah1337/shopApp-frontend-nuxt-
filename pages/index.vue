@@ -12,7 +12,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`${apiUrl}/storage/pages/landingImg.png`" alt="">
+                <img :src="`https://res.cloudinary.com/kekster/image/upload/v1640321076/undraw_Placeholders_re_pvr4_fqgfri.png`" alt="">
             </div>
         </div>
         <div class="preview">
