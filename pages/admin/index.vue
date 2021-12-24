@@ -30,7 +30,7 @@
         <div class="sidebar">
             <div class="user gridcenter">
                 <div class="image">
-                    <img :src="`${apiUrl}/storage/${$auth.user.info.image}`" alt="">
+                    <img :src="`${$auth.user.info.image}`" alt="">
                 </div>
                 <div class="username">
                     {{$auth.user.info.username}}
