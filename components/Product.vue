@@ -98,7 +98,7 @@
             </div>
             <div class="panel-content">
               <div class="successimg gridcenter">
-                <img :src="`pages/success.png`" alt="">
+                <img src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/64/000000/external-box-marketing-seo-flatart-icons-lineal-color-flatarticons.png"/>
               </div>
               <div class="order-success-btns">
                 <span class="btn backbtn gridcenter" @click="showSuccessPopup = false">

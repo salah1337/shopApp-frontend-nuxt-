@@ -15,7 +15,7 @@
             <div v-for="(item, index) in cart.items" :key="item.id" class="cartItem">
               <div class="top">
                 <div class="gridcenter cartItem-thumbnail">
-                  <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
+                  <img :src="`${item.image}`" alt="">
                 </div>
                 <div class="cartItem-info">
                   <p>{{item.name}}</p>
