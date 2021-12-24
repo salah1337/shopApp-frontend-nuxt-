@@ -24,7 +24,7 @@
             </div>
             <div class="details">
                 <div class="selectedImage gridcenter product-bg">
-                    <img :src="`${apiUrl}/storage/${selectedImage}`" alt="">
+                    <img :src="`${selectedImage}`" alt="">
                 </div>
                 <div class="options">
                     <div class="optiongroup" v-if="getGroup(group)" v-for="group in products.optiongroups" :key="group">
@@ -48,18 +48,18 @@
             </div>
             <!-- <div class="images">
                 <div v-for="image in product.images" class="image product-bg gridcenter">
-                    <img v-if="image == selectedImage" class="selectedImage" :src="`${apiUrl}/storage/${image}`" alt="">
-                    <img v-else @click="selectImage(image)" :src="`${apiUrl}/storage/${image}`" alt="">
+                    <img v-if="image == selectedImage" class="selectedImage" :src="`${image}`" alt="">
+                    <img v-else @click="selectImage(image)" :src="`${image}`" alt="">
                 </div>
             </div> -->
             
             <div class="images">
                 <div v-for="image in product.images">
                     <div v-if="image == selectedImage" class="selectedImage image product-bg gridcenter">
-                        <img :src="`${apiUrl}/storage/${image}`" alt="">
+                        <img :src="`${image}`" alt="">
                     </div>
                     <div v-else @click="selectImage(image)" class="image product-bg gridcenter">
-                        <img :src="`${apiUrl}/storage/${image}`" alt="">
+                        <img :src="`${image}`" alt="">
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <nuxt-link :to="`/products/${product.id}`" v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                     <!-- <nuxt-link :to="`/products/${product.id}`"> -->
                         <div class="card-image">
-                            <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                            <img :src="`${product.thumb}`" alt="">
                         </div>
                         <p class="card-title">
                                 {{product.name}}
@@ -98,7 +98,7 @@
             </div>
             <div class="panel-content">
               <div class="successimg gridcenter">
-                <img :src="`${apiUrl}/storage/pages/success.png`" alt="">
+                <img :src="`pages/success.png`" alt="">
               </div>
               <div class="order-success-btns">
                 <span class="btn backbtn gridcenter" @click="showSuccessPopup = false">

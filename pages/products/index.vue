@@ -23,7 +23,7 @@
             <div v-for="product in products.products" :key="product.id" class="productCard" v-if="filterSearch(searchField, product.name) && filterCategory(product.category.name)">
                 <div class="info">
                     <div class="thumbnail">
-                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                        <img :src="`${product.thumb}`" alt="">
                     </div>
                     <div class="name" v-html="highlight(searchField, product.name)">
                         {{product.name}}
@@ -49,7 +49,7 @@
                 </nuxt-link>
             </div>
             <div class="hero-illustration">
-                <img :src="`${apiUrl}/storage/pages/productlist.png`" alt="">
+                <img :src="`pages/productlist.png`" alt="">
             </div>
         </div>
         <div class="preview">
@@ -62,7 +62,7 @@
             <div class="preview-content cardgrid">
                 <div v-for="(product, index) in products.products" v-if="product.featured" :key="product.id" class="card">
                     <div class="card-image">
-                        <img :src="`${apiUrl}/storage/${product.thumb}`" alt="">
+                        <img :src="`${product.thumb}`" alt="">
                     </div>
                     <div class="card-title">
                         <p>{{product.name}}</p>
