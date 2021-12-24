@@ -71,10 +71,10 @@
             </div>
             <div class="card">
                 <div class="card-image">
-                    icon
+                    <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-quality-logistic-delivery-kiranshastry-lineal-kiranshastry.png"/>
                 </div>
                 <p class="card-title">
-                    <strong>Title</strong>
+                    <strong>Quality first</strong>
                 </p>
                 <p class="card-description">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -82,10 +82,10 @@
             </div>
             <div class="card">
                 <div class="card-image">
-                    icon
+                    <img src="https://img.icons8.com/dotty/80/000000/cheap-2.png"/>
                 </div>
                 <p class="card-title">
-                    <strong>Title</strong>
+                    <strong>Cheap prices</strong>
                 </p>
                 <p class="card-description">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -93,10 +93,10 @@
             </div>
             <div class="card">
                 <div class="card-image">
-                    icon
+                    <img src="https://img.icons8.com/ios/80/000000/take-it-easy.png"/>
                 </div>
                 <p class="card-title">
-                    <strong>Title</strong>
+                    <strong>Easy to use</strong>
                 </p>
                 <p class="card-description">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
