@@ -18,13 +18,13 @@
             <div class="user-list">
               <div v-for="product in products" v-if="product.live" :key="product.id">
                 <div v-if="product.featured" class="user-card clicked">
-                  <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+                  <img :src="`${product.thumb}`" alt="">
                   <h5>{{product.name}}</h5>
                   <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer"
                     class="status status-primary">Remove</div>
                 </div>
                 <div v-else class="user-card">
-                  <img :src="`http://localhost:6969/storage/${product.thumb}`" alt="">
+                  <img :src="`${product.thumb}`" alt="">
                   <h5>{{product.name}}</h5>
                   <div @click="addProduct(product)" style="margin-left:auto;cursor:pointer"
                     class="status status-success">Add</div>

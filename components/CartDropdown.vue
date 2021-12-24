@@ -16,7 +16,7 @@
     <b-dropdown-item class="cartItems cartdropdown-container" v-for="item in cart.items" :key="item.id">
         <div class="cartdropdown-item">
           <div class="image">
-            <img :src="`http://localhost:6969/storage/${item.image}`" alt="">
+            <img :src="`${item.image}`" alt="">
           </div>
           <div class="info"> 
           <div class="name">
