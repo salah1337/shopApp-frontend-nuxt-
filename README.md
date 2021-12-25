@@ -1,6 +1,7 @@
 # onlineshopFront
 
 > Front end for online shop app
+Currently hosted on netlify at: https://angry-noyce-98af92.netlify.app/
 
 ## Build Setup
 
@@ -44,4 +45,23 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## Products (some images are zoomed out to fit in one screen)
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-dash.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-addproduct.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-addtofeatured.png" height="300px">
+<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-dash.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-addproduct.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-addtofeatured.png" height="300px">|
+<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-productinfo.png" height="300px">|
+
+### Product Categories
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-categories.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-options.png" height="300px">|
+
+## Staff 
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-staff.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-staff-add.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-staff-manage.png" height="300px">
+
+
+## Roles 
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+<img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-roles.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-roles-add.png" height="300px">| <img src="https://github.com/salah1337/shopApp-frontend-nuxt-/blob/master/shopchopscreens/admin-roles-manage.png" height="300px">
+
+
