@@ -20,7 +20,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "izitoast": "^1.4.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.12.2",
